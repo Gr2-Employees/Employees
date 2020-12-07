@@ -37,18 +37,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mt-2">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <?= $this->Html->image('/img/logo-unitedsuite1.png', [
             "height" => "50px",
             "width" => "auto",
             "alt" => "Logo Unitedsuite",
-            'style' => 'margin-top: 25px',
+            'style' => 'margin : 0;vertical-align: unset;margin-bottom : 5px',
             "url" => '/',
         ]) ?>
 
-        <ul class="navbar-nav ml-5 mt-3">
+        <ul class="navbar-nav ml-5 mt-8">
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/') ?>">Accueil</a>
 
