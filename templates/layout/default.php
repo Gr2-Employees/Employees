@@ -39,18 +39,16 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <?= $this->Html->image('/img/logo-unitedsuite1.png', [
+            "height" => "50px",
+            "width" => "auto",
+            "alt" => "Logo Unitedsuite",
+            'style' => 'margin-top: 25px',
+            "url" => '/',
+        ]) ?>
+
         <ul class="navbar-nav ml-5 mt-3">
-            <li class="nav-item">
-                <a class="navbar-brand" href="#">
-                   <!-- <img src="" width="30" height="30" class="d-inline-block align-top" alt="">-->
-                    <?= $this->Html->image('/img/logo-unitedsuite1.png',[
-                        "height" => "50px",
-                        "width" => "auto",
-                        "alt" => "Logo United suite",
-                        "url" => '/',
-                    ]) ?>
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/') ?>">Accueil</a>
 
@@ -80,8 +78,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </main>
 <footer>
 </footer>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
 </body>
 </html>
