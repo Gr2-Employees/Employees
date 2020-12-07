@@ -59,6 +59,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/departments') ?>">Departments</a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    À propos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 1.3rem;">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto mr-5 mt-3">
             <li class="nav-item">
