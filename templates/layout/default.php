@@ -30,7 +30,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'bootstrap.min']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -41,6 +41,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-5 mt-3">
             <li class="nav-item">
+                <a class="navbar-brand" href="#">
+                   <!-- <img src="" width="30" height="30" class="d-inline-block align-top" alt="">-->
+                    <?= $this->Html->image('/img/logo-unitedsuite1.png',[
+                        "height" => "50px",
+                        "width" => "auto",
+                        "alt" => "Logo United suite",
+                        "url" => '/',
+                    ]) ?>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/') ?>">Accueil</a>
 
             </li>
@@ -50,7 +61,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/departments') ?>">Departments</a>
             </li>
-
         </ul>
         <ul class="navbar-nav ml-auto mr-5 mt-3">
             <li class="nav-item">
