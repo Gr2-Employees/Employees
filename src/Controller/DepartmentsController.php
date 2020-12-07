@@ -36,6 +36,36 @@ class DepartmentsController extends AppController
             'contain' => [],
         ]);
 
+        // Selects the table
+        $query = $this->getTableLocator()->get('dept_emp')->find();
+
+        // Selected fields for the query
+        $query->select([
+            'count' => $query->func()->count('*')
+        ]);
+
+        // Inner join with joinTable + groupBy departments id
+        $query->group('dept_emp.dept_no');
+
+        // Where clause
+        $query->where([
+            'dept_emp.dept_no' => $id
+        ]);
+
+        // Fetches the results
+        $result = $query->all();
+
+        // Init
+        $nbEmpl = 0;
+
+        // Stores the amount of employees into $nbEmpl
+        foreach ($result as $row) {
+            $nbEmpl = $row->count;
+        }
+
+        // Sets and sends the var $nbEmpl to the view
+        $department->set('nbEmpl', $nbEmpl);
+
         $this->set(compact('department'));
     }
 

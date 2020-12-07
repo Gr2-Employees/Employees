@@ -40,8 +40,8 @@ class DepartmentsTable extends Table
         $this->setTable('departments');
         $this->setDisplayField('dept_no');
         $this->setPrimaryKey('dept_no');
-        
-        $this->belongsToMany('Employees',[
+
+        $this->belongsToMany('Employees', [
             'joinTable' => 'dept_emp',
             'foreignKey' => 'dept_no',
             'bindingKey' => 'dept_no',

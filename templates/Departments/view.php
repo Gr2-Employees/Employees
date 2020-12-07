@@ -14,17 +14,26 @@
             <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
+
     <div class="column-responsive column-80">
         <div class="departments view content">
-            <h3><?= h($department->dept_no) ?></h3>
+            <h2><?= h(strtoupper($department->dept_no)) ?></h2>
             <table>
                 <tr>
-                    <th><?= __('Dept No') ?></th>
-                    <td><?= h($department->dept_no) ?></td>
+                    <th><?= __('Department Number') ?></th>
+                    <td><?= h(strtoupper($department->dept_no)) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Dept Name') ?></th>
+                    <th><?= __('Department Name') ?></th>
                     <td><?= h($department->dept_name) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Department Description') ?></th>
+                    <td><?= h($department->description) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Number of employees') ?></th>
+                    <td><?= h($department->nbEmpl) . ' ' . __('employees') ?></td>
                 </tr>
             </table>
         </div>
