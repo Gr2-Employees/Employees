@@ -31,9 +31,27 @@
                     <th><?= __('Department Description') ?></th>
                     <td><?= h($department->description) ?></td>
                 </tr>
+
+                <!-- Nombre total d'employés-->
                 <tr>
                     <th><?= __('Number of employees') ?></th>
                     <td><?= h($department->nbEmpl) . ' ' . __('employees') ?></td>
+                </tr>
+                <!-- Nombre de postes vacants -->
+                <tr>
+                    <th><?= __('Number of empty positions') ?></th>
+                    <td>
+                        <?= h($department->nbVacants) . ' ' . __('employees') ?>
+                        <!-- TODO: LIEN POUR POSTULER -> VERS VUE ?-->
+                        <?= $this->Html->link(
+                            'Postuler',
+                            '/',
+                            [
+                                'class' => 'btn btn-success',
+                                'style' => 'float: right',
+                                'target' => '_blank'
+                            ]) ?>
+                    </td>
                 </tr>
             </table>
         </div>

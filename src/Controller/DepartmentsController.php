@@ -36,6 +36,10 @@ class DepartmentsController extends AppController
             'contain' => [],
         ]);
 
+        /**
+         * Recherche du nombre total d'employés dans un département
+         */
+
         // Selects the table
         $query = $this->getTableLocator()->get('dept_emp')->find();
 
@@ -44,27 +48,41 @@ class DepartmentsController extends AppController
             'count' => $query->func()->count('*')
         ]);
 
-        // Inner join with joinTable + groupBy departments id
-        $query->group('dept_emp.dept_no');
-
         // Where clause
         $query->where([
             'dept_emp.dept_no' => $id
         ]);
 
         // Fetches the results
-        $result = $query->all();
-
-        // Init
-        $nbEmpl = 0;
-
-        // Stores the amount of employees into $nbEmpl
-        foreach ($result as $row) {
-            $nbEmpl = $row->count;
-        }
+        $nbEmpl = $query->first()->count;
 
         // Sets and sends the var $nbEmpl to the view
         $department->set('nbEmpl', $nbEmpl);
+
+        /**
+         * Nombres de postes vacants
+         * -> Utiliser le nombre d'employés par département ($nbEmpl)
+         * -> Requête qui compte les postes ayant pour date '9999-01-01' (date 'actuelle') en fonction du département
+         * -> Différence de $nbEmpl avec le résultat obtenu
+         */
+
+        $query = $this->getTableLocator()->get('dept_emp')->find();
+
+        $query->select([
+            'count' => $query->func()->count('*')
+        ]);
+
+        $query->where([
+            'dept_emp.dept_no' => $id,
+            'to_date' => '9999-01-01'
+        ]);
+
+        $nbToDate = $query->first()->count;
+
+        // Nombre postes vacants = $nbEmpl - $nbToDate
+        $nbVacants = $nbEmpl - $nbToDate;
+
+        $department->set('nbVacants', $nbVacants);
 
         $this->set(compact('department'));
     }
