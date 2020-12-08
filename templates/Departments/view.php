@@ -53,6 +53,13 @@
                             ]) ?>
                     </td>
                 </tr>
+                <!-- Fichier ROI du département (fichier unique) -->
+                <tr>
+                    <th><?= __('Internal regulations (ROI)') ?></th>
+                    <td><?= $this->Html->link( __('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
+                        'target' => '_blank'
+                        ]) ?></td>
+                </tr>
             </table>
         </div>
     </div>
