@@ -40,13 +40,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <?= $this->Html->image('/img/logo-unitedsuite1.png', [
             "id" => "logo-menu",
-            "height" => "50px",
-            "width" => "auto",
             "alt" => "Logo Unitedsuite",
             "url" => '/',
         ]) ?>

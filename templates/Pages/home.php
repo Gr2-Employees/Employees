@@ -22,7 +22,7 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <a class="btn btn-primary btn-home btn-apropos" href="#">A propos</a>
+                <a class="btn btn-primary btn-home" href="#">A propos</a>
             </div>
         </div>
         <div id="div2" class="row">
@@ -36,9 +36,18 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <a class="btn btn-primary btn-home btn-apropos" href="#">Découvrir nos departements</a>
+                <a class="btn btn-primary btn-home" href="#">Découvrir nos departements</a>
             </div>
-
+        </div>
+        <div id="div3" class="row">
+            <div  id="div3-1" class="col-6">
+                <h2>Welcome To Gusto Restaurant</h2>
+                <h1>LOVES HEALTHY FOOD</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
+                    eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
+                </p>
+                <a class="btn btn-primary btn-home" href="#">A propos</a> </div>
         </div>
     </div>
 
