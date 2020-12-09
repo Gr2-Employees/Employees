@@ -47,7 +47,10 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <a class="btn btn-primary btn-home" href="#">A propos</a> </div>
+                <?= $this->Html->link( __('Plus d\'info sur nos employés'), '/employees', [
+                    'class' => 'btn btn-primary btn-home'
+                ]) ?>
+            </div>
         </div>
     </div>
 

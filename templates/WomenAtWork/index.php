@@ -19,7 +19,7 @@
 <body>
 <div class="content content-home">
     <div id="div1" class="row">
-        <div  class="col-6">
+        <div class="col-6">
             <h2>Welcome To Gusto Restaurant</h2>
             <h1>LOVES HEALTHY FOOD</h1>
             <p>
@@ -33,7 +33,7 @@
         <div id="div2-1" class="col-5">
 
         </div>
-        <div  id="div2-2" class="col-7">
+        <div id="div2-2" class="col-7">
             <h2>Welcome To Gusto Restaurant</h2>
             <h1>LOVES HEALTHY FOOD</h1>
             <p>
