@@ -20,6 +20,8 @@ class DepartmentsController extends AppController
     {
         $departments = $this->paginate($this->Departments);
 
+
+
         $this->set(compact('departments'));
     }
 
