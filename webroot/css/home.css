@@ -14,7 +14,7 @@
     padding :0px;
 }
 #div1 {
-    background-image: url('/Employees/webroot/img/employee.jpg');
+    background-image: url('../img/employee.jpg');
     height: 500px;
     background-position: center;
     padding : 120px;
@@ -45,7 +45,7 @@
     padding : 40px;
 }
 #div2-1{
-     background-image: url('/Employees/webroot/img/department.jpg');
+     background-image: url('../img/department.jpg');
      background-position: center;
  }
 #div2-2>h2, #div2-2>h1{
