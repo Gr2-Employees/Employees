@@ -21,7 +21,6 @@ class DepartmentsController extends AppController
         $departments = $this->paginate($this->Departments);
 
 
-
         $this->set(compact('departments'));
     }
 
@@ -55,16 +54,14 @@ class DepartmentsController extends AppController
             'dept_emp.dept_no' => $id
         ]);
 
-        // Fetches the results
+        // Fetches the result
         $nbEmpl = $query->first()->count;
-
-        // Sets and sends the var $nbEmpl to the view
 
         /**
          * Nombres de postes vacants
-         * -> Utiliser le nombre d'employés par département ($nbEmpl)
-         * -> Requête qui compte les postes ayant pour date '9999-01-01' (date 'actuelle') en fonction du département
-         * -> Différence de $nbEmpl avec le résultat obtenu
+         *  -> Utiliser le nombre d'employés par département ($nbEmpl)
+         *  -> Requête qui compte les postes ayant pour date '9999-01-01' (date 'actuelle') en fonction du département
+         *  -> Différence de $nbEmpl avec le résultat obtenu
          */
 
         $query = $this->getTableLocator()->get('dept_emp')->find();
@@ -86,16 +83,11 @@ class DepartmentsController extends AppController
         /**
          * Récupération de la photo du manager
          */
-
         $query = $this->getTableLocator()->get('dept_manager')->find();
 
         $query->select([
-            'employees.first_name',
-            'employees.last_name',
             'dept_manager.picture'
         ]);
-
-        $query->join('employees');
 
         $query->where([
             'dept_no' => $id,
@@ -103,9 +95,36 @@ class DepartmentsController extends AppController
         ]);
 
         $picture = $query->first()->picture;
-        $manager = $query->first()->employees['first_name'] . ' ' . $query->first()->employees['last_name'];
 
-        // Assignation des variables
+        /**
+         * Récupération du nom du manager
+         */
+        $query = $this->getTableLocator()->get('employee_title')
+            ->find()
+            ->select([
+                'dema.dept_no',
+                'em.first_name',
+                'em.last_name',
+            ])
+            ->join([
+                'em' => [
+                    'table' => 'employees',
+                    'conditions' => 'em.emp_no = employee_title.emp_no'
+                ],
+                'dema' => [
+                    'table' => 'dept_manager',
+                    'conditions' => 'dema.emp_no = em.emp_no'
+                ]
+            ])
+            ->where([
+                'employee_title.to_date' => '9999-01-01',
+                'employee_title.title_no' => '7',
+                'dema.dept_no' => $id
+            ]);
+
+        $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+
+        // Assignation des variables pour la vue
         $department
             ->set('nbVacants', $nbVacants)
             ->set('nbEmpl', $nbEmpl)
