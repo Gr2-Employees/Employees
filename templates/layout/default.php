@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -18,6 +19,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,6 +38,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -55,10 +58,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                     À propos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 1.3rem;">
-                    <a class="dropdown-item" href="#">Qui sommes-nous ?</a>
-                    <a class="dropdown-item" href="#">News</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Partenaires</a>
+                        <?= $this->Html->linkFromPath('Who are we ?', 'Pages::aboutUs', ['class' => 'dropdown-item']); ?>
+                        <?= $this->Html->linkFromPath('News', 'Pages::news', ['class' => 'dropdown-item' ]); ?>
+                        <div class="dropdown-divider"></div>
+                        <?= $this->Html->linkFromPath('Partners', 'Pages::partners', ['class' => 'dropdown-item']); ?>
                 </div>
             </li>
             <li class="nav-item">
@@ -84,4 +87,5 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
