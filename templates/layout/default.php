@@ -30,21 +30,21 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mt-2">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <?= $this->Html->image('/img/logo-unitedsuite1.png', [
+            "id" => "logo-menu",
             "height" => "50px",
             "width" => "auto",
             "alt" => "Logo Unitedsuite",
-            'style' => 'margin : 0;vertical-align: unset;margin-bottom : 5px',
             "url" => '/',
         ]) ?>
 
@@ -68,22 +68,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <a class="nav-link" href="<?= $this->Url->build('/departments') ?>">Departments</a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto mr-5 mt-3">
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">FR</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">EN</a>
-            </li>
-        </ul>
     </div>
 </nav>
-<main class="main">
-    <div class="container">
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
-    </div>
-</main>
 <footer>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
