@@ -56,23 +56,29 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                     À propos
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 1.3rem;">
-                        <?= $this->Html->linkFromPath('Who are we ?', 'Pages::aboutUs', ['class' => 'dropdown-item']); ?>
-                        <?= $this->Html->linkFromPath('News', 'Pages::news', ['class' => 'dropdown-item' ]); ?>
-                        <div class="dropdown-divider"></div>
-                        <?= $this->Html->linkFromPath('Partners', 'Pages::partners', ['class' => 'dropdown-item']); ?>
+                    <?= $this->Html->linkFromPath('Who are we ?', 'Pages::aboutUs', ['class' => 'dropdown-item']); ?>
+                    <?= $this->Html->linkFromPath('News', 'Pages::news', ['class' => 'dropdown-item']); ?>
+                    <div class="dropdown-divider"></div>
+                    <?= $this->Html->linkFromPath('Partners', 'Pages::partners', ['class' => 'dropdown-item']); ?>
                 </div>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/employees') ?>">Employees</a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/departments') ?>">Departments</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
         </ul>
     </div>
 </nav>
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
+<?= $this->Flash->render() ?>
+<?= $this->fetch('content') ?>
 <footer>
 </footer>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
