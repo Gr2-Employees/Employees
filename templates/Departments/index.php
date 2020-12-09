@@ -11,9 +11,9 @@
         <table>
             <thead>
                 <tr>
-                    <th><?= $this->Paginator->sort('dept_no') ?></th>
-                    <th><?= $this->Paginator->sort('dept_name') ?></th>
-                    <th><?= $this->Paginator->sort('dept_description') ?></th>
+                    <th><?= $this->Paginator->sort(__('N°')) ?></th>
+                    <th><?= $this->Paginator->sort(__('Nom')) ?></th>
+                    <th><?= $this->Paginator->sort(__('Description')) ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -23,6 +23,7 @@
                     <td><?= h(strtoupper($department->dept_no)) ?></td>
                     <td><?= h($department->dept_name) ?></td>
                     <td><?= h($department->description) ?></td>
+
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $department->dept_no]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $department->dept_no]) ?>

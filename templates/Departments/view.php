@@ -17,30 +17,35 @@
 
     <div class="column-responsive column-80">
         <div class="departments view content">
-            <h1><?= h(strtoupper($department->dept_no)) ?></h1>
-            <h4>Manager</h4>
-            <div class="manager-pic">
-                <?= $this->Html->image('/img/' . $department->picture, [
-                    'alt' => 'Manager du département ' . $department->dept_name . '.',
-                    'width' => '250px',
-                    'height' => '250px',
-                    'class' => 'manager-pic'
-                ]) ?>
-            </div>
-            <div class="manager-info">
-                <?= h($department->manager_name) ?>
+            <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
+
+            <!-- Informations sur le manager -->
+            <div id="manager-container">
+                <div id="manager-info">
+                    <h4><?= __('Manager') ?></h4>
+                    <h5><?= h($department->manager_name) ?></h5>
+                </div>
+
+                <div id="manager-pic">
+                    <?= $this->Html->image('/img/' . $department->picture, [
+                        'alt' => 'Manager du département ' . $department->dept_name . '.',
+                        'width' => '300px',
+                        'height' => '300px',
+                        'class' => 'picture'
+                    ]) ?>
+                </div>
             </div>
             <table>
                 <tr>
-                    <th><?= __('Department Number') ?></th>
+                    <th><?= __('Number') ?></th>
                     <td><?= h(strtoupper($department->dept_no)) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Department Name') ?></th>
+                    <th><?= __('Name') ?></th>
                     <td><?= h($department->dept_name) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Department Description') ?></th>
+                    <th><?= __('Description') ?></th>
                     <td><?= h($department->description) ?></td>
                 </tr>
 
@@ -68,9 +73,9 @@
                 <!-- Fichier ROI du département (fichier unique) -->
                 <tr>
                     <th><?= __('Internal regulations (ROI)') ?></th>
-                    <td><?= $this->Html->link( __('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
-                        'target' => '_blank'
-                    ]) ?></td>
+                    <td><?= $this->Html->link(__('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
+                            'target' => '_blank'
+                        ]) ?></td>
                 </tr>
             </table>
         </div>
