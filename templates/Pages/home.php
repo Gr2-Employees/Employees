@@ -36,7 +36,9 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <a class="btn btn-primary btn-home" href="#">Découvrir nos departements</a>
+                <?= $this->Html->link(__('Découvrir nos departements'),'/departments',[
+                    'class' => 'btn btn-primary btn-home'
+                ])?>
             </div>
         </div>
         <div id="div3" class="row">
@@ -48,7 +50,8 @@
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
                 <?= $this->Html->link( __('Plus d\'info sur nos employés'), '/employees', [
-                    'class' => 'btn btn-primary btn-home'
+                    'class' => 'btn btn-primary btn-home',
+                    'style' => 'font-size : 10pt'
                 ]) ?>
             </div>
         </div>
