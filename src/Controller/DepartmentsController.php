@@ -20,6 +20,8 @@ class DepartmentsController extends AppController
     {
         $departments = $this->paginate($this->Departments);
 
+
+
         $this->set(compact('departments'));
     }
 
@@ -57,7 +59,6 @@ class DepartmentsController extends AppController
         $nbEmpl = $query->first()->count;
 
         // Sets and sends the var $nbEmpl to the view
-        $department->set('nbEmpl', $nbEmpl);
 
         /**
          * Nombres de postes vacants
@@ -82,7 +83,34 @@ class DepartmentsController extends AppController
         // Nombre postes vacants = $nbEmpl - $nbToDate
         $nbVacants = $nbEmpl - $nbToDate;
 
-        $department->set('nbVacants', $nbVacants);
+        /**
+         * Récupération de la photo du manager
+         */
+
+        $query = $this->getTableLocator()->get('dept_manager')->find();
+
+        $query->select([
+            'employees.first_name',
+            'employees.last_name',
+            'dept_manager.picture'
+        ]);
+
+        $query->join('employees');
+
+        $query->where([
+            'dept_no' => $id,
+            'to_date' => '9999-01-01'
+        ]);
+
+        $picture = $query->first()->picture;
+        $manager = $query->first()->employees['first_name'] . ' ' . $query->first()->employees['last_name'];
+
+        // Assignation des variables
+        $department
+            ->set('nbVacants', $nbVacants)
+            ->set('nbEmpl', $nbEmpl)
+            ->set('picture', $picture)
+            ->set('manager_name', $manager);
 
         $this->set(compact('department'));
     }

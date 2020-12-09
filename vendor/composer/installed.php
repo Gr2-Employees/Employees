@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '560a372f171379eb8492b6bc716f151201b366c4',
     'name' => 'cakephp/app',
   ),
   'versions' => 
@@ -22,12 +22,12 @@
     ),
     'cakephp/app' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '560a372f171379eb8492b6bc716f151201b366c4',
     ),
     'cakephp/bake' => 
     array (
@@ -223,6 +223,15 @@
       array (
       ),
       'reference' => '62139b2806178adb979d76bd3437534a1a9fd490',
+    ),
+    'composer/installers' => 
+    array (
+      'pretty_version' => 'v1.9.0',
+      'version' => '1.9.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b93bcf0fa1fccb0b7d176b0967d969691cd74cca',
     ),
     'composer/semver' => 
     array (
@@ -618,6 +627,22 @@
       ),
       'reference' => '05902f4a90790ce9db195954e608d5a43d4d6a7d',
     ),
+    'roundcube/plugin-installer' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '*',
+      ),
+    ),
+    'scottharwell/google-charts' => 
+    array (
+      'pretty_version' => '2.1',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c9e44a84d392ef3abb0ec73de48e99bd41709dde',
+    ),
     'sebastian/code-unit-reverse-lookup' => 
     array (
       'pretty_version' => '1.0.2',
@@ -743,6 +768,13 @@
       array (
       ),
       'reference' => '8674b1d84ffb47cc59a101f5d5a3b61e87d23796',
+    ),
+    'shama/baton' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '*',
+      ),
     ),
     'slevomat/coding-standard' => 
     array (

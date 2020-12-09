@@ -17,7 +17,19 @@
 
     <div class="column-responsive column-80">
         <div class="departments view content">
-            <h2><?= h(strtoupper($department->dept_no)) ?></h2>
+            <h1><?= h(strtoupper($department->dept_no)) ?></h1>
+            <h4>Manager</h4>
+            <div class="manager-pic">
+                <?= $this->Html->image('/img/' . $department->picture, [
+                    'alt' => 'Manager du département ' . $department->dept_name . '.',
+                    'width' => '250px',
+                    'height' => '250px',
+                    'class' => 'manager-pic'
+                ]) ?>
+            </div>
+            <div class="manager-info">
+                <?= h($department->manager_name) ?>
+            </div>
             <table>
                 <tr>
                     <th><?= __('Department Number') ?></th>
@@ -58,7 +70,7 @@
                     <th><?= __('Internal regulations (ROI)') ?></th>
                     <td><?= $this->Html->link( __('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
                         'target' => '_blank'
-                        ]) ?></td>
+                    ]) ?></td>
                 </tr>
             </table>
         </div>

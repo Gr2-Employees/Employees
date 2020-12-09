@@ -129,6 +129,7 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
             'Composer\\XdebugHandler\\' => 23,
             'Composer\\Spdx\\' => 14,
             'Composer\\Semver\\' => 16,
+            'Composer\\Installers\\' => 20,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
             'Cake\\TwigView\\' => 14,
@@ -350,6 +351,10 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
         'Composer\\Semver\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/semver/src',
+        ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
         ),
         'Composer\\CaBundle\\' => 
         array (
