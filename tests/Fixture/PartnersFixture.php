@@ -38,7 +38,7 @@ class PartnersFixture extends TestFixture
     {
         $this->records = [
             [
-                'title' => 'd1efd773-1190-47a2-90cf-468de3dfcbaf',
+                'title' => 'a8d7d17f-c3b4-4c3e-9f71-ec1c0ebad2fe',
                 'url' => 'Lorem ipsum dolor sit amet',
                 'logo' => 'Lorem ipsum dolor sit amet',
             ],
