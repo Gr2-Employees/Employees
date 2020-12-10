@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +16,7 @@
 <div class="content content-home">
     <div id="div1" class="row">
         <div class="col-6">
-            <h2>Welcome To Gusto Restaurant</h2>
+            <h2>Welcome To Gusto Restaurant asdf</h2>
             <h1>LOVES HEALTHY FOOD</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
@@ -42,7 +38,6 @@
             </p>
             <a class="btn btn-primary btn-home btn-apropos" href="#">Découvrir nos departements</a>
         </div>
-
     </div>
 </div>
 

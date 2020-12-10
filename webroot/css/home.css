@@ -1,37 +1,40 @@
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     z-index: 20;
-    box-shadow: 1px -1px 38px -3px rgba(117,117,117,0.62);
-    -webkit-box-shadow: 1px -1px 38px -3px rgba(117,117,117,0.62);
-    -moz-box-shadow: 1px -1px 38px -3px rgba(117,117,117,0.62);
+    box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
+    -webkit-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
+    -moz-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
 }
-#logo-menu{
-    margin : 0;
-    margin-bottom : 5px;
-    height :70px;
-    width:auto;
+
+#logo-menu {
+    margin: 0 0 5px;
+    height: 70px;
+    width: auto;
 }
+
 #navbarSupportedContent ul a {
     border-bottom: solid 1px blue;
-    margin-right : 20px;
-    padding-bottom : 0px;
+    margin-right: 20px;
+    padding-bottom: 0px;
 }
-.content-home{
+
+.content-home {
     background: none;
-    padding :0px;
+    padding: 0px;
 }
+
 #div1 {
     background-image: url('../img/employee.jpg');
     height: 600px;
     background-position: center;
-    padding : 120px;
-    box-shadow: 1px -1px 43px 1px rgba(0,0,0,0.51);
-    -webkit-box-shadow: 1px -1px 43px 1px rgba(0,0,0,0.51);
-    -moz-box-shadow: 1px -1px 43px 1px rgba(0,0,0,0.51);
+    padding: 120px;
+    box-shadow: 1px -1px 43px 1px rgba(0, 0, 0, 0.51);
+    -webkit-box-shadow: 1px -1px 43px 1px rgba(0, 0, 0, 0.51);
+    -moz-box-shadow: 1px -1px 43px 1px rgba(0, 0, 0, 0.51);
     position: relative;
     z-index: 10;
 }
 
-.btn-home{
+.btn-home {
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
@@ -39,46 +42,53 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     color: #fff;
     padding: 15px 35px;
     border-color: transparent;
-    margin-top:30px;
+    margin-top: 30px;
 
 }
-.btn:hover{
-    background-color:grey;
+
+.btn:hover {
+    background-color: grey;
     transition: 0.3s;
 }
-#div2{
-    background-color:#455A64;
+
+#div2 {
+    background-color: #455A64;
     color: white;
     height: 600px;
     background-position: center;
-    padding : 40px;
+    padding: 40px;
 }
-#div2-1{
-     background-image: url('../img/department.jpg');
-     background-position: center;
- }
-#div2-2>h2, #div2-2>h1{
-    color : white !important;
+
+#div2-1 {
+    background-image: url('../img/department.jpg');
+    background-position: center;
 }
-#div2-2{
+
+#div2-2 > h2, #div2-2 > h1 {
+    color: white !important;
+}
+
+#div2-2 {
     margin: auto;
     padding-left: 35px;
 }
-#div3{
+
+#div3 {
     background-image: url('../img/departments.jpg');
     height: 700px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size:cover;
-    -webkit-box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0,0,0,0.50);
-    box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0,0,0,0.50);
+    background-size: cover;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0, 0, 0, 0.50);
+    box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0, 0, 0, 0.50);
 }
-#div3-1{
-    background-color: white;
-    opacity:0.85;
+
+#div3-1 {
+    background-color: yellow;
+    opacity: 0.85;
     margin: auto;
     height: 500px;
-    color:black;
+    color: black;
     text-align: center;
     padding-top: 110px;
 }

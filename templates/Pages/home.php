@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div id="div3" class="row">
-            <div  id="div3-1" class="col-6">
+            <div id="div3-1" class="col-6">
                 <h2>Welcome To Gusto Restaurant</h2>
                 <h1>LOVES HEALTHY FOOD</h1>
                 <p>
@@ -56,6 +56,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
