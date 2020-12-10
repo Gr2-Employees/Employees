@@ -55,8 +55,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-color: #455A64;
     color: white;
     height: 600px;
-    background-position: center;
-    padding: 40px;
+    padding : 40px;
 }
 
 #div2-1 {
@@ -92,4 +91,14 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     text-align: center;
     padding-top: 110px;
 }
-
+#div4{
+    height : 500px;
+    background-color : #cf9099;
+    color: white;
+    padding : 80px;
+    margin:auto;
+}
+#div4-2{
+    background-image: url('../img/women-at-work.jpg');
+    background-size: cover;
+}
