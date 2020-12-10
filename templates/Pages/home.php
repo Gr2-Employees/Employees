@@ -22,7 +22,10 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <a class="btn btn-primary btn-home" href="#">A propos</a>
+                <?= $this->Html->link(__('A propos'),'./pages/about-us',[
+                    'class' => 'btn btn-primary btn-home',
+                    'style' => 'font-size : 10pt'
+                ])?>
             </div>
         </div>
         <div id="div2" class="row">
@@ -37,7 +40,8 @@
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
                 <?= $this->Html->link(__('Découvrir nos departements'),'/departments',[
-                    'class' => 'btn btn-primary btn-home'
+                    'class' => 'btn btn-primary btn-home',
+                    'style' => 'font-size : 10pt'
                 ])?>
             </div>
         </div>
@@ -53,6 +57,23 @@
                     'class' => 'btn btn-primary btn-home',
                     'style' => 'font-size : 10pt'
                 ]) ?>
+            </div>
+        </div>
+        <div id="div4" class="row">
+            <div id="div4-1" class="col-7">
+                <h2>Women at work</h2>
+                <h1>LOVES HEALTHY FOOD</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
+                    eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
+                </p>
+                <?= $this->Html->link(__('Women at work'),'/WomenAtWork/index.php',[
+                    'class' => 'btn btn-primary btn-home',
+                    'style' => 'background-color : #EE566C'
+                ])?>
+            </div>
+            <div id="div4-2" class="col-5">
+
             </div>
         </div>
     </div>
