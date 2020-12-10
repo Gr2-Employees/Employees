@@ -41,7 +41,10 @@
                 </p>
                 <?= $this->Html->link(__('Découvrir nos departements'),'/departments',[
                     'class' => 'btn btn-primary btn-home',
-                    'style' => 'font-size : 10pt'
+                    'style' => 'border-radius: 19px;
+                        background: linear-gradient(45deg, #3e515a, #4a606b);
+                        box-shadow:  13px -13px 29px #374850,
+                        -13px 13px 29px #536c78;'
                 ])?>
             </div>
         </div>
@@ -54,26 +57,80 @@
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
                 <?= $this->Html->link( __('Plus d\'info sur nos employés'), '/employees', [
-                    'class' => 'btn btn-primary btn-home',
-                    'style' => 'font-size : 10pt'
+                    'class' => 'btn btn-primary btn-home'
                 ]) ?>
             </div>
         </div>
         <div id="div4" class="row">
-            <div id="div4-1" class="col-7">
+            <div id="div4-1" class="col-6">
                 <h2>Women at work</h2>
                 <h1>LOVES HEALTHY FOOD</h1>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <?= $this->Html->link(__('Women at work'),'/WomenAtWork/index.php',[
+                <?= $this->Html->link(__('Women at work'),'/WomenAtWork',[
                     'class' => 'btn btn-primary btn-home',
-                    'style' => 'background-color : #EE566C'
+                    'style' => 'border-radius: 19px;
+                                background: linear-gradient(45deg, #8163b4, #9976d6);
+                                box-shadow:  13px -13px 29px #7258a0,
+                                -13px 13px 29px #ac84f0;'
                 ])?>
             </div>
             <div id="div4-2" class="col-5">
+            </div>
+        </div>
+        <div id="div5">
+            <div id="divTitle" class="col">
+                <h2>Communiqués de presse</h2>
+            </div>
+            <div class="row">
+                <div id="article1" class=" articles">
+                    <?= $this->Html->link($this->Html->image('article1.png', ["alt" => "article1", "class" => "img-article"]),
+                        'files/IBEN_09_Cashless_20200825_FR_V3.pdf',
+                        ['target'=>'_blank','escape'=>false]
+                    )?>
+                    <h6>Vers un monde sans cash ?</h6>
+                    <p>La fermeture des magasins physiques pendant le confinement,
+                        la distanciation sociale et la crainte que les billets de banque soient porteurs du virus a conduit à une forte...
+                    </p>
+                    <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'),'files/IBEN_09_Cashless_20200825_FR_V3.pdf',[
+                        'class' => 'btn btn-primary btn-home btn-articles','target'=>'_blank', 'escape'=>false])?>
+                </div>
+                <div id="article2" class="articles">
+                    <?= $this->Html->link($this->Html->image('article2.jpg', ["alt" => "article2", "class" => "img-article"]),
+                        'files/IBEN_11_Transactions_Update_ete_20200904_FR_V3.pdf',
+                        ['target'=>'_blank','escape'=>false]
+                    )?>
+                    <h6>Après le rebond, pas de véritable reprise pour les
+                        dépenses des Belges</h6>
+                    <p>La crise du coronavirus est loin d’être terminée et le confinement du printemps a fait
+                        de sérieux dégâts à l’économie belge. Si les restrictions de déplacements en Belgique...</p>
+                    <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'),'files/IBEN_11_Transactions_Update_ete_20200904_FR_V3.pdf',[
+                        'class' => 'btn btn-primary btn-home btn-articles','target'=>'_blank', 'escape'=>false])?>
+                </div>
+                <div id="article3" class="articles">
+                    <?= $this->Html->link($this->Html->image('article3.jpg', ["alt" => "article3","class" => "img-article"]),
+                        'files/Post_covid_consumer_FR.pdf',
+                        ['target'=>'_blank','escape'=>false]
+                    )?>
+                    <h6>Le consommateur sera-t-il plus soucieux du développement durable ?</h6>
+                    <p>Avant la crise du coronavirus, le développement durable était devenu une préoccupation de plus en plus sensible...</p>
+                    <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'),'files/Post_covid_consumer_FR.pdf',[
+                        'class' => 'btn btn-primary btn-home btn-articles','target'=>'_blank', 'escape'=>false])?>
+                </div>
+                <div id="article4" class="articles">
+                    <?= $this->Html->link($this->Html->image('article4.jpg', ["alt" => "article4", "class" => "img-article"]),
+                        'files/IBEN-FR.pdf',
+                        ['target'=>'_blank','escape'=>false]
+                    )?>
+                    <h6>Comment les Belges appréhendent-ils leurs dettes ?</h6>
+                    <p>Les Belges conservent une attitude relativement prudente vis-à-vis de l’endettement
+                        non hypothécaire. C’est un des résultats qui ressort de la nouvelle ING ...</p>
 
+                    <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'),'files/IBEN-FR.pdf',[
+                        'class' => 'btn btn-primary btn-home btn-articles','target'=>'_blank','escape'=>false])?>
+                </div>
             </div>
         </div>
     </div>

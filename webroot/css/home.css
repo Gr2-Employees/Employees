@@ -42,11 +42,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     color: #fff;
     padding: 15px 35px;
     border-color: transparent;
-    margin-top: 30px;
-
+    margin-top:40px;
+    font-size : 10pt;
 }
 
 .btn:hover {
+    border-color: transparent;
     background-color: grey;
     transition: 0.3s;
 }
@@ -78,12 +79,14 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    -webkit-box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0, 0, 0, 0.50);
-    box-shadow: 0px 10px 13px -7px #000000, -8px -16px 33px -30px rgba(0, 0, 0, 0.50);
+    position: relative;
+    -webkit-box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 7px 14px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 7px 14px 0px rgba(50, 50, 50, 0.75);
 }
 
 #div3-1 {
-    background-color: yellow;
+    background-color: white;
     opacity: 0.85;
     margin: auto;
     height: 500px;
@@ -93,12 +96,82 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 }
 #div4{
     height : 500px;
-    background-color : #cf9099;
+    background: rgb(255,160,181);
+    background: linear-gradient(90deg, rgba(255,160,181,1) 0%, rgba(194,108,121,1) 48%, rgba(214,60,82,1) 100%);
     color: white;
-    padding : 80px;
-    margin:auto;
+    padding: 20px 30px 20px 50px;
 }
 #div4-2{
     background-image: url('../img/women-at-work.jpg');
     background-size: cover;
+}
+#div4-1{
+    margin : auto;
+}
+#div4 {
+    background: linear-gradient(-45deg,#9a94ed, #8f6ec8);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+#div5{
+    padding: 50px;
+    box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
+    -webkit-box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
+    -moz-box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
+
+}
+#divCadre{
+    background-color: transparent;
+    margin: auto;
+}
+.articles{
+    text-align: center;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    margin:auto;
+    padding: 15px;
+    width: 22% !important;
+    height:500px;
+
+}
+.articles p{
+    font-size : 9pt;
+    color : #363637;
+}
+.articles h6{
+    font-weight : bold;
+}
+.img-article{
+    height:200px;
+    width: 100%;
+    margin-bottom:20px;
+}
+#divTitle{
+    text-align: center;
+    padding-bottom: 20px;
+}
+.btn-articles{
+    border-radius: 19px;
+    background: linear-gradient(45deg, #e6e6e6, #ffffff);
+    box-shadow:  13px -13px 29px #dedede,
+    -13px 13px 29px #ffffff;
+    color:gray;
+}
+.btn-articles:hover{
+    color:black;
+}
+.btn-articles:active{
+    border-color: transparent;
 }
