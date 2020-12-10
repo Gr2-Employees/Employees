@@ -22,7 +22,7 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                     eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
                 </p>
-                <?= $this->Html->link(__('A propos'),'./pages/about-us',[
+                <?= $this->Html->link(__('A propos'),'/pages/about-us',[
                     'class' => 'btn btn-primary btn-home',
                     'style' => 'font-size : 10pt'
                 ])?>
