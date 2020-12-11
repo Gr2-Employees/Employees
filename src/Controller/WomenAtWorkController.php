@@ -50,101 +50,35 @@ class WomenAtWorkController extends AppController
 
         /**
          * Récupération du nombre de femmes par année
-         * 1990-1995-2000-2002
          */
+
         $arrNbWomen = [];
-        $arrYears = ['1990', '1995', '2000', '2002'];
-        $query = $this->getTableLocator()->get('dept_emp')->find();
+        $arrYears = [];
 
+        // Query
+        $query = $this->getTableLocator()->get('employees')->find();
         $query->select([
-            'count' => $query->func()->count('em.emp_no')
-        ])
-        ->join([
-            'em' => [
-                'table' => 'employees',
-                'conditions' => 'em.emp_no = dept_emp.emp_no'
-            ]
+                'nbFemmes' => $query->func()->count('employees.emp_no'),
+                'hire_date'
         ])
         ->where([
-            'em.gender' => 'F'
+            'gender' => 'F',
         ])
-        ->where(
-            function ($exp) {
-                return $exp->like('to_date', '%1990%');
+        ->group([
+            'hire_date'
+        ]);
+
+        $result = $query->all();
+
+        foreach($result as $row) {
+            $arrNbWomen[] = $row->nbFemmes;
+
+            // Get years
+            $year = $row->hire_date->format('Y');
+            if (!in_array($year, $arrYears, true)) {
+                $arrYears[] = $year;
             }
-        );
-
-        $arrNbWomen[] = $query->first()->count;
-
-        // 1995
-        $query = $this->getTableLocator()->get('dept_emp')->find();
-
-        $query->select([
-            'count' => $query->func()->count('em.emp_no')
-        ])
-        ->join([
-            'em' => [
-                'table' => 'employees',
-                'conditions' => 'em.emp_no = dept_emp.emp_no'
-            ]
-        ])
-        ->where([
-            'em.gender' => 'F'
-        ])
-        ->where(
-            function ($exp) {
-                return $exp->like('to_date', '%1995%');
-            }
-        );
-
-        $arrNbWomen[] = $query->first()->count;
-
-        // 2000
-        $query = $this->getTableLocator()->get('dept_emp')->find();
-
-        $query->select([
-            'count' => $query->func()->count('em.emp_no')
-        ])
-        ->join([
-            'em' => [
-                'table' => 'employees',
-                'conditions' => 'em.emp_no = dept_emp.emp_no'
-            ]
-        ])
-        ->where([
-            'em.gender' => 'F'
-        ])
-        ->where(
-            function ($exp) {
-                return $exp->like('to_date', '%2000%');
-            }
-        );
-
-        $arrNbWomen[] = $query->first()->count;
-
-        // 2002
-        $query = $this->getTableLocator()->get('dept_emp')->find();
-
-        $query->select([
-            'count' => $query->func()->count('em.emp_no')
-        ])
-        ->join([
-            'em' => [
-                'table' => 'employees',
-                'conditions' => 'em.emp_no = dept_emp.emp_no'
-            ]
-        ])
-        ->where([
-            'em.gender' => 'F'
-        ])
-        ->where(
-            function ($exp) {
-                return $exp->like('to_date', '%2002%');
-            }
-        );
-
-        $arrNbWomen[] = $query->first()->count;
-
+        }
 
         /**
          * Récupération des femmes managers (noms + nombre)
