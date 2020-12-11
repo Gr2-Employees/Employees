@@ -30,7 +30,7 @@
     </div>
 
     <!-- Affichage des graphiques / Charts -->
-    <div style="width:500px; height:350px;">
+    <div style="width:550px; height:350px;">
         <h2>Nos statistiques</h2>
         <h6>Lines</h6>
         <canvas id="womenPieChart"></canvas>
