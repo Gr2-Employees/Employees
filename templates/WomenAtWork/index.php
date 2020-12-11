@@ -84,6 +84,7 @@
             } ?>
             ],
             datasets: [{
+                label: 'Femmes dans l\'entreprise',
                 backgroundColor: 'transparent',
                 borderColor: 'rgb(252,138,233)',
                 data: [<?php foreach ($arrWomen as $nb) {

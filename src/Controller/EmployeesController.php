@@ -14,7 +14,7 @@ use Cake\View\CellTrait;
 class EmployeesController extends AppController
 {
     use CellTrait;
-    
+
     /**
      * Index method
      *
@@ -24,12 +24,12 @@ class EmployeesController extends AppController
     {
         //Récupérer les données de la base de données
         $employees = $this->Employees;
-       
+
         //Préparer, modifier ces données
         $employees = $this->paginate($employees);
-        
+
         $cellMenWomenRatio = $this->cell('Inbox');
-        
+
         //Envoyer vers la vue
         $this->set('employees',$employees);
         $this->set('cellMenWomenRatio',$cellMenWomenRatio);
@@ -45,14 +45,14 @@ class EmployeesController extends AppController
     public function view($id = null)
     {
         $employee = $this->Employees->get($id, [
-            'contain' => ['salaries','titles'],
+            'contain' => ['salaries','employee_title'],
         ]);
-        
-        $titles = $employee->titles;
+
+        $titles = $employee->employee_title;
         $today = new \DateTime();
         foreach($titles as $title) {
             $date = new \DateTime($title->to_date->format('Y-m-d'));
-            
+
             if($date > $today) {
                 $employee->fonction = $title->title;
                 break;
@@ -71,7 +71,7 @@ class EmployeesController extends AppController
     {
         //Récupérer => Créer
         $employee = $this->Employees->newEmptyEntity();
-        
+
         $employee->password = hash($pass);
         //Traitement
         //Rien faire en GET
@@ -85,7 +85,7 @@ class EmployeesController extends AppController
             }
             $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
-        
+
         //Envoyer vers la vue
         $this->set(compact('employee'));
     }
@@ -125,10 +125,10 @@ class EmployeesController extends AppController
     {
         //Sécurité
         $this->request->allowMethod(['post', 'delete']);
-        
+
         //Récupérer
         $employee = $this->Employees->get($id);
-        
+
         //Traitement
         if ($this->Employees->delete($employee)) {
             $this->Flash->success(__('The employee has been deleted.'));
@@ -139,14 +139,14 @@ class EmployeesController extends AppController
         //Envoyer vers la vue: NON => Redirection
         return $this->redirect(['action' => 'index']);
     }
-    
+
     public function getAllByGender(string $gender = 'f') {
         //Récupérer les données
         $employees = $this->Employees->findByGender($gender)->limit(10);
-        
+
         //Transformer
         $employees = $this->paginate($employees);
-        
+
         //Envoyer à la vue
         $this->set('employees',$employees);
         $this->render('index'); //Définit un temlate spécifique

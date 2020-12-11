@@ -37,21 +37,21 @@ class EmployeesTable extends Table
     public function initialize(array $config): void
     {
         parent::initialize($config);
-        
+
         $this->addBehavior('Initialisable');    //Permet de générer les initiales
 
         $this->setTable('employees');
         $this->setDisplayField('emp_no');
         $this->setPrimaryKey('emp_no');
-        
+
         $this->hasMany('salaries', [
             'foreignKey' => 'emp_no',
         ]);
-        
-        $this->hasMany('titles', [
+
+        $this->hasMany('employee_title', [
             'foreignKey' => 'emp_no',
         ]);
-        
+
         $this->belongsToMany('Departments',[
             'joinTable' => 'dept_emp',
             'foreignKey' => 'emp_no',
@@ -104,14 +104,14 @@ class EmployeesTable extends Table
 
         return $validator;
     }
-    
+
     function findSpecialSearch(Query $query, array $options) {
         $query->where([]);
-        
+
         return $query;
     }
-    
+
     //Récupérer tous les employés d'un département donné
-    
+
     //Recupérer les département de plus de 100 employes qui ne travaillent plus dans ce département
 }

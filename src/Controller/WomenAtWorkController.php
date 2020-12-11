@@ -42,17 +42,11 @@ class WomenAtWorkController extends AppController
             }
         }
 
-        $all = $nbWomen + $nbMen;
+        $allEmployees = $nbWomen + $nbMen;
 
-        $pctMen = ($nbMen / $all) * 100;
-        $pctWomen = ($nbWomen / $all) * 100;
-        //var_dump($nbMen); // 179973
-        //var_dump($nbWomen); // 120051
-
-        $this
-            ->set(compact('pctWomen'))
-            ->set(compact('pctMen'));
-
+        // Pourcentages Men/Women
+        $pctMen = ($nbMen / $allEmployees) * 100;
+        $pctWomen = ($nbWomen / $allEmployees) * 100;
 
         /**
          * Récupération du nombre de femmes par année
@@ -63,7 +57,7 @@ class WomenAtWorkController extends AppController
         $query = $this->getTableLocator()->get('dept_emp')->find();
 
         $query->select([
-            'count' => $query->func()->count('*')
+            'count' => $query->func()->count('em.emp_no')
         ])
         ->join([
             'em' => [
@@ -86,7 +80,7 @@ class WomenAtWorkController extends AppController
         $query = $this->getTableLocator()->get('dept_emp')->find();
 
         $query->select([
-            'count' => $query->func()->count('*')
+            'count' => $query->func()->count('em.emp_no')
         ])
         ->join([
             'em' => [
@@ -109,7 +103,7 @@ class WomenAtWorkController extends AppController
         $query = $this->getTableLocator()->get('dept_emp')->find();
 
         $query->select([
-            'count' => $query->func()->count('*')
+            'count' => $query->func()->count('em.emp_no')
         ])
         ->join([
             'em' => [
@@ -132,7 +126,7 @@ class WomenAtWorkController extends AppController
         $query = $this->getTableLocator()->get('dept_emp')->find();
 
         $query->select([
-            'count' => $query->func()->count('*')
+            'count' => $query->func()->count('em.emp_no')
         ])
         ->join([
             'em' => [
@@ -150,25 +144,19 @@ class WomenAtWorkController extends AppController
         );
 
         $arrNbWomen[] = $query->first()->count;
-        var_dump($arrNbWomen);
-        $this->set('arrWomen', $arrNbWomen)
-            ->set('arrYears', $arrYears);
+
+
         /**
-         * Récupération des femmes managers
+         * Récupération des femmes managers (noms + nombre)
          */
         $query = $this->getTableLocator()->get('employees')
             ->find()
             ->select([
-                'dema.dept_no',
                 'employees.first_name',
                 'employees.last_name',
                 'employees.emp_no',
             ])
             ->join([
-                'dema' => [
-                    'table' => 'dept_manager',
-                    'conditions' => 'dema.emp_no = employees.emp_no'
-                ],
                 'emti' => [
                     'table' => 'employee_title',
                     'conditions' => 'emti.emp_no = employees.emp_no'
@@ -181,15 +169,21 @@ class WomenAtWorkController extends AppController
 
         $results = $query->all();
 
-        $femaleManager = [];
+        $femaleManagers = [];
         $cpt = 0;
 
         foreach ($results as $row) {
-            $femaleManager[] = $row["first_name"] . " " . $row["last_name"];
+            $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
             $cpt++;
         }
-        var_dump($cpt);
-        var_dump($femaleManager);
+
+        $this
+            ->set(compact('pctWomen'))
+            ->set(compact('pctMen'))
+            ->set('arrWomen', $arrNbWomen)
+            ->set('arrYears', $arrYears)
+            ->set('femaleManagers', $femaleManagers)
+            ->set('nbFemaleManagers', $cpt);
     }
 
 
