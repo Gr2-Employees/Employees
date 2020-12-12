@@ -310,6 +310,7 @@ a:hover {
 /*création des lignes entre les cols du footer*/
 .footer-lign {
     border-right: black 1.5px solid;
+    padding-left:20px;
 }
 
 .sm-icons {
