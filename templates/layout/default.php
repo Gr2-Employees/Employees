@@ -80,8 +80,86 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </nav>
 <?= $this->Flash->render() ?>
 <?= $this->fetch('content') ?>
+
 <footer>
+    <div id="div-footer" class="row">
+        <div class="col-4 footer-lign">
+            <div class="row">
+                <div class="col-6">
+                    <h6>À propos</h6>
+                    <p class="footer-links" ><?= $this->Html->link(__('Qui sommes-nous?'), '/pages/about-us') ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('News'), '/pages/news') ?></p>
+                </div>
+                <div class="col-6">
+                    <h6>Plus d'infos</h6>
+                    <p class="footer-links" ><?= $this->Html->link(__('Découvrir nos départements'), '/departments') ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('À propos nos employées'), '/employees') ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('Women At Work'), '/WomenAtWork/index') ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 footer-lign">
+            <h6>Visitez nos réseaux sociaux</h6>
+            <div class="row" id="row-social">
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-facebook"></i>'), 'https://www.facebook.com/bpost.official/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-twitter"></i>'), 'https://twitter.com/bpost_fr', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-reddit"></i>'), 'https://www.reddit.com/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-linkedin-in"></i>'), 'https://www.linkedin.com/company/bpost/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-instagram"></i>'), 'https://www.instagram.com/bpost/?hl=fr', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+            </div>
+        </div>
+        <div class="col-4">
+            <h6>Rejoignez-nous sur l'appli Unitedsuite</h6>
+            <div class="row">
+                <div class="col">
+                    <?= $this->Html->link(
+                        $this->Html->image('googleplay.png', [
+                            "alt" => "GooglePlay",
+                            "class"=>"stores"
+                        ]),
+                        'https://play.google.com/store/apps/details?id=com.bpb.mobilebanking.smartphone.prd&gl=BE', [
+                            'target' => '_blank',
+                            'escape' => false
+                    ]) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?= $this->Html->link(
+                        $this->Html->image('appstore.jpg', [
+                            "alt" => "AppStore",
+                            "class"=>"stores"
+                        ]),
+                        'https://apps.apple.com/fr/app/mobilebanking-smartphone/id1278930217', [
+                        'target' => '_blank',
+                        'escape' => false
+                    ]) ?>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -93,5 +171,4 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/7df36244de.js" crossorigin="anonymous"></script>
 </body>
-
 </html>

@@ -42,8 +42,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     color: #fff;
     padding: 15px 35px;
     border-color: transparent;
-    margin-top:40px;
-    font-size : 10pt;
+    margin-top: 40px;
+    font-size: 10pt;
 }
 
 .btn:hover {
@@ -56,14 +56,14 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-color: #455A64;
     color: white;
     height: 600px;
-    padding : 40px;
+    padding: 40px;
 }
 
 #div2-1 {
     background-image: url('../img/department.jpg');
     background-position: center;
-    -webkit-box-shadow: 0px 0px 16px 9px rgba(0,0,0,0.26);
-    box-shadow: 0px 0px 16px 9px rgba(0,0,0,0.26);
+    -webkit-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
+    box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
 }
 
 #div2-2 > h2, #div2-2 > h1 {
@@ -83,8 +83,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-size: cover;
     position: relative;
     -webkit-box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
-    -moz-box-shadow:    0px 7px 14px 0px rgba(50, 50, 50, 0.75);
-    box-shadow:         0px 7px 14px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
+    box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
 }
 
 #div3-1 {
@@ -96,27 +96,32 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     text-align: center;
     padding-top: 110px;
 }
-#div4{
-    height : 500px;
-    background: rgb(255,160,181);
-    background: linear-gradient(90deg, rgba(255,160,181,1) 0%, rgba(194,108,121,1) 48%, rgba(214,60,82,1) 100%);
+
+#div4 {
+    height: 500px;
+    background: rgb(255, 160, 181);
+    background: linear-gradient(90deg, rgba(255, 160, 181, 1) 0%, rgba(194, 108, 121, 1) 48%, rgba(214, 60, 82, 1) 100%);
     color: white;
     padding: 30px 30px 30px 50px;
 }
-#div4-2{
+
+#div4-2 {
     background-image: url('../img/women-at-work.jpg');
     background-size: cover;
-    -webkit-box-shadow: 0px 0px 16px 9px rgba(0,0,0,0.26);
-    box-shadow: 0px 0px 16px 9px rgba(0,0,0,0.26);
+    -webkit-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
+    box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
 }
-#div4-1{
-    margin : auto;
+
+#div4-1 {
+    margin: auto;
 }
+
 #div4 {
-    background: linear-gradient(-45deg,#9a94ed, #8f6ec8);
+    background: linear-gradient(-45deg, #9a94ed, #8f6ec8);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
 }
+
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
@@ -128,76 +133,74 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
         background-position: 0% 50%;
     }
 }
-#div5{
+
+#div5 {
     padding: 50px;
-    box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
-    -webkit-box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
-    -moz-box-shadow: -1px -10px 12px -1px rgba(0,0,0,0.36);
+    box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
+    -webkit-box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
+    -moz-box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
 
 }
-#divCadre{
+
+#divCadre {
     background-color: transparent;
     margin: auto;
 }
-.articles{
+
+.articles {
     text-align: center;
     text-transform: uppercase;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
     background-color: white;
-    margin:auto;
+    margin: auto;
     padding: 15px;
     width: 22% !important;
-    height:500px;
+    height: 500px;
     position: relative;
 
 }
-.articles p{
-    font-size : 9pt;
-    color : #363637;
+
+.articles p {
+    font-size: 9pt;
+    color: #363637;
 }
-.articles h6{
-    margin-top:20px;
-    font-weight : bold;
+
+.articles h6 {
+    margin-top: 20px;
+    font-weight: bold;
 }
-.img-article{
-    height:200px;
+
+.img-article {
+    height: 200px;
     width: 100%;
 }
-#divTitle{
+
+#divTitle {
     text-align: center;
     padding-bottom: 20px;
 }
-.btn-articles{
+
+.btn-articles {
     border-radius: 19px;
     background: linear-gradient(45deg, #e6e6e6, #ffffff);
-    box-shadow:  13px -13px 29px #dedede,
+    box-shadow: 13px -13px 29px #dedede,
     -13px 13px 29px #ffffff;
-    color:gray;
+    color: gray;
     margin-bottom: 10px;
     position: absolute;
     bottom: 2%;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
-.btn-articles:hover{
-    color:black;
+
+.btn-articles:hover {
+    color: black;
 }
-.btn-articles:active{
+
+.btn-articles:active {
     border-color: transparent;
 }
 
-
-.dropdown-menu.show ul li a{
-    border-color: transparent !important;
-}
-.dropdown-menu:hover ~ .dropdown-menu.show ul{
-    display:none;
-}
-
-#dropdown-list{
-    padding:8px;
-    margin:0;
-}
 .dropdown-menu.show {
     width: 130px;
     background-color: white;
@@ -205,11 +208,111 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     border-radius: 10px;
     height: 110px;
 }
-/*TODO*/
-/* changer le selecteur*/
+
+.dropdown-menu.show a {
+    font-size: 13px;
+}
+
+#dropdown-list {
+    padding: 8px;
+    margin: 0;
+}
+
+.dropdown-menu.show ul li a {
+    border-color: transparent !important;
+}
+
 a:hover {
     text-decoration: none;
 }
-.dropdown-menu.show a {
-    font-size: 13px;
+
+#div6 {
+    background-image: url('../img/partners.png');
+    background-size: cover;
+    padding: 50px 50px 90px 50px;
+    margin: auto;
+    height: 400px;
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
+    box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
+}
+
+#div6 div h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    color: black;
+}
+
+.partners-cadre img {
+    width: 130px;
+    height: 130px;
+    text-align: center;
+}
+
+.partners-cadre img:hover {
+    filter: invert(0.7);
+    transition: filter 0.3s linear;
+}
+
+#div7 {
+    padding: 25px;
+    text-align: center;
+    height: 500px;
+}
+
+#div7 div iframe {
+    border-style: none;
+    border-radius: 15px;
+    height: 400px;
+}
+
+#div-footer {
+    background-color: #363637;
+    font-family: "Raleway", sans-serif;
+    padding: 20px;
+}
+
+#div-footer h6 {
+    margin: 20px 20px 20px 0px;
+    color: white;
+}
+
+.stores {
+    width: 180px;
+    height: 50px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.footer-links {
+    font-size: 15px;
+}
+
+#row-social a {
+    margin: auto;
+    transition: 0.3s ease-in;
+}
+
+#row-social a:hover {
+    color:white;
+    opacity: initial;
+}
+
+#row-social {
+    width: 80%;
+    padding-top: 20px;
+}
+
+/*création des lignes entre les cols du footer*/
+.footer-lign {
+    border-right: black 1.5px solid;
+}
+
+.sm-icons {
+    color:white;
+    opacity: 0.5;
 }

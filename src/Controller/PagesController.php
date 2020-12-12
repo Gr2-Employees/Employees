@@ -61,6 +61,9 @@ class PagesController extends AppController
         }
         $this->set(compact('page', 'subpage'));
 
+        $partners = $this->getTableLocator()->get('partners')->find();
+        $this->set(compact('partners'));
+
         try {
             return $this->render(implode('/', $path));
         } catch (MissingTemplateException $exception) {
