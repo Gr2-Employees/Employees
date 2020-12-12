@@ -104,11 +104,11 @@ class WomenAtWorkController extends AppController
         $results = $query->all();
 
         $femaleManagers = [];
-        $cpt = 0;
+        $cptManagers = 0;
 
         foreach ($results as $row) {
             $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
-            $cpt++;
+            $cptManagers++;
         }
         /**
          * Récupération des 3 départements ayant le plus de femmes (nombre)
@@ -154,7 +154,7 @@ class WomenAtWorkController extends AppController
             ->set('arrWomen', $arrNbWomen)
             ->set('arrYears', $arrYears)
             ->set('femaleManagers', $femaleManagers)
-            ->set('nbFemaleManagers', $cpt);
+            ->set('nbFemaleManagers', $cptManagers);
     }
 
 
