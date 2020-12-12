@@ -156,10 +156,4 @@ class WomenAtWorkController extends AppController
             ->set('femaleManagers', $femaleManagers)
             ->set('nbFemaleManagers', $cptManagers);
     }
-
-
-    public function beforeRender(EventInterface $event)
-    {
-        parent::beforeRender($event);
-    }
 }

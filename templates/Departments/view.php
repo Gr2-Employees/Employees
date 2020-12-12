@@ -62,8 +62,10 @@
                         <!-- TODO: LIEN POUR POSTULER -> VERS VUE ?-->
                         <?= $this->Html->link(
                             'Postuler',
-                            '/',
                             [
+                                'controller' => 'Vacancies',
+                                'action' => 'showOffers',
+                                '?' => ['dept' => $department->dept_no],
                                 'class' => 'btn btn-success',
                                 'style' => 'float: right',
                                 'target' => '_blank'
