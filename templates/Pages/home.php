@@ -122,7 +122,7 @@
                     <h6>Après le rebond, pas de véritable reprise pour les
                         dépenses des Belges</h6>
                     <p>La crise du coronavirus est loin d’être terminée et le confinement du printemps a fait
-                        de sérieux dégâts à l’économie belge. Si les restrictions de déplacements en Belgique...</p>
+                        de sérieux dégâts à l’économie belge...</p>
                     <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'), '/files/IBEN_11_Transactions_Update_ete_20200904_FR_V3.pdf', [
                         'class' => 'btn btn-primary btn-home btn-articles',
                         'target' => '_blank',
@@ -195,10 +195,8 @@
             <?php }?>
         </div>
         <div id="div7" class="row">
-            <div class="col-6">
-                <div>
-                    <h3>Visitez-nous</h3>
-                </div>
+            <div id="div-iframe" class="col-6">
+                <h3>Visitez-nous</h3>
                 <iframe src="https://www.google.com.qa/maps/d/u/0/embed?mid=1hA2SxgJUBlbU0y-Lz9_UFhxAkxqr26Ub" width="640" height="480"></iframe>
             </div>
             <div class="col-6">
@@ -210,8 +208,94 @@
                     "height"=>"400px",
                 ]) ?>
             </div>
-
         </div>
     </div>
 </body>
+
+<footer>
+    <div id="div-footer" class="row">
+        <div class="col-4 footer-lign">
+            <div class="row">
+                <div class="col-6">
+                    <h6>À propos</h6>
+                    <p class="footer-links" ><?= $this->Html->link(__('Qui sommes-nous?'), '/pages/about-us', ['target'=>'_blank']) ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('News'), '/pages/news', ['target'=>'_blank']) ?></p>
+                    <h6>Rapport annuel</h6>
+                    <p class="footer-links" ><?= $this->Html->link(__('Rapport annuel'), '/files/rapport-annuel-2019.pdf', ['target'=>'_blank']) ?></p>
+                </div>
+                <div class="col-6">
+                    <h6>Plus d'infos</h6>
+                    <p class="footer-links" ><?= $this->Html->link(__('Découvrir nos départements'), '/departments', ['target'=>'_blank']) ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('À propos nos employées'), '/employees', ['target'=>'_blank']) ?></p>
+                    <p class="footer-links" ><?= $this->Html->link(__('Women At Work'), '/WomenAtWork/index', ['target'=>'_blank']) ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 footer-lign">
+            <h6>Visitez nos réseaux sociaux</h6>
+            <div class="row" id="row-social">
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-facebook"></i>'), 'https://www.facebook.com/bpost.official/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-twitter"></i>'), 'https://twitter.com/bpost_fr', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-reddit"></i>'), 'https://www.reddit.com/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-linkedin-in"></i>'), 'https://www.linkedin.com/company/bpost/', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+                <?= $this->Html->link(__('<i class="fab fa-3x fa-instagram"></i>'), 'https://www.instagram.com/bpost/?hl=fr', [
+                    'class'=>'sm-icons',
+                    'target' => '_blank',
+                    'escape' => false
+                ]) ?>
+            </div>
+        </div>
+        <div class="col-4">
+            <h6>Rejoignez-nous sur l'appli Unitedsuite</h6>
+            <div class="row">
+                <div class="col">
+                    <?= $this->Html->link(
+                        $this->Html->image('googleplay.png', [
+                            "alt" => "GooglePlay",
+                            "class"=>"stores"
+                        ]),
+                        'https://play.google.com/store/apps/details?id=com.bpb.mobilebanking.smartphone.prd&gl=BE', [
+                        'target' => '_blank',
+                        'escape' => false
+                    ]) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?= $this->Html->link(
+                        $this->Html->image('appstore.jpg', [
+                            "alt" => "AppStore",
+                            "class"=>"stores"
+                        ]),
+                        'https://apps.apple.com/fr/app/mobilebanking-smartphone/id1278930217', [
+                        'target' => '_blank',
+                        'escape' => false
+                    ]) ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div  style="text-align: center; color:white;" class="col">
+                &copy Nathan,Thomas et Radad
+            </div>
+        </div>
+    </div>
+
+</footer>
 </html>
