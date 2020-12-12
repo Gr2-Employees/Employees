@@ -6,7 +6,9 @@
 ?>
 <div class="vacancies index content">
     <div id="TitlePage">
+        <?php if (isset($vacancyName) && !is_null($vacancies)) { ?>
         <h4> <?= __('Vacant position(s) in department of ') . h($vacancyName) ?></h4>
+
     </div>
 
     <div id="tableVacancies">
@@ -33,4 +35,8 @@
             <?php } ?>
         </table>
     </div>
+    <?php } else { ?>
+        <h4>Page Hire</h4>
+        <?= $this->Flash->render() ?>
+    <?php } ?>
 </div>

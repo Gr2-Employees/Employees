@@ -99,6 +99,7 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
             'PhpParser\\' => 10,
             'Phinx\\' => 6,
             'PHPStan\\PhpDocParser\\' => 21,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -115,10 +116,6 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
         array (
             'JsonSchema\\' => 11,
             'Jasny\\Twig\\' => 11,
-        ),
-        'G' => 
-        array (
-            'GoogleCharts\\' => 13,
         ),
         'D' => 
         array (
@@ -295,6 +292,10 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Migrations\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/migrations/src',
@@ -322,10 +323,6 @@ class ComposerStaticInit212e229a6a7bf99d24f3641d3c3724e6
         'Jasny\\Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/jasny/twig-extensions/src',
-        ),
-        'GoogleCharts\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/plugins/GoogleCharts/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

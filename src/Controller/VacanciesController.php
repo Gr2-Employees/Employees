@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 namespace App\Controller;
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 /**
  * Vacancies Controller
  *
@@ -11,6 +13,7 @@ namespace App\Controller;
  */
 class VacanciesController extends AppController
 {
+
     /**
      * Index method
      *
@@ -23,7 +26,8 @@ class VacanciesController extends AppController
         $this->set(compact('vacancies'));
     }
 
-    public function showOffers() {
+    public function showOffers()
+    {
         // TODO: code
         // Get qString data
 
@@ -55,16 +59,54 @@ class VacanciesController extends AppController
             ])
             ->all();
 
-        $vacancyName = $vacancies->first()->name;
+        if (!is_null($vacancies->first())) {
+            $vacancyName = $vacancies->first()->name;
 
-        $this->set(compact('vacancies'));
-        $this->set(compact('vacancyName'));
+            $this->set(compact('vacancies'));
+            $this->set(compact('vacancyName'));
+        } else {
+            $this->Flash->set(__('No vacant position in this department.'), [
+                'element' => 'error'
+            ]);
+        }
     }
 
-    public function applyOffer() {
+    public function applyOffer()
+    {
         $title_no = $this->request->getQuery('title');
 
         $isFormSent = $this->request->is('post');
+
+        if ($this->request->is('post')) {
+            // Send mail to manager
+            // temp mail pavajak211@pxjtw.com
+            $temp = 'hepomi3066@pxjtw.com';
+            // Get file sent by user
+
+            $data = $this->request->getData();
+
+            // Retrieve user info
+            $from = $data['email'];
+            $name = $data['surname'] . ' ' . $data['lastname'];
+
+            // Get manager email
+            $mail = new PHPMailer(true);
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'nathandeltour2@gmail.com';
+            $mail->Password = 'hjalmmwupbkasarw';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            $mail->setFrom('nathandeltour2@gmail.com', 'Me');
+            $mail->addAddress('hepomi3066@pxjtw.com', 'Joe Reagan');
+            $mail->isHTML(true);
+            $mail->Subject = 'Subject 123';
+            $mail->Body = 'Body 123';
+            $mail->send();
+
+        }
 
         $this->set(compact('isFormSent'));
     }

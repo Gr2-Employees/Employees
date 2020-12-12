@@ -24,6 +24,6 @@ class Vacancy extends Entity
      * @var array
      */
     protected $_accessible = [
-        'quantity' => true,
+        'quantity' => false,
     ];
 }
