@@ -28,11 +28,11 @@ class EmployeesController extends AppController
         //Préparer, modifier ces données
         $employees = $this->paginate($employees);
 
-        $cellMenWomenRatio = $this->cell('Inbox');
+
 
         //Envoyer vers la vue
         $this->set('employees',$employees);
-        $this->set('cellMenWomenRatio',$cellMenWomenRatio);
+
     }
 
     /**
