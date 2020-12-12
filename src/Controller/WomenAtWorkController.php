@@ -110,45 +110,44 @@ class WomenAtWorkController extends AppController
             $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
             $cpt++;
         }
-/**
+        /**
          * Récupération des 3 départements ayant le plus de femmes (nombre)
-         */
-        $query = $this->getTableLocator()->get('departments')
-            ->find()
-            ->select([
-                'departments.dept_name',
-                'departments.dept_no',
-            ])
-         
-            ->join([
-                'deptemp' => [
-                    'table' => 'dept_emp',
-                    'conditions' => 'deptemp.dept_no = departments.dept_no'
-                ],
+         * Pas implémenté car la requête prend trop de temps à générer le résultat
+         *  -> nombres trop importants d'employés
+         * Résults :
+         * dept_no    dept_name    nbFemales
+         *   d005    Development    34258
+         *   d004    Production     29549
+         *   d007    Sales          20854
+
+
+            $query = $this->getTableLocator()->get('dept_emp')->find();
+            $query->select([
+                'dept_emp.dept_no',
+                'nbFemales' => $query->func()->count('em.emp_no')
             ])
             ->join([
                 'em' => [
                     'table' => 'employees',
-                    'conditions' => 'em.emp_no = deptemp.emp_no'
+                    'conditions' => 'em.emp_no = dept_emp.emp_no'
                 ],
+                'dep' => [
+                    'table' => 'departments',
+                    'conditions' => 'dep.dept_no = dept_emp.dept_no'
+                ]
             ])
             ->where([
                 'em.gender' => 'F'
-
             ])
+            ->group([
+                'dep.dept_no'
+            ])
+            ->orderDesc('nbFemales')
             ->limit(3);
 
-        $results = $query->all();
-var_dump($results);
-        $femaleDept = [];
-        $cpt = 0;
+             $descNbWomen = $query->all();
+         */
 
-        foreach ($results as $row) {
-            $femaleDept[] = $row["dept_name"] . " ". $row["dept_no"];
-            $cpt++; 
-            
-        }
-        var_dump($femaleDept);      
         $this
             ->set(compact('pctWomen'))
             ->set(compact('pctMen'))

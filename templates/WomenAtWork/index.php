@@ -41,6 +41,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <!-- Obligé de mettre ce script ici pour pouvoir manipuler les données de La DDB -->
 <script>
     const pieChart = document.getElementById('womenPieChart').getContext('2d');
@@ -79,16 +80,20 @@
 
         // The data for our dataset
         data: {
-            labels: [<?php foreach ($arrYears as $year) {
-                echo $year . ',';
+            labels: [ <?php if (isset($arrYears)) {
+                foreach ($arrYears as $year) {
+                    echo $year . ',';
+                }
             } ?>
             ],
             datasets: [{
                 label: 'Femmes dans l\'entreprise',
                 backgroundColor: 'transparent',
                 borderColor: 'rgb(252,138,233)',
-                data: [<?php foreach ($arrWomen as $nb) {
-                    echo $nb . ',';
+                data: [ <?php if (isset($arrWomen)) {
+                    foreach ($arrWomen as $nb) {
+                        echo $nb . ',';
+                    }
                 } ?>
                 ]
             }]
