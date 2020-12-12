@@ -110,7 +110,45 @@ class WomenAtWorkController extends AppController
             $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
             $cpt++;
         }
+/**
+         * Récupération des 3 départements ayant le plus de femmes (nombre)
+         */
+        $query = $this->getTableLocator()->get('departments')
+            ->find()
+            ->select([
+                'departments.dept_name',
+                'departments.dept_no',
+            ])
+         
+            ->join([
+                'deptemp' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deptemp.dept_no = departments.dept_no'
+                ],
+            ])
+            ->join([
+                'em' => [
+                    'table' => 'employees',
+                    'conditions' => 'em.emp_no = deptemp.emp_no'
+                ],
+            ])
+            ->where([
+                'em.gender' => 'F'
 
+            ])
+            ->limit(3);
+
+        $results = $query->all();
+var_dump($results);
+        $femaleDept = [];
+        $cpt = 0;
+
+        foreach ($results as $row) {
+            $femaleDept[] = $row["dept_name"] . " ". $row["dept_no"];
+            $cpt++; 
+            
+        }
+        var_dump($femaleDept);      
         $this
             ->set(compact('pctWomen'))
             ->set(compact('pctMen'))
