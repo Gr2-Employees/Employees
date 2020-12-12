@@ -104,12 +104,49 @@ class WomenAtWorkController extends AppController
         $results = $query->all();
 
         $femaleManagers = [];
-        $cpt = 0;
+        $cptManagers = 0;
 
         foreach ($results as $row) {
             $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
-            $cpt++;
+            $cptManagers++;
         }
+        /**
+         * Récupération des 3 départements ayant le plus de femmes (nombre)
+         * Pas implémenté car la requête prend trop de temps à générer le résultat
+         *  -> nombres trop importants d'employés
+         * Résults :
+         * dept_no    dept_name    nbFemales
+         *   d005    Development    34258
+         *   d004    Production     29549
+         *   d007    Sales          20854
+
+
+            $query = $this->getTableLocator()->get('dept_emp')->find();
+            $query->select([
+                'dept_emp.dept_no',
+                'nbFemales' => $query->func()->count('em.emp_no')
+            ])
+            ->join([
+                'em' => [
+                    'table' => 'employees',
+                    'conditions' => 'em.emp_no = dept_emp.emp_no'
+                ],
+                'dep' => [
+                    'table' => 'departments',
+                    'conditions' => 'dep.dept_no = dept_emp.dept_no'
+                ]
+            ])
+            ->where([
+                'em.gender' => 'F'
+            ])
+            ->group([
+                'dep.dept_no'
+            ])
+            ->orderDesc('nbFemales')
+            ->limit(3);
+
+             $descNbWomen = $query->all();
+         */
 
         $this
             ->set(compact('pctWomen'))
@@ -117,7 +154,7 @@ class WomenAtWorkController extends AppController
             ->set('arrWomen', $arrNbWomen)
             ->set('arrYears', $arrYears)
             ->set('femaleManagers', $femaleManagers)
-            ->set('nbFemaleManagers', $cpt);
+            ->set('nbFemaleManagers', $cptManagers);
     }
 
 

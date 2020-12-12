@@ -14,19 +14,16 @@
 <body>
 <div id="main">
     <h1>Women At Work</h1>
-    <div id="presentationText">
+    <div id="WomenAtWork">
         <?= $this->Text->autoParagraph(
-            __('The organization began by offering a resource room equipped with job listings and library books
-                on women’s employment as well as holding seminars and workshops on career fields and career planning classes.
-                For about three decades, our organization has provided job skill training, employment preparation and job search services to thousands of job seekers.')
+            __('De nos jours, les femmes représentent 40% de l’effectif total au sein de notre banque UnitedSuite (31/12/2019).
+                Cela représente ' . $nbFemaleManagers . ' femmes managers dans la banque.
+                Elles exercent tous les métiers de la banque. Notre groupe s’attache à faire évoluer l’égalité professionnelle dans toutes ses sphères professionnelles.
+                Depuis 2011, il a ainsi développé un programme d’accompagnement des femmes vers les postes de cadres de direction.
+                C’est dans ce contexte que l’objectif de 30% de femmes senior managers a été atteint en 2014.
+                Pour 2021, l’objectif serais d’augmenter le nombre de femmes travaillant pour UnitedSuite à 50% et ainsi obtenir une paritée égale entre les hommes et les femmes dans notre banque.')
         ) ?>
 
-        <?= $this->Text->autoParagraph(
-            __('As per research, companies who have a higher number of women in their workforce have gained high financial
-                profits and productivity as their output, when compared to the companies which have fewer women employees. Being in this 21st century, where women have been equally capable and successful as men, gender diversity at
-                the workplace should be made a mandatory rule.
-                Moreover, the companies which have a diverse workforce are more successful when compared to other companies which are mostly male-dominated.')
-        ) ?>
     </div>
 
     <!-- Affichage des graphiques / Charts -->
@@ -41,6 +38,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <!-- Obligé de mettre ce script ici pour pouvoir manipuler les données de La DDB -->
 <script>
     const pieChart = document.getElementById('womenPieChart').getContext('2d');
@@ -79,16 +77,20 @@
 
         // The data for our dataset
         data: {
-            labels: [<?php foreach ($arrYears as $year) {
-                echo $year . ',';
+            labels: [ <?php if (isset($arrYears)) {
+                foreach ($arrYears as $year) {
+                    echo $year . ',';
+                }
             } ?>
             ],
             datasets: [{
                 label: 'Femmes dans l\'entreprise',
                 backgroundColor: 'transparent',
                 borderColor: 'rgb(252,138,233)',
-                data: [<?php foreach ($arrWomen as $nb) {
-                    echo $nb . ',';
+                data: [ <?php if (isset($arrWomen)) {
+                    foreach ($arrWomen as $nb) {
+                        echo $nb . ',';
+                    }
                 } ?>
                 ]
             }]
