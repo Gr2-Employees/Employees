@@ -6,9 +6,9 @@
 ?>
 <div class="vacancies index content">
     <div id="TitlePage">
+        <h2>Page Hire</h2>
         <?php if (isset($vacancyName) && !is_null($vacancies)) { ?>
         <h4> <?= __('Vacant position(s) in department of ') . h($vacancyName) ?></h4>
-
     </div>
 
     <div id="tableVacancies">
@@ -26,7 +26,8 @@
                             echo $this->Html->link(__('Hire me !'), [
                                 'action' => 'applyOffer',
                                 '?' => [
-                                    'title' => $vacancy->title_no
+                                    'title_no' => $vacancy->title_no,
+                                    'dept_no' => $vacancy->dept_no
                                 ],
                             ]);
                         } ?>
@@ -36,7 +37,11 @@
         </table>
     </div>
     <?php } else { ?>
-        <h4>Page Hire</h4>
+
         <?= $this->Flash->render() ?>
+        <?= $this->Html->link(__('Back to Departments'), [
+            'controller' => 'departments',
+            'action' => 'index'
+        ]) ?>
     <?php } ?>
 </div>
