@@ -65,7 +65,7 @@
                             [
                                 'controller' => 'Vacancies',
                                 'action' => 'showOffers',
-                                '?' => ['dept' => $department->dept_no],
+                                '?' => ['dept_no' => $department->dept_no],
                                 'class' => 'btn btn-success',
                                 'style' => 'float: right',
                                 'target' => '_blank'
