@@ -63,11 +63,15 @@ class VacanciesController extends AppController
             ])
             ->all();
 
+
         if (!is_null($vacancies->first())) {
+            $nbVacancies = $vacancies->count();
             $vacancyName = $vacancies->first()->name;
 
-            $this->set(compact('vacancies'));
-            $this->set(compact('vacancyName'));
+            $this
+                ->set(compact('vacancies'))
+                ->set(compact('nbVacancies'))
+                ->set(compact('vacancyName'));
         } else {
             $this->Flash->set(__('No vacant position in this department.'), [
                 'element' => 'error'
@@ -119,11 +123,12 @@ class VacanciesController extends AppController
                         ->where([
                             'dept_no' => $dept_no,
                             'to_date' => '9999-01-01'
-                        ]);
+                        ])
+                        ->first();
 
                     // Manager info
-                    $managerMail = $query->first()->email;
-                    $managerName = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+                    $managerMail = $query->email;
+                    $managerName = $query->em['first_name'] . ' ' . $query->em['last_name'];
 
                     // User info
                     $from = $formData['email'];
@@ -137,9 +142,11 @@ class VacanciesController extends AppController
                         ])
                         ->where([
                             'title_no' => $formData['title_no']
-                        ]);
 
-                    $titleName = $query->first()->title;
+                        ])
+                        ->first();
+
+                    $titleName = $query->title;
 
                     // Setting up mail body
                     $mailBody = __('I am '
