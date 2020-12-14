@@ -23,12 +23,17 @@
                     <td><?= $vacancy->amount ?></td>
                     <td>
                         <?php if ($vacancy->amount !== '0') {
-                            echo $this->Html->link(__('Hire me !'), [
+                            echo $this->Html->link(__('Hire me !'), 
+                            [
                                 'action' => 'applyOffer',
                                 '?' => [
                                     'title_no' => $vacancy->title_no,
                                     'dept_no' => $vacancy->dept_no
-                                ],
+                                ]
+                            ],
+                            [
+                                'class' => 'btn btn-success',
+                                'style' => 'float: right'
                             ]);
                         } ?>
                     </td>
