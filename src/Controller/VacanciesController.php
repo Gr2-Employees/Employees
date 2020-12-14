@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Validation\Validator;
 use Laminas\Diactoros\UploadedFile;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -82,7 +83,6 @@ class VacanciesController extends AppController
 
         if ($this->request->is('post')) {
             $formData = $this->request->getData();
-
             if (!empty($formData)
                 && !empty($formData['dept_no'])
                 && !empty($formData['title_no'])
@@ -93,88 +93,97 @@ class VacanciesController extends AppController
                 && !empty($formData['motivations'])
                 && !empty($_FILES['file']['size']))
             {
-                // Copy uploaded file to local folder
-                $file = $formData['file'];
-                $uploadPath = '../webroot/files/uploads/';
-                $uploadedFile = $uploadPath . $file->getClientFileName();
-                $file->moveTo($uploadedFile);
+                // Check if file is .pdf or .word
+                if ($_FILES['file']['type'] === 'application/pdf' || $_FILES['file']['type'] === 'application/msword') {
+                    // Copy uploaded file to local folder
+                    $file = $formData['file'];
+                    $uploadPath = '../webroot/files/uploads/';
+                    $uploadedFile = $uploadPath . $file->getClientFileName();
+                    $file->moveTo($uploadedFile);
 
-                // Get manager's mail + name
-                $dept_no = $formData['dept_no'];
-                $query = $this->getTableLocator()->get('dept_manager')
-                    ->find()
-                    ->select([
-                        'email',
-                        'em.first_name',
-                        'em.last_name'
-                    ])
-                    ->join([
-                        'em' => [
-                            'table' => 'employees',
-                            'conditions' => 'em.emp_no = dept_manager.emp_no'
-                        ]
-                    ])
-                    ->where([
-                        'dept_no' => $dept_no,
-                        'to_date' => '9999-01-01'
-                    ]);
+                    // Get manager's mail + name
+                    $dept_no = $formData['dept_no'];
+                    $query = $this->getTableLocator()->get('dept_manager')
+                        ->find()
+                        ->select([
+                            'email',
+                            'em.first_name',
+                            'em.last_name'
+                        ])
+                        ->join([
+                            'em' => [
+                                'table' => 'employees',
+                                'conditions' => 'em.emp_no = dept_manager.emp_no'
+                            ]
+                        ])
+                        ->where([
+                            'dept_no' => $dept_no,
+                            'to_date' => '9999-01-01'
+                        ]);
 
-                // Manager info
-                $managerMail = $query->first()->email;
-                $managerName = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+                    // Manager info
+                    $managerMail = $query->first()->email;
+                    $managerName = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
 
-                // User info
-                $from = $formData['email'];
-                $eName = $formData['surname'] . ' ' . $formData['lastname'];
+                    // User info
+                    $from = $formData['email'];
+                    $eName = $formData['surname'] . ' ' . $formData['lastname'];
 
-                // Get position's name
-                $query = $this->getTableLocator()->get('titles')
-                    ->find()
-                    ->select([
-                        'title'
-                    ])
-                    ->where([
-                        'title_no' => $formData['title_no']
-                    ]);
+                    // Get position's name
+                    $query = $this->getTableLocator()->get('titles')
+                        ->find()
+                        ->select([
+                            'title'
+                        ])
+                        ->where([
+                            'title_no' => $formData['title_no']
+                        ]);
 
-                $titleName = $query->first()->title;
+                    $titleName = $query->first()->title;
 
-                // Setting up mail body
-                $mailBody = __('I am '
-                    . $eName . ' , born the ' . $formData['birthdate']
-                    . '. <br/> Here are my motivations :<br/>'
-                    . $formData['motivations']
-                );
+                    // Setting up mail body
+                    $mailBody = __('I am '
+                        . $eName . ' , born the ' . $formData['birthdate']
+                        . '. <br/> Here are my motivations :<br/>'
+                        . $formData['motivations']
+                    );
 
-                // Send email to manager
-                $mail = new PHPMailer(true);
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'nathandeltour2@gmail.com';
-                $mail->Password = 'hjalmmwupbkasarw';
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
-                $mail->setFrom($from, $eName);
-                $mail->addAddress($managerMail, $managerName);
-                $mail->isHTML(true);
-                $mail->Subject = __('Applying for ' . $titleName . ' position');
-                $mail->Body = $mailBody;
-                $mail->addAttachment($uploadedFile, $eName . ' CV');
-                $mail->send();
+                    // Send email to manager
+                    $mail = new PHPMailer(true);
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'nathandeltour2@gmail.com';
+                    $mail->Password = 'hjalmmwupbkasarw';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port = 587;
+                    $mail->setFrom($from, $eName);
+                    $mail->addAddress($managerMail, $managerName);
+                    $mail->isHTML(true);
+                    $mail->Subject = __('Applying for ' . $titleName . ' position');
+                    $mail->Body = $mailBody;
+                    $mail->addAttachment($uploadedFile, $eName . ' CV');
+                    $mail->send();
 
-                if ($mail) {
-                    $this->Flash->set(__('Your mail has been sent to ' . $managerName . ' (manager). Thank you !'), [
-                        'element' => 'success'
-                    ]);
+                    if ($mail) {
+                        $this->Flash->set(__('Your mail has been sent to ' . $managerName . ' (manager). Thank you !'), [
+                            'element' => 'success'
+                        ]);
 
-                    $showForm = false;
+                        $showForm = false;
+                    } else {
+                        $this->Flash->set(__('An error occurred when sending your mail, please try again.'), [
+                            'element' => 'error',
+                        ]);
+
+                        // Show form again
+                        $showForm = true;
+                    }
                 } else {
-                    $this->Flash->set(__('An error occurred when sending your mail, please try again.'), [
+                    // If file isn't .pdf or .word
+                    $this->Flash->set(__('Please upload a PDF or Word file for your CV.'), [
                         'element' => 'error',
                     ]);
-
-                    // Show form again
                     $showForm = true;
                 }
             } else {
