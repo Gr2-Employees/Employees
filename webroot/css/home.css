@@ -96,9 +96,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-position: center;
     background-size: cover;
     position: relative;
-    -webkit-box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
-    -moz-box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
-    box-shadow: 0px 7px 14px 0px rgba(50, 50, 50, 0.75);
+    box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.50);
 }
 
 #div3-1 {
@@ -117,6 +116,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background: linear-gradient(90deg, rgba(255, 160, 181, 1) 0%, rgba(194, 108, 121, 1) 48%, rgba(214, 60, 82, 1) 100%);
     color: white;
     padding: 30px 30px 30px 50px;
+
 }
 
 #div4-2 {
@@ -150,10 +150,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
 
 #div5 {
     padding: 50px;
-    box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
-    -webkit-box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
-    -moz-box-shadow: -1px -10px 12px -1px rgba(0, 0, 0, 0.36);
-
+    box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.51);
+    -webkit-box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.51);
 }
 
 #divCadre {
