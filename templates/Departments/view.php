@@ -59,6 +59,7 @@
                     <th><?= __('Number of available positions') ?></th>
                     <td>
                         <?= h($department->nbVacants) . ' ' . __('positions') ?>
+                        <?php if (h($department->nbVacants) !== 0) { ?>
                         <?= $this->Html->link(
                             'Apply for a position',
                             [
@@ -71,6 +72,7 @@
                                 'style' => 'float: right',
                                 'target' => '_blank'
                             ]) ?>
+                        <?php } ?>
                     </td>
                 </tr>
                 <!-- Fichier ROI du département (fichier unique) -->

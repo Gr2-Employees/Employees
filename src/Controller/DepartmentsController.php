@@ -72,7 +72,12 @@ class DepartmentsController extends AppController
             ])
             ->first();
 
-        $nbVacants = $query->quantity;
+        if (is_null($query)) {
+            // If no vacant spot
+            $nbVacants = 0;
+        } else {
+            $nbVacants = $query->quantity;
+        }
 
         /**
          * Récupération de la photo du manager
