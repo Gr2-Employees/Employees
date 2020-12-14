@@ -56,17 +56,17 @@
                 </tr>
                 <!-- Nombre de postes vacants -->
                 <tr>
-                    <th><?= __('Number of empty positions') ?></th>
+                    <th><?= __('Number of available positions') ?></th>
                     <td>
-                        <?= h($department->nbVacants) . ' ' . __('employees') ?>
-                        <!-- TODO: LIEN POUR POSTULER -> VERS VUE ?-->
+                        <?= h($department->nbVacants) . ' ' . __('positions') ?>
                         <?= $this->Html->link(
-                            'Postuler',
+                            'Apply for a position',
                             [
                                 'controller' => 'Vacancies',
                                 'action' => 'showOffers',
-                                '?' => ['dept_no' => $department->dept_no],
-                                'class' => 'btn btn-success',
+                                '?' => ['dept_no' => $department->dept_no]
+                            ], [
+                                'class' => 'btn btn-primary',
                                 'style' => 'float: right',
                                 'target' => '_blank'
                             ]) ?>

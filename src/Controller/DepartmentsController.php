@@ -59,26 +59,20 @@ class DepartmentsController extends AppController
 
         /**
          * Nombres de postes vacants
-         *  -> Utiliser le nombre d'employés par département ($nbEmpl)
-         *  -> Requête qui compte les postes ayant pour date '9999-01-01' (date 'actuelle') en fonction du département
-         *  -> Différence de $nbEmpl avec le résultat obtenu
+         *  -> Récupérer le dept_no
+         *  -> Fetch le résultat
          */
+        $query = $this->getTableLocator()->get('vacancies')
+            ->find()
+            ->select([
+                'quantity'
+            ])
+            ->where([
+                'dept_no' => $id
+            ])
+            ->first();
 
-        $query = $this->getTableLocator()->get('dept_emp')->find();
-
-        $query->select([
-            'count' => $query->func()->count('*')
-        ]);
-
-        $query->where([
-            'dept_emp.dept_no' => $id,
-            'to_date' => '9999-01-01'
-        ]);
-
-        $nbToDate = $query->first()->count;
-
-        // Nombre postes vacants = $nbEmpl - $nbToDate
-        $nbVacants = $nbEmpl - $nbToDate;
+        $nbVacants = $query->quantity;
 
         /**
          * Récupération de la photo du manager
