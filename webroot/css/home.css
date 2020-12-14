@@ -14,8 +14,8 @@ body {
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     z-index: 20;
     box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
-    -webkit-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
-    -moz-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
+    -webkit-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.50);
+    -moz-box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.50);
 }
 
 #logo-menu {

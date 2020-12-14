@@ -1,0 +1,15 @@
+.div-women-desc{
+    background-color: #2d8b9c;
+    padding:30px;
+}
+.col-text{
+    color: white;
+    margin: auto;
+}
+#womenPieChart{
+    height: 800px;
+}
+.row.div-chart {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}

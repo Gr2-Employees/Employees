@@ -29,10 +29,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
