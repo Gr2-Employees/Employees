@@ -2,9 +2,14 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+
+use Laminas\Diactoros\UploadedFile;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use Psr\Http\Message\UploadedFileFactoryInterface;
+use Cake\Routing\Asset;
+
 /**
  * Vacancies Controller
  *
@@ -28,10 +33,7 @@ class VacanciesController extends AppController
 
     public function showOffers()
     {
-        // TODO: code
-        // Get qString data
-
-        $dept_no = $this->request->getQuery('dept');
+        $dept_no = $this->request->getQuery('dept_no');
 
         $vacancies = $this->getTableLocator()->get('Vacancies')
             ->find()
@@ -39,7 +41,8 @@ class VacanciesController extends AppController
                 'amount' => 'vacancies.quantity',
                 'name' => 'de.dept_name',
                 'title' => 'ti.title',
-                'title_no' => 'ti.title_no'
+                'title_no' => 'ti.title_no',
+                'dept_no' => 'de.dept_no'
             ])
             ->join([
                 'ti' => [
@@ -73,42 +76,123 @@ class VacanciesController extends AppController
 
     public function applyOffer()
     {
-        $title_no = $this->request->getQuery('title');
-
-        $isFormSent = $this->request->is('post');
+        // Populate hidden fields
+        $title_no = $this->request->getQuery('title_no');
+        $dept_no = $this->request->getQuery('dept_no');
 
         if ($this->request->is('post')) {
-            // Send mail to manager
-            // temp mail pavajak211@pxjtw.com
-            $temp = 'hepomi3066@pxjtw.com';
-            // Get file sent by user
+            $formData = $this->request->getData();
 
-            $data = $this->request->getData();
+            if (!empty($formData)
+                && !empty($formData['dept_no'])
+                && !empty($formData['title_no'])
+                && !empty($formData['surname'])
+                && !empty($formData['lastname'])
+                && !empty($formData['email'])
+                && !empty($formData['birthdate'])
+                && !empty($formData['motivations'])
+                && !empty($_FILES['file']['size']))
+            {
+                // Copy uploaded file to local folder
+                $file = $formData['file'];
+                $uploadPath = '../webroot/files/uploads/';
+                $uploadedFile = $uploadPath . $file->getClientFileName();
+                $file->moveTo($uploadedFile);
 
-            // Retrieve user info
-            $from = $data['email'];
-            $name = $data['surname'] . ' ' . $data['lastname'];
+                // Get manager's mail + name
+                $dept_no = $formData['dept_no'];
+                $query = $this->getTableLocator()->get('dept_manager')
+                    ->find()
+                    ->select([
+                        'email',
+                        'em.first_name',
+                        'em.last_name'
+                    ])
+                    ->join([
+                        'em' => [
+                            'table' => 'employees',
+                            'conditions' => 'em.emp_no = dept_manager.emp_no'
+                        ]
+                    ])
+                    ->where([
+                        'dept_no' => $dept_no,
+                        'to_date' => '9999-01-01'
+                    ]);
 
-            // Get manager email
-            $mail = new PHPMailer(true);
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'nathandeltour2@gmail.com';
-            $mail->Password = 'hjalmmwupbkasarw';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-            $mail->setFrom('nathandeltour2@gmail.com', 'Me');
-            $mail->addAddress('hepomi3066@pxjtw.com', 'Joe Reagan');
-            $mail->isHTML(true);
-            $mail->Subject = 'Subject 123';
-            $mail->Body = 'Body 123';
-            $mail->send();
+                // Manager info
+                $managerMail = $query->first()->email;
+                $managerName = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
 
+                // User info
+                $from = $formData['email'];
+                $eName = $formData['surname'] . ' ' . $formData['lastname'];
+
+                // Get position's name
+                $query = $this->getTableLocator()->get('titles')
+                    ->find()
+                    ->select([
+                        'title'
+                    ])
+                    ->where([
+                        'title_no' => $formData['title_no']
+                    ]);
+
+                $titleName = $query->first()->title;
+
+                // Setting up mail body
+                $mailBody = __('I am '
+                    . $eName . ' , born the ' . $formData['birthdate']
+                    . '. <br/> Here are my motivations :<br/>'
+                    . $formData['motivations']
+                );
+
+                // Send email to manager
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'nathandeltour2@gmail.com';
+                $mail->Password = 'hjalmmwupbkasarw';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
+                $mail->setFrom($from, $eName);
+                $mail->addAddress($managerMail, $managerName);
+                $mail->isHTML(true);
+                $mail->Subject = __('Applying for ' . $titleName . ' position');
+                $mail->Body = $mailBody;
+                $mail->addAttachment($uploadedFile, $eName . ' CV');
+                $mail->send();
+
+                if ($mail) {
+                    $this->Flash->set(__('Your mail has been sent to ' . $managerName . ' (manager). Thank you !'), [
+                        'element' => 'success'
+                    ]);
+
+                    $showForm = false;
+                } else {
+                    $this->Flash->set(__('An error occurred when sending your mail, please try again.'), [
+                        'element' => 'error',
+                    ]);
+
+                    // Show form again
+                    $showForm = true;
+                }
+            } else {
+                $this->Flash->set(__('Please make sure to fill in all the informations.'), [
+                    'element' => 'error',
+                ]);
+
+                $showForm = true;
+            }
+        } else {
+            // Show form if user hasn't clicked Submit button
+            $showForm = true;
         }
 
-        $this->set(compact('isFormSent'));
+        $this
+            ->set(compact('showForm'))
+            ->set(compact('dept_no'))
+            ->set(compact('title_no'));
     }
 
     /**
