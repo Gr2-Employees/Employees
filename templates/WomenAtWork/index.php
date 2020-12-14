@@ -26,7 +26,7 @@
             ) ?>
         </div>
         <div class="col-6">
-            <?= $this->Html->image('/img/womenAtWork-page.jpg') ?>
+            <?= $this->Html->image('/img/womenAtWork-page.jpg',["id"=>"women-pic"]) ?>
         </div>
     </div>
 
