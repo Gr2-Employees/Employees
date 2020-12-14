@@ -1,3 +1,8 @@
+body {
+    scroll-behavior: smooth;
+}
+
+
 @media (min-width: 640px){
     .row {
         flex-direction: row;

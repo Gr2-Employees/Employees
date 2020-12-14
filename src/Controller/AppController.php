@@ -14,9 +14,11 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Mailer\Mailer;
 
 /**
  * Application Controller

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'db9936415663d56d4bd9f7b8cfe1339bcf987c57',
+    'reference' => '3a9ca3970eb7f91ca984b9bc793e4cac94b90f8c',
     'name' => 'cakephp/app',
   ),
   'versions' => 
@@ -27,7 +27,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'db9936415663d56d4bd9f7b8cfe1339bcf987c57',
+      'reference' => '3a9ca3970eb7f91ca984b9bc793e4cac94b90f8c',
     ),
     'cakephp/bake' => 
     array (
@@ -425,6 +425,15 @@
       array (
       ),
       'reference' => '6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0',
+    ),
+    'phpmailer/phpmailer' => 
+    array (
+      'pretty_version' => 'v6.2.0',
+      'version' => '6.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e38888a75c070304ca5514197d4847a59a5c853f',
     ),
     'phpspec/prophecy' => 
     array (
