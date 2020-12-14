@@ -15,35 +15,29 @@
         </div>
     </aside>
 
-    <div class="column-80">
+    <div class="col-department">
         <div class="departments view content">
             <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
 
             <!-- Informations sur le manager -->
-            <div id="manager-container">
-                <div id="manager-info">
-                    <h4><?= __('Manager') ?></h4>
-                    <h5><?= h($department->manager_name) ?></h5>
+            <div id="manager-container" class="row">
+                <div id="manager-info" class="col-6">
+                    <h3><?= __('Manager') ?></h3>
+                    <h4><?= h($department->manager_name) ?></h4>
+                    <h3><?= __('Department number') ?></h3>
+                    <h4><?= h(strtoupper($department->dept_no)) ?></h4>
+
                 </div>
 
-                <div id="manager-pic">
+                <div id="manager-pic" class="col-6">
                     <?= $this->Html->image('/img/' . $department->picture, [
                         'alt' => 'Manager du département ' . $department->dept_name . '.',
-                        'width' => '300px',
-                        'height' => '300px',
-                        'class' => 'picture'
+                        'class' => 'manager-picture'
                     ]) ?>
                 </div>
+
             </div>
             <table>
-                <tr>
-                    <th><?= __('Number') ?></th>
-                    <td><?= h(strtoupper($department->dept_no)) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Name') ?></th>
-                    <td><?= h($department->dept_name) ?></td>
-                </tr>
                 <tr>
                     <th><?= __('Description') ?></th>
                     <td><?= h($department->description) ?></td>
@@ -54,17 +48,26 @@
                     <th><?= __('Number of employees') ?></th>
                     <td><?= h($department->nbEmpl) . ' ' . __('employees') ?></td>
                 </tr>
+
+                <!-- Fichier ROI du département (fichier unique) -->
+                <tr>
+                    <th><?= __('Internal regulations (ROI)') ?></th>
+                    <td><?= $this->Html->link(__('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
+                            'target' => '_blank'
+                        ]) ?></td>
+                </tr>
                 <!-- Nombre de postes vacants -->
                 <tr>
-                    <th><?= __('Amount of empty positions') ?></th>
-                    <td>
-                        <?php if ($department->nbVacants <=1) {
+                    <th><?php if ($department->nbVacants <=1) {
                             echo h($department->nbVacants) . ' ' . __('position available');
                         } else {
                             echo h($department->nbVacants) . ' ' . __('positions available');
                         } ?>
-                        <?php if (h($department->nbVacants) !== 0) { ?>
+                    </th>
+
+                    <td><?php if (h($department->nbVacants) !== 0) { ?>
                         <?= $this->Html->link(
+
                             'Apply for a position',
                             [
                                 'controller' => 'Vacancies',
@@ -72,19 +75,13 @@
                                 '?' => ['dept_no' => $department->dept_no]
                             ],
                             [
-                                'class' => 'btn btn-success',
-                                'style' => 'float: right',
+                                'class' => 'btn btn-submit',
                                 'target' => '_blank'
                             ]) ?>
-                        <?php } ?>
+                        <?php } else {
+                            echo __('No position available');
+                        } ?>
                     </td>
-                </tr>
-                <!-- Fichier ROI du département (fichier unique) -->
-                <tr>
-                    <th><?= __('Internal regulations (ROI)') ?></th>
-                    <td><?= $this->Html->link(__('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
-                            'target' => '_blank'
-                        ]) ?></td>
                 </tr>
             </table>
         </div>
