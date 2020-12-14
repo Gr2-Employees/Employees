@@ -56,9 +56,13 @@
                 </tr>
                 <!-- Nombre de postes vacants -->
                 <tr>
-                    <th><?= __('Number of available positions') ?></th>
+                    <th><?= __('Amount of empty positions') ?></th>
                     <td>
-                        <?= h($department->nbVacants) . ' ' . __('positions') ?>
+                        <?php if ($department->nbVacants <=1) {
+                            echo h($department->nbVacants) . ' ' . __('position available');
+                        } else {
+                            echo h($department->nbVacants) . ' ' . __('positions available');
+                        } ?>
                         <?php if (h($department->nbVacants) !== 0) { ?>
                         <?= $this->Html->link(
                             'Apply for a position',
