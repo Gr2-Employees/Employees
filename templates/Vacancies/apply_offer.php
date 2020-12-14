@@ -16,7 +16,8 @@
         <?= $this->Form->create(null, [
             'url' => [
                 'action' => 'applyOffer'
-            ]
+            ],
+            'type' => 'file'
         ]) ?>
 
         <!-- Hidden dept_no field-->
@@ -63,8 +64,9 @@
         ]) ?>
 
         <!-- File Input Word/PDF -->
-        <?= $this->Form->control('c-v', [
-            'type' => 'file'
+        <?= $this->Form->file('file', [
+            'type' => 'file',
+            'class' => 'form-control'
         ]) ?>
 
         <!-- Submit button -->
@@ -72,8 +74,10 @@
 
         <!-- End Form -->
         <?= $this->Form->end() ?>
+
     <?php } else { ?>
         <!-- Link back to homepage -->
+        <!-- TODO: Automatic Redirect after set time ?-->
         <div id="mailOutput">
             <?= $this->Html->link( __('Back Home'), '/', [
                 'controller' => 'Pages',
