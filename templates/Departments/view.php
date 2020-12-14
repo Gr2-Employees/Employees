@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row">
-    <aside class="column">
+<div class="row principal-row">
+    <aside class="col-aside">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Department'), ['action' => 'edit', $department->dept_no], ['class' => 'side-nav-item']) ?>
@@ -15,7 +15,7 @@
         </div>
     </aside>
 
-    <div class="column-responsive column-80">
+    <div class="column-80">
         <div class="departments view content">
             <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
 
@@ -65,8 +65,9 @@
                                 'controller' => 'Vacancies',
                                 'action' => 'showOffers',
                                 '?' => ['dept_no' => $department->dept_no]
-                            ], [
-                                'class' => 'btn btn-primary',
+                            ],
+                            [
+                                'class' => 'btn btn-success',
                                 'style' => 'float: right',
                                 'target' => '_blank'
                             ]) ?>
