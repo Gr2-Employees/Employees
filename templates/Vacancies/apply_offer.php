@@ -23,7 +23,7 @@
         <!-- Hidden dept_no field-->
         <?= $this->Form->hidden('dept_no', [
             'value' => $dept_no
-        ])?>
+        ]) ?>
 
         <!-- Hidden title_no field-->
         <?= $this->Form->hidden('title_no', [
@@ -64,9 +64,8 @@
         ]) ?>
 
         <!-- File Input Word/PDF -->
-        <?= $this->Form->file('file', [
-            'type' => 'file',
-            'class' => 'form-control'
+        <?= $this->Form->control('file', [
+            'type' => 'file'
         ]) ?>
 
         <!-- Submit button -->
@@ -79,7 +78,7 @@
         <!-- Link back to homepage -->
         <!-- TODO: Automatic Redirect after set time ?-->
         <div id="mailOutput">
-            <?= $this->Html->link( __('Back Home'), '/', [
+            <?= $this->Html->link(__('Back Home'), '/', [
                 'controller' => 'Pages',
                 'action' => 'display'
             ]) ?>
