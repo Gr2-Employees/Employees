@@ -1,8 +1,17 @@
 body {
     scroll-behavior: smooth;
 }
-
-
+#btn-login, #btn-signup, #btn-logout{
+    font-size: 15px;
+    padding-top: 8px;
+    width: 70px;
+}
+#btn-signup{
+    margin-left: 700px;
+}
+#btn-logout{
+    margin-left: 800px;
+}
 @media (min-width: 640px){
     .row {
         flex-direction: row;
@@ -10,7 +19,11 @@ body {
         width: 100%;
     }
 }
-
+.message{
+    margin-bottom: 0px !important;
+    position: relative !important;
+    z-index: 11;
+}
 nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     z-index: 20;
     box-shadow: 1px -1px 38px -3px rgba(117, 117, 117, 0.62);
