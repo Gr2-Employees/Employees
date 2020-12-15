@@ -74,17 +74,46 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Sign up'), ['class' => 'btn btn-primary']) ?>
-            </li>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Log in'), ['class' => 'btn-submit']) ?>
-            </li>
+
+            <!-- Auth buttons -->
+            <?php if ($this->Identity->isLoggedIn()) { ?>
+
+                <!-- Logout Button -->
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Logout'), [
+                        'controller' => 'Users',
+                        'action' => 'logout'
+                    ], [
+                        'class' => 'btn btn-danger'
+                    ]) ?>
+                </li>
+            <?php } else { ?>
+
+                <!-- Sign up Button -->
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Sign up'), [
+                        'controller' => 'Users',
+                        'action' => 'add'
+                    ], [
+                        'class' => 'btn btn-primary'
+                    ]) ?>
+                </li>
+
+                <!-- Log In Button -->
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Login'), [
+                        'controller' => 'Users',
+                        'action' => 'login'
+                    ], [
+                        'class' => 'btn btn-primary'
+                    ]) ?>
+                </li>
+            <?php } ?>
         </ul>
     </div>
 </nav>
-    <?= $this->Flash->render() ?>
-    <?= $this->fetch('content') ?>
+<?= $this->Flash->render() ?>
+<?= $this->fetch('content') ?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '3a9ca3970eb7f91ca984b9bc793e4cac94b90f8c',
+    'reference' => '89169fc82bea833c025f3dea508802f96bc02634',
     'name' => 'cakephp/app',
   ),
   'versions' => 
@@ -50,7 +50,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '3a9ca3970eb7f91ca984b9bc793e4cac94b90f8c',
+      'reference' => '89169fc82bea833c025f3dea508802f96bc02634',
+    ),
+    'cakephp/authentication' => 
+    array (
+      'pretty_version' => '2.3.1',
+      'version' => '2.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0d7b2730393494e5111501284d99e4a9661e4b89',
     ),
     'cakephp/bake' => 
     array (
