@@ -1,0 +1,12 @@
+#form-login{
+    background-color: white;
+    margin: 20px auto auto auto;
+    border: 1px blue solid;
+    border-radius: 15px;
+    padding: 40px;
+    width: 50%;
+}
+#btn-form-login{
+    background-color: #2a6496 !important;
+    border-color: #2a6496 !important;
+}
