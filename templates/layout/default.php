@@ -74,6 +74,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
+            <li class="nav-item">
+                <?= $this->Html->link(__('Sign up'), ['class' => 'btn btn-primary']) ?>
+            </li>
+            <li class="nav-item">
+                <?= $this->Html->link(__('Log in'), ['class' => 'btn-submit']) ?>
+            </li>
         </ul>
     </div>
 </nav>
