@@ -32,7 +32,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork', 'user']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -79,36 +79,41 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <?php if ($this->Identity->isLoggedIn()) { ?>
 
                 <!-- Logout Button -->
-                <li class="nav-item">
+
                     <?= $this->Html->link(__('Logout'), [
                         'controller' => 'Users',
                         'action' => 'logout'
                     ], [
-                        'class' => 'btn btn-danger'
+                        'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                        'id' => 'btn-logout'
                     ]) ?>
-                </li>
+
             <?php } else { ?>
 
                 <!-- Sign up Button -->
-                <li class="nav-item">
+
                     <?= $this->Html->link(__('Sign up'), [
                         'controller' => 'Users',
                         'action' => 'add'
                     ], [
-                        'class' => 'btn btn-primary'
+                        'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                        'id' => 'btn-signup'
                     ]) ?>
-                </li>
+
 
                 <!-- Log In Button -->
-                <li class="nav-item">
+
                     <?= $this->Html->link(__('Login'), [
                         'controller' => 'Users',
                         'action' => 'login'
                     ], [
-                        'class' => 'btn btn-primary'
+                        'class' => 'btn btn-primary my-2 my-sm-0',
+                        'id' => 'btn-login'
                     ]) ?>
-                </li>
+
             <?php } ?>
+
+
         </ul>
     </div>
 </nav>
