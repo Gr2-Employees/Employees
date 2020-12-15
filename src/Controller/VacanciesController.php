@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Validation\Validator;
 use Laminas\Diactoros\UploadedFile;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use Psr\Http\Message\UploadedFileFactoryInterface;
-use Cake\Routing\Asset;
 
 /**
  * Vacancies Controller
@@ -79,8 +77,10 @@ class VacanciesController extends AppController
         }
     }
 
-    public function applyOffer()
-    {
+    public function applyOffer() {
+        // Init form value
+        $showForm = true;
+
         // Populate hidden fields
         $title_no = $this->request->getQuery('title_no');
         $dept_no = $this->request->getQuery('dept_no');
@@ -99,6 +99,7 @@ class VacanciesController extends AppController
             {
                 // Check if file is .pdf or .word
                 if ($_FILES['file']['type'] === 'application/pdf' || $_FILES['file']['type'] === 'application/msword') {
+
                     // Copy uploaded file to local folder
                     $file = $formData['file'];
                     $uploadPath = '../webroot/files/uploads/';
@@ -173,11 +174,16 @@ class VacanciesController extends AppController
                     $mail->send();
 
                     if ($mail) {
-                        $this->Flash->set(__('Your mail has been sent to ' . $managerName . ' (manager). Thank you !'), [
+                        $this->Flash->set(__('Your mail has been sent to ' . $managerName . ' (manager of department ' . $dept_no . '). Thank you !'), [
                             'element' => 'success'
                         ]);
 
-                        $showForm = false;
+                        // Redirect to dept view if mail has been successfully sent.
+                        $this->redirect([
+                            'controller' => 'Departments',
+                            'action' => 'view',
+                            $dept_no
+                        ]);
                     } else {
                         $this->Flash->set(__('An error occurred when sending your mail, please try again.'), [
                             'element' => 'error',
