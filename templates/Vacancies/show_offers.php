@@ -37,7 +37,7 @@
                                 ],
                                 [
                                     'class' => 'btn btn-submit',
-                                    'style' => 'float: right'
+                                    
                                 ]);
                         } ?>
                     </td>
