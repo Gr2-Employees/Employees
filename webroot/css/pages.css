@@ -1,0 +1,15 @@
+#who-are-we-background{
+    background-image: url("/img/who-are-we.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 800px;
+}
+#who-are-we-content{
+    background-color: white;
+    opacity: 0.95;
+    margin: auto;
+    padding: 50px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
+    box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
+}
