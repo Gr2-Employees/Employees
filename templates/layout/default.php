@@ -70,14 +70,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 </div>
             </li>
 
+            <!-- Lien vers la page Employees -->
+            <?php if ($this->Identity->isLoggedIn()) { ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/employees') ?>">Employees</a>
             </li>
+            <?php } ?>
 
+            <!-- Lien vers la page Departments -->
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/departments') ?>">Departments</a>
             </li>
 
+            <!-- Lien vers la page Women at Work -->
             <li class="nav-item">
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
