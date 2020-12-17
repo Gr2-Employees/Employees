@@ -116,6 +116,16 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'queryParam' => 'redirect',
         ]);
 
+        $adminAuthService = new AuthenticationService([
+            'unauthenticatedRedirect' => \Cake\Routing\Router::url([
+                'prefix' => 'Admin',
+                'controller' => 'Users',
+                'action' => 'login'
+            ]),
+            'queryParam' => 'redirect',
+        ]);
+
+
         // Load identifiers, ensure we check email and password fields
         $authenticationService->loadIdentifier('Authentication.Password', [
             'fields' => [
@@ -137,6 +147,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'action' => 'login',
                 'plugin' => null
             ]),
+
         ]);
 
         return $authenticationService;

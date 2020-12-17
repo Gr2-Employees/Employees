@@ -10,5 +10,7 @@
         </fieldset>
         <?= $this->Form->submit(__('Login'), ["id" => "btn-form-login"]); ?>
         <?= $this->Form->end() ?>
+
+        <?= $this->Html->link("Add User", ['action' => 'add']) ?>
     </div>
 </div>

@@ -15,7 +15,7 @@ declare(strict_types=1);
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Cake\Controller\Controller;
 use Cake\Mailer\Mailer;
@@ -52,6 +52,6 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
         $this->loadComponent('Authentication.Authentication');
-        $this->Authentication->addUnauthenticatedActions(['index', 'display', 'show_offers', 'apply_offers', 'login']);
+        $this->Authentication->addUnauthenticatedActions(['login']);
     }
 }

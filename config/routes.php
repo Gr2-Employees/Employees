@@ -23,6 +23,7 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
 
 /*
  * The default class to use for all routes
@@ -50,6 +51,16 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, templates/Pages/home.php)...
      */
+
+    // Back-office
+    Router::prefix('admin', function (RouteBuilder $routes) {
+        $routes->connect('/', [
+            'controller' => 'Users',
+            'action' => 'login'
+        ]);
+        $routes->fallbacks(DashedRoute::class);
+    });
+
     $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
     $builder->connect('/aboutUs', ['controller' => 'Pages', 'action' => 'display', 'aboutUs']);
     $builder->connect('/news', ['controller' => 'Pages', 'action' => 'display', 'news']);
@@ -58,7 +69,6 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $builder->connect('/pages/*', 'Pages::display');
-
     /*
      * Connect catchall routes for all controllers.
      *
@@ -82,10 +92,10 @@ $routes->scope('/', function (RouteBuilder $builder) {
  * ```
  * $routes->scope('/api', function (RouteBuilder $builder) {
  *     // No $builder->applyMiddleware() here.
- *     
+ *
  *     // Parse specified extensions from URLs
  *     // $builder->setExtensions(['json', 'xml']);
- *     
+ *
  *     // Connect API actions here.
  * });
  * ```
