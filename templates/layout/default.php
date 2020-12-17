@@ -32,7 +32,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork', 'user']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork', 'user', 'pages']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -58,7 +58,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="font-size: 1.3rem;">
                     <ul id="dropdown-list" style="list-style: none">
                         <li><?= $this->Html->linkFromPath('Who are we ?', 'Pages::aboutUs', ['class' => 'dropdown-item']) ?></li>
-                        <li><?= $this->Html->linkFromPath('News', 'Pages::news', ['class' => 'dropdown-item']) ?></li>
+                        <li><?= $this->Html->link('News', '/#news', [
+                                "controller" => "Pages",
+                                "action" => "display"
+                            ]) ?></li>
+                        <li><?= $this->Html->link('Partners', '/#partners', [
+                                "controller" => "Pages",
+                                "action" => "display"
+                            ]) ?></li>
                     </ul>
                 </div>
             </li>
@@ -80,36 +87,36 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
                 <!-- Logout Button -->
 
-                    <?= $this->Html->link(__('Logout'), [
-                        'controller' => 'Users',
-                        'action' => 'logout'
-                    ], [
-                        'class' => 'btn btn-outline-primary my-2 my-sm-0',
-                        'id' => 'btn-logout'
-                    ]) ?>
+                <?= $this->Html->link(__('Logout'), [
+                    'controller' => 'Users',
+                    'action' => 'logout'
+                ], [
+                    'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                    'id' => 'btn-logout'
+                ]) ?>
 
             <?php } else { ?>
 
                 <!-- Sign up Button -->
 
-                    <?= $this->Html->link(__('Sign up'), [
-                        'controller' => 'Users',
-                        'action' => 'add'
-                    ], [
-                        'class' => 'btn btn-outline-primary my-2 my-sm-0',
-                        'id' => 'btn-signup'
-                    ]) ?>
+                <?= $this->Html->link(__('Sign up'), [
+                    'controller' => 'Users',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                    'id' => 'btn-signup'
+                ]) ?>
 
 
                 <!-- Log In Button -->
 
-                    <?= $this->Html->link(__('Login'), [
-                        'controller' => 'Users',
-                        'action' => 'login'
-                    ], [
-                        'class' => 'btn btn-primary my-2 my-sm-0',
-                        'id' => 'btn-login'
-                    ]) ?>
+                <?= $this->Html->link(__('Login'), [
+                    'controller' => 'Users',
+                    'action' => 'login'
+                ], [
+                    'class' => 'btn btn-primary my-2 my-sm-0',
+                    'id' => 'btn-login'
+                ]) ?>
 
             <?php } ?>
 
