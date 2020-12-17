@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<div class="row">
-    <div class="column-responsive column-80">
+<div id="add-user-background" class="row">
+    <div class="col-add">
         <div class="users form content">
             <?= $this->Form->create($user) ?>
             <fieldset>
@@ -15,7 +15,7 @@
                     echo $this->Form->control('password');
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ["id" => "btn-form-add-user"]) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
