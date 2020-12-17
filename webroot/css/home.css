@@ -1,6 +1,9 @@
 body {
     scroll-behavior: smooth;
 }
+*{
+    scroll-behavior: smooth;
+}
 #btn-login, #btn-signup, #btn-logout{
     font-size: 15px;
     padding-top: 8px;
@@ -161,7 +164,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     }
 }
 
-#div5 {
+#news {
     padding: 50px;
     box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.51);
     -webkit-box-shadow: 1px -1px 43px 8px rgba(0, 0, 0, 0.51);
@@ -231,7 +234,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-color: white;
     margin-top: 7px;
     border-radius: 10px;
-    height: 80px;
 }
 
 .dropdown-menu.show a {
@@ -251,7 +253,7 @@ a:hover {
     text-decoration: none;
 }
 
-#div6 {
+#partners {
     background-image: url('../img/partners.png');
     background-size: cover;
     padding: 50px 50px 90px 50px;
@@ -266,7 +268,7 @@ a:hover {
     box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.26);
 }
 
-#div6 div h2 {
+#partners div h2 {
     text-align: center;
     margin-bottom: 50px;
     color: black;

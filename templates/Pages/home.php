@@ -77,7 +77,7 @@
         <div id="div4-2" class="col-5">
         </div>
     </div>
-    <div id="div5">
+    <div id="news">
         <div id="divTitle" class="col">
             <h2><?= __('Communiqués de presse') ?></h2>
         </div>
@@ -176,7 +176,7 @@
             </div>
         </div>
     </div>
-    <div id="div6" class="row">
+    <div id="partners" class="row">
         <div class="col-12">
             <h2>Partenaires</h2>
         </div>
