@@ -49,14 +49,42 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if (!empty($this->request->getData('email'))) {
+                if (!empty($this->request->getData('password'))) {
+                    if ($this->request->getData('password') === $this->request->getData('confPwd')) {
 
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+                        $query = $this->getTableLocator()->get('Users')
+                            ->find()
+                            ->select([
+                                'email'
+                            ])
+                            ->where([
+                                'email' => $this->request->getData('email')
+                            ])
+                            ->all();
 
-                return $this->redirect(['action' => 'index']);
+                        if (sizeof($query) === 0) {
+                            $user = $this->Users->patchEntity($user, $this->request->getData());
+                            if ($this->Users->save($user)) {
+                                $this->Flash->success(__('The user has been saved.'));
+
+                                return $this->redirect([
+                                    'action' => 'login'
+                                ]);
+                            }
+                            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                        } else {
+                            $this->Flash->error(__('This email is already taken'));
+                        }
+                    } else {
+                        $this->Flash->error(__('Passwords have to be the same'));
+                    }
+                } else {
+                    $this->Flash->error(__('Please enter a password'));
+                }
+            } else {
+                $this->Flash->error(__('Please enter an email'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
@@ -68,7 +96,8 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public
+    function edit($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => [],
@@ -92,7 +121,8 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public
+    function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
@@ -105,7 +135,8 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public
+    function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
@@ -113,7 +144,8 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
 
-    public function login()
+    public
+    function login()
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
@@ -133,7 +165,8 @@ class UsersController extends AppController
         }
     }
 
-    public function logout()
+    public
+    function logout()
     {
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in

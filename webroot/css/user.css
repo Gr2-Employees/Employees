@@ -1,37 +1,41 @@
-#login-background{
+#login-background {
     background-image: url("/img/login-background-min.jpg");
     background-size: cover;
-    height: 100vh;
+    height: 93vh;
     margin-top: -2rem;
 }
-#form-login{
+
+#form-login {
     background-color: white;
     opacity: 0.9;
     margin: 150px auto auto auto;
     border-radius: 15px;
     padding: 40px;
     width: 50%;
-    -webkit-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
-    box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.36);
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.36);
 }
-#btn-form-login, #btn-form-add-user{
+
+#btn-form-login, #btn-form-add-user {
     background-color: #2a6496 !important;
     border-color: #2a6496 !important;
 }
-.col-add{
+
+.col-add {
     margin: auto !important;
     width: 55%;
 }
-#add-user-background{
+
+#add-user-background {
     background-image: url("/img/add-user-background-min.jpg");
     background-size: cover;
-    height: 100vh;
+    height: 91vh;
     background-position: center;
 }
-.users.form.content{
-    height: 450px;
+
+.users.form.content {
     padding: 5rem;
     border-radius: 15px;
-    -webkit-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
-    box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.36);
+    -webkit-box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.36);
+    box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.36);
 }

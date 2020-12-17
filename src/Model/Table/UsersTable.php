@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -67,5 +69,11 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         return $validator;
+    }
+
+    public function beforeSave(Event $event, EntityInterface $entity) {
+        if (isset($entity['confPwd'])) {
+            unset($entity['confPwd']);
+        }
     }
 }
