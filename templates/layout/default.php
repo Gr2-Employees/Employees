@@ -91,7 +91,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <?php if ($this->Identity->isLoggedIn()) { ?>
 
                 <!-- Logout Button -->
-
                 <?= $this->Html->link(__('Logout'), [
                     'controller' => 'Users',
                     'action' => 'logout'
