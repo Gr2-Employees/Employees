@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+
 /**
  * Users Controller
  *
@@ -96,8 +98,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public
-    function edit($id = null)
+    public function edit($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => [],
@@ -121,8 +122,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public
-    function delete($id = null)
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
@@ -135,8 +135,7 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public
-    function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
@@ -144,13 +143,21 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
 
-    public
-    function login()
+    public function login()
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
+
+            if ($this->Authentication->getIdentity()->role === 'admin') {
+                return $this->redirect([
+                    'prefix' => 'Admin',
+                    'controller' => 'Users',
+                    'action' => 'index'
+                ]);
+            }
+
             // redirect to /articles after login success
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Pages',
@@ -165,8 +172,7 @@ class UsersController extends AppController
         }
     }
 
-    public
-    function logout()
+    public function logout()
     {
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
