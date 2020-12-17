@@ -1,7 +1,7 @@
 #login-background{
-    background-image: url("/img/login-background.jpg");
+    background-image: url("/img/login-background-min.jpg");
     background-size: cover;
-    height: 800px;
+    height: 100vh;
     margin-top: -2rem;
 }
 #form-login{
@@ -23,9 +23,9 @@
     width: 55%;
 }
 #add-user-background{
-    background-image: url("/img/add-user-background.jpg");
+    background-image: url("/img/add-user-background-min.jpg");
     background-size: cover;
-    height: 800px;
+    height: 100vh;
     background-position: center;
 }
 .users.form.content{
