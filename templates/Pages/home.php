@@ -293,7 +293,7 @@
         </div>
         <div class="row">
             <div style="text-align: center; color:white;" class="col">
-                &copy Nathan,Thomas et Radad
+                &copy Nathan, Thomas et Radad
             </div>
         </div>
     </div>
