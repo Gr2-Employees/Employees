@@ -32,8 +32,10 @@
                     <td><?= h($employee->hire_date) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $employee->emp_no]) ?>
+                        <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $employee->emp_no]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $employee->emp_no], ['confirm' => __('Are you sure you want to delete # {0}?', $employee->emp_no)]) ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

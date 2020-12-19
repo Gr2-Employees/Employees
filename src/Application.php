@@ -30,6 +30,7 @@ use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -108,23 +109,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $authenticationService = new AuthenticationService([
-            'unauthenticatedRedirect' => \Cake\Routing\Router::url([
+            'unauthenticatedRedirect' => Router::url([
                 'controller' => 'Users',
                 'action' => 'login',
                 'plugin' => null
             ]),
             'queryParam' => 'redirect',
         ]);
-
-        $adminAuthService = new AuthenticationService([
-            'unauthenticatedRedirect' => \Cake\Routing\Router::url([
-                'prefix' => 'Admin',
-                'controller' => 'Users',
-                'action' => 'login'
-            ]),
-            'queryParam' => 'redirect',
-        ]);
-
 
         // Load identifiers, ensure we check email and password fields
         $authenticationService->loadIdentifier('Authentication.Password', [
@@ -142,7 +133,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'username' => 'email',
                 'password' => 'password',
             ],
-            'loginUrl' => \Cake\Routing\Router::url([
+            'loginUrl' => Router::url([
                 'controller' => 'Users',
                 'action' => 'login',
                 'plugin' => null

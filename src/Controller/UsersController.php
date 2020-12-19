@@ -1,20 +1,28 @@
 <?php
+
+
 declare(strict_types=1);
 
 namespace App\Controller;
+
+use App\Model\Entity\User;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Event\EventInterface;
+use Cake\Http\Response;
 
 /**
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method User[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -27,8 +35,8 @@ class UsersController extends AppController
      * View method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Renders view
+     * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -42,9 +50,9 @@ class UsersController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function signup()
     {
         $user = $this->Users->newEmptyEntity();
 
@@ -93,11 +101,10 @@ class UsersController extends AppController
      * Edit method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
-    public
-    function edit($id = null)
+    public function edit($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => [],
@@ -118,11 +125,10 @@ class UsersController extends AppController
      * Delete method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
-    public
-    function delete($id = null)
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
@@ -135,8 +141,7 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public
-    function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         // Configure the login action to not require authentication, preventing
@@ -144,13 +149,21 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
 
-    public
-    function login()
+    public function login()
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
+
+            if ($this->Authentication->getIdentity()->role === 'admin') {
+                return $this->redirect([
+                    'prefix' => 'Admin',
+                    'controller' => 'Users',
+                    'action' => 'index'
+                ]);
+            }
+
             // redirect to /articles after login success
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Pages',
@@ -165,8 +178,7 @@ class UsersController extends AppController
         }
     }
 
-    public
-    function logout()
+    public function logout()
     {
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in

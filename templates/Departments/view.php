@@ -9,10 +9,13 @@
     <aside class="col-aside">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
+            <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
             <?= $this->Html->link(__('Edit Department'), ['action' => 'edit', $department->dept_no], ['class' => 'side-nav-item']) ?>
             <?= $this->Form->postLink(__('Delete Department'), ['action' => 'delete', $department->dept_no], ['confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
             <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
+            <?php endif; ?>
+
+            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
     <?php }?>
@@ -67,7 +70,7 @@
                 </tr>
                 <!-- Nombre de postes vacants -->
                 <tr>
-                    <th><?php if ($department->nbVacants <=1) {
+                    <th><?php if ($department->nbVacants <= 1) {
                             echo h($department->nbVacants) . ' ' . __('position available');
                         } else {
                             echo h($department->nbVacants) . ' ' . __('positions available');
@@ -75,18 +78,18 @@
                     </th>
 
                     <td><?php if (h($department->nbVacants) !== 0) { ?>
-                        <?= $this->Html->link(
+                            <?= $this->Html->link(
 
-                            'Apply for a position',
-                            [
-                                'controller' => 'Vacancies',
-                                'action' => 'showOffers',
-                                '?' => ['dept_no' => $department->dept_no]
-                            ],
-                            [
-                                'class' => 'btn btn-submit',
-                                'target' => '_blank'
-                            ]) ?>
+                                'Apply for a position',
+                                [
+                                    'controller' => 'Vacancies',
+                                    'action' => 'showOffers',
+                                    '?' => ['dept_no' => $department->dept_no]
+                                ],
+                                [
+                                    'class' => 'btn btn-submit',
+                                    'target' => '_blank'
+                                ]) ?>
                         <?php } else {
                             echo __('No position available');
                         } ?>
