@@ -52,7 +52,7 @@ class UsersController extends AppController
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function signup()
     {
         $user = $this->Users->newEmptyEntity();
 

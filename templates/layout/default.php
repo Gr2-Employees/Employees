@@ -105,7 +105,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
                 <?= $this->Html->link(__('Sign up'), [
                     'controller' => 'Users',
-                    'action' => 'add'
+                    'action' => 'signup'
                 ], [
                     'class' => 'btn btn-outline-primary my-2 my-sm-0',
                     'id' => 'btn-signup'
