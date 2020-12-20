@@ -54,6 +54,7 @@ class EmployeesTable extends Table
 
         $this->belongsToMany('Departments',[
             'joinTable' => 'dept_emp',
+            'targetForeignKey' => 'dept_no',
             'foreignKey' => 'emp_no',
             'bindingKey' => 'emp_no',
         ]);
