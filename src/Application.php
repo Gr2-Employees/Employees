@@ -32,12 +32,6 @@ use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
-use Authorization\AuthorizationService;
-use Authorization\AuthorizationServiceInterface;
-use Authorization\AuthorizationServiceProviderInterface;
-use Authorization\Middleware\AuthorizationMiddleware;
-use Authorization\Policy\OrmResolver;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Application setup class.
@@ -45,7 +39,7 @@ use Psr\Http\Message\ResponseInterface;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -60,7 +54,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         if (PHP_SAPI === 'cli') {
             $this->bootstrapCli();
         }
-        $this->addPlugin('Authorization');
         /*
          * Only try to load DebugKit in development mode
          * Debug Kit should not be installed on a production system
@@ -98,7 +91,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
             ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this))
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
@@ -169,11 +161,5 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
 
         // Load more plugins here
-    }
-    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
-    {
-        $resolver = new OrmResolver();
-
-        return new AuthorizationService($resolver);
     }
 }

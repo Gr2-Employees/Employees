@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
 use Cake\View\CellTrait;
 
 /**
@@ -22,9 +23,6 @@ class EmployeesController extends AppController
      */
     public function index()
     {
-        if ($this->Authentication->getIdentity() !== null) {
-            $this->Authorization->skipAuthorization();
-        }
         //Récupérer les données de la base de données
         $employees = $this->Employees;
 
@@ -93,25 +91,8 @@ class EmployeesController extends AppController
      */
     public function add()
     {
-        if ($this->Authentication->getIdentity()->get('role') === 'admin') {
-            $this->Authorization->skipAuthorization();
-        } else {
-            // TODO : $this->Authorization->skipAuthorization();
-            $this->Flash->set(__('You are not authorized to access this page.'), [
-                'element' => 'error'
-            ]);
-
-            return $this->redirect([
-                'controller' => 'Pages',
-                'action' => 'display'
-            ]);
-        }
-        //Récupérer => Créer
         $employee = $this->Employees->newEmptyEntity();
 
-        //Traitement
-        //Rien faire en GET
-        //Persister en POST
         if ($this->request->is('post')) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
             if ($this->Employees->save($employee)) {
@@ -135,12 +116,6 @@ class EmployeesController extends AppController
      */
     public function edit($id = null)
     {
-        if ($this->Authentication->getIdentity()['role'] === 'admin') {
-            $this->Authorization->skipAuthorization();
-        } else {
-            // TODO: skip error page
-        }
-
         $employee = $this->Employees->get($id, [
             'contain' => [],
         ]);

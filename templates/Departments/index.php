@@ -6,7 +6,11 @@
 ?>
 <div class="departments index content">
     <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) :?>
-    <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?= $this->Html->link(__('New Department'), [
+        'prefix' => 'Admin',
+        'controller' => 'Departments',
+        'action' => 'add'
+        ], ['class' => 'button float-right']) ?>
     <?php endif; ?>
     <h3><?= __('Departments') ?></h3>
     <div class="table-responsive">

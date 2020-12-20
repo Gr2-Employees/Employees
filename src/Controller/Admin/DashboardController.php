@@ -8,6 +8,7 @@ use App\Model\Entity\Department;
 use App\Model\Table\DepartmentsTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
@@ -25,12 +26,9 @@ class DashboardController extends AppController
      */
     public function index()
     {
-        if($this->Authentication->getIdentity()['role']==='admin'){
-            $this->Authorization->skipAuthorization();
-        }
-
         $welcomeMessage = '<h1>Welcome in the back-office!</h1>';
 
         $this->set(compact('welcomeMessage'));
     }
+
 }
