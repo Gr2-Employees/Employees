@@ -6,25 +6,27 @@
 //$cellMenWomenRatio = $this->cell('Inbox');
 ?>
 <div class="employees index content">
-    <?php if($this->Identity->get('role') === 'admin') :?>
-    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?php if ($this->Identity->get('role') === 'admin') : ?>
+        <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right']) ?>
     <?php endif; ?>
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('emp_no') ?></th>
-                    <th><?= $this->Paginator->sort('birth_date') ?></th>
-                    <th><?= $this->Paginator->sort('first_name') ?></th>
-                    <th><?= $this->Paginator->sort('last_name') ?></th>
-                    <th><?= $this->Paginator->sort('gender') ?></th>
-                    <th><?= $this->Paginator->sort('hire_date') ?></th>
+            <tr>
+                <th><?= $this->Paginator->sort('emp_no') ?></th>
+                <th><?= $this->Paginator->sort('birth_date') ?></th>
+                <th><?= $this->Paginator->sort('first_name') ?></th>
+                <th><?= $this->Paginator->sort('last_name') ?></th>
+                <th><?= $this->Paginator->sort('gender') ?></th>
+                <th><?= $this->Paginator->sort('hire_date') ?></th>
+                <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                     <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+                <?php endif; ?>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($employees as $employee): ?>
+            <?php foreach ($employees as $employee): ?>
                 <tr>
                     <td><?= $this->Number->format($employee->emp_no) ?></td>
                     <td><?= h($employee->birth_date) ?></td>
@@ -32,15 +34,16 @@
                     <td><?= h($employee->last_name) ?></td>
                     <td><?= h($employee->gender) ?></td>
                     <td><?= h($employee->hire_date) ?></td>
+                    <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $employee->emp_no]) ?>
-                        <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
+
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $employee->emp_no]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $employee->emp_no], ['confirm' => __('Are you sure you want to delete # {0}?', $employee->emp_no)]) ?>
                         <?php endif; ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>

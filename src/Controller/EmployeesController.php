@@ -22,7 +22,7 @@ class EmployeesController extends AppController
      */
     public function index()
     {
-        if($this->Authentication->getIdentity()!==null){
+        if ($this->Authentication->getIdentity() !== null) {
             $this->Authorization->skipAuthorization();
         }
         //Récupérer les données de la base de données
@@ -32,9 +32,8 @@ class EmployeesController extends AppController
         $employees = $this->paginate($employees);
 
 
-
         //Envoyer vers la vue
-        $this->set('employees',$employees);
+        $this->set('employees', $employees);
 
     }
 
@@ -48,18 +47,18 @@ class EmployeesController extends AppController
     public function view($id = null)
     {
         $employee = $this->Employees->get($id, [
-            'contain' => ['salaries','employee_title'],
+            'contain' => ['salaries', 'employee_title'],
         ]);
 
         $titles = $employee->employee_title;
         $today = new \DateTime();
-        foreach($titles as $title) {
+        foreach ($titles as $title) {
             $date = new \DateTime($title->to_date->format('Y-m-d'));
 
-            if($date > $today) {
+            if ($date > $today) {
                 $employee->fonction = $title->title_no;
 
-            }else if($date < $today){
+            } else if ($date < $today) {
                 $employee->fonction = $title->title_no;
             }
         }
@@ -94,10 +93,22 @@ class EmployeesController extends AppController
      */
     public function add()
     {
+        if ($this->Authentication->getIdentity()->get('role') === 'admin') {
+            $this->Authorization->skipAuthorization();
+        } else {
+            // TODO : $this->Authorization->skipAuthorization();
+            $this->Flash->set(__('You are not authorized to access this page.'), [
+                'element' => 'error'
+            ]);
+
+            return $this->redirect([
+                'controller' => 'Pages',
+                'action' => 'display'
+            ]);
+        }
         //Récupérer => Créer
         $employee = $this->Employees->newEmptyEntity();
 
-        $employee->password = hash($pass);
         //Traitement
         //Rien faire en GET
         //Persister en POST
@@ -124,6 +135,12 @@ class EmployeesController extends AppController
      */
     public function edit($id = null)
     {
+        if ($this->Authentication->getIdentity()['role'] === 'admin') {
+            $this->Authorization->skipAuthorization();
+        } else {
+            // TODO: skip error page
+        }
+
         $employee = $this->Employees->get($id, [
             'contain' => [],
         ]);
@@ -163,17 +180,5 @@ class EmployeesController extends AppController
 
         //Envoyer vers la vue: NON => Redirection
         return $this->redirect(['action' => 'index']);
-    }
-
-    public function getAllByGender(string $gender = 'f') {
-        //Récupérer les données
-        $employees = $this->Employees->findByGender($gender)->limit(10);
-
-        //Transformer
-        $employees = $this->paginate($employees);
-
-        //Envoyer à la vue
-        $this->set('employees',$employees);
-        $this->render('index'); //Définit un temlate spécifique
     }
 }
