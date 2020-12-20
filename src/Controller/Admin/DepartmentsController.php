@@ -4,20 +4,25 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use App\Model\Entity\Department;
+use App\Model\Table\DepartmentsTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 
 /**
  * Departments Controller
  *
- * @property \App\Model\Table\DepartmentsTable $Departments
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property DepartmentsTable $Departments
+ * @method Department[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class DepartmentsController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -30,11 +35,12 @@ class DepartmentsController extends AppController
      * View method
      *
      * @param string|null $id Department id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Renders view
+     * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
+
         $department = $this->Departments->get($id, [
             'contain' => [],
         ]);
@@ -135,10 +141,44 @@ class DepartmentsController extends AppController
         $this->set(compact('department'));
     }
 
+    public function showEmp($id = null)
+    {
+        $department = $this->Departments->get($id, [
+            'contain' => [],
+        ]);
+
+        $query = $this->getTableLocator()->get('dept_emp')
+            ->findAllByDeptNo($department->dept_no)
+            ->select([
+                'em.emp_no',
+                'em.birth_date',
+                'em.first_name',
+                'em.last_name',
+                'em.gender',
+                'em.hire_date',
+                'dept_emp.from_date',
+                'dept_emp.to_date'
+            ])
+            ->join([
+                'em' => [
+                    'table' => 'employees',
+                    'conditions' => 'dept_emp.emp_no = em.emp_no'
+                ]
+            ])
+            ->where([
+                'dept_emp.to_date' => '9999-01-01'
+            ])
+            ->limit(255);
+
+        $employees = $query->all();
+
+        $this->set(compact('employees'));
+    }
+
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -161,13 +201,13 @@ class DepartmentsController extends AppController
      * Edit method
      *
      * @param string|null $id Department id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
         $department = $this->Departments->get($id, [
-            'contain' => ['Employees'],
+            'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $department = $this->Departments->patchEntity($department, $this->request->getData());
@@ -178,16 +218,16 @@ class DepartmentsController extends AppController
             }
             $this->Flash->error(__('The department could not be saved. Please, try again.'));
         }
-        $employees = $this->Departments->Employees->find('list', ['limit' => 200]);
-        $this->set(compact('department', 'employees'));
+
+        $this->set(compact('department'));
     }
 
     /**
      * Delete method
      *
      * @param string|null $id Department id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {

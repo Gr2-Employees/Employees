@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Department;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,19 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Departments Model
  *
- * @method \App\Model\Entity\Department newEmptyEntity()
- * @method \App\Model\Entity\Department newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Department[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Department get($primaryKey, $options = [])
- * @method \App\Model\Entity\Department findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Department patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Department[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Department|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Department saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Department newEmptyEntity()
+ * @method Department newEntity(array $data, array $options = [])
+ * @method Department[] newEntities(array $data, array $options = [])
+ * @method Department get($primaryKey, $options = [])
+ * @method Department findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Department patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Department[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Department|false save(EntityInterface $entity, $options = [])
+ * @method Department saveOrFail(EntityInterface $entity, $options = [])
+ * @method Department[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Department[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Department[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Department[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class DepartmentsTable extends Table
 {
@@ -41,11 +44,6 @@ class DepartmentsTable extends Table
         $this->setDisplayField('dept_no');
         $this->setPrimaryKey('dept_no');
 
-        $this->belongsToMany('Employees', [
-            'joinTable' => 'dept_emp',
-            'foreignKey' => 'dept_no',
-            'bindingKey' => 'dept_no',
-        ]);
     }
 
     /**
