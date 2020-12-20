@@ -5,20 +5,44 @@
  */
 ?>
 <div class="row principal-row">
-    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') == 'admin'){ ?>
-    <aside class="col-aside">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
-            <?= $this->Html->link(__('Edit Department'), ['action' => 'edit', $department->dept_no], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Department'), ['action' => 'delete', $department->dept_no], ['confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-            <?php endif; ?>
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') == 'admin') { ?>
+        <aside class="col-aside">
+            <div class="side-nav">
+                <h4 class="heading"><?= __('Actions') ?></h4>
+                <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
+                    <!-- Button Edit Department-->
+                    <?= $this->Html->link(__('Edit Department'), [
+                        'prefix' => 'Admin',
+                        'controller' => 'Departments',
+                        'action' => 'edit',
+                        $department->dept_no
+                    ], ['class' => 'side-nav-item']) ?>
 
-            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <?php }?>
+                    <!-- Button Delete Department-->
+                    <?= $this->Form->postLink(__('Delete Department'), [
+                        'prefix' => 'Admin',
+                        'controller' => 'Departments',
+                        'action' => 'delete',
+                        $department->dept_no
+                    ], [
+                        'confirm' => __('Are you sure you want to delete # {0}?',
+                            $department->dept_no),
+                        'class' => 'side-nav-item']) ?>
+
+                    <!-- Button Add Department-->
+                    <?= $this->Html->link(__('New Department'), [
+                        'prefix' => 'Admin',
+                        'controller' => 'Departments',
+                        'action' => 'add'], [
+                        'class' => 'side-nav-item'
+                    ]) ?>
+
+                <?php endif; ?>
+
+                <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            </div>
+        </aside>
+    <?php } ?>
     <div class="col-department">
         <div class="departments view content">
             <div style="position: relative" class="row">
@@ -26,8 +50,8 @@
                 <?= $this->Html->link(__('<i></i>'), '/departments',
                     [
                         "class" => "far fa-2x fa-window-close",
-                        "style"  => "right:0;position:absolute",
-                        "escape"=> false
+                        "style" => "right:0;position:absolute",
+                        "escape" => false
                     ]) ?>
             </div>
 
