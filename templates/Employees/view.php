@@ -5,6 +5,7 @@
  */
 ?>
 <div class="row principal-row">
+    <?php if( $this->Identity->isLoggedIn() && $this->Identity->get('role') == 'admin' ){ ?>
     <aside class="col-aside">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
@@ -22,9 +23,16 @@
             <?= $this->Html->link(__('List Employees'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
+    <?php } ?>
     <div class="col-employee">
-        <div class="employees view content">
+        <div style="position: relative" class="employees view content">
             <h3><?= h($employee->emp_no) ?></h3>
+            <?= $this->Html->link(__('<i></i>'), 'employees/',
+                [
+                    "class" => "far fa-2x fa-window-close",
+                    "style"  => "right:30px;top:25px;position:absolute",
+                    "escape"=> false
+                ]) ?>
             <table>
                 <tr>
                     <th><?= __('First Name') ?></th>

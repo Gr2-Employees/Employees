@@ -5,6 +5,7 @@
  */
 ?>
 <div class="row principal-row">
+    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') == 'admin'){ ?>
     <aside class="col-aside">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
@@ -17,10 +18,18 @@
             <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
-
+    <?php }?>
     <div class="col-department">
         <div class="departments view content">
-            <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
+            <div style="position: relative" class="row">
+                <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
+                <?= $this->Html->link(__('<i></i>'), '/departments',
+                    [
+                        "class" => "far fa-2x fa-window-close",
+                        "style"  => "right:0;position:absolute",
+                        "escape"=> false
+                    ]) ?>
+            </div>
 
             <!-- Informations sur le manager -->
             <div id="manager-container" class="row">
