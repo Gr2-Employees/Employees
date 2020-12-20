@@ -54,10 +54,32 @@ class EmployeesController extends AppController
             $date = new \DateTime($title->to_date->format('Y-m-d'));
 
             if($date > $today) {
-                $employee->fonction = $title->title;
-                break;
+                $employee->fonction = $title->title_no;
+
+            }else if($date < $today){
+                $employee->fonction = $title->title_no;
             }
         }
+
+        $query = $this->getTableLocator()->get('titles')
+            ->find()
+            ->select([
+                'titles.title',
+            ])
+            ->join([
+                'e' => [
+                    'table' => 'employee_title',
+                    'conditions' => 'e.title_no = titles.title_no'
+                ]
+            ])
+            ->where([
+                'titles.title_no' => $employee->fonction,
+                'e.emp_no' => $id
+            ]);
+
+
+        $employee
+            ->set('fonction', $query->first()['title']);
 
         $this->set(compact('employee'));
     }

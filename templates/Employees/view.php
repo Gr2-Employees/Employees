@@ -58,6 +58,7 @@
                     <th><?= __('Hire Date') ?></th>
                     <td><?= h($employee->hire_date) ?></td>
                 </tr>
+
                 <tr>
                     <th><?= __('Function') ?></th>
                     <td><?= h($employee->fonction) ?></td>
