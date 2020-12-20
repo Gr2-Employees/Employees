@@ -142,9 +142,6 @@ class DepartmentsController extends AppController
      */
     public function add()
     {
-        if ($this->Authentication->getIdentity()['role'] === 'admin') {
-            $this->Authorization->skipAuthorization();
-        }
 
         $department = $this->Departments->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -169,9 +166,6 @@ class DepartmentsController extends AppController
      */
     public function edit($id = null)
     {
-        if ($this->Authentication->getIdentity()['role'] === 'admin') {
-            $this->Authorization->skipAuthorization();
-        }
         $department = $this->Departments->get($id, [
             'contain' => ['Employees'],
         ]);
@@ -197,9 +191,6 @@ class DepartmentsController extends AppController
      */
     public function delete($id = null)
     {
-        if ($this->Authentication->getIdentity()['role'] === 'admin') {
-            $this->Authorization->skipAuthorization();
-        }
         $this->request->allowMethod(['post', 'delete']);
         $department = $this->Departments->get($id);
         if ($this->Departments->delete($department)) {
