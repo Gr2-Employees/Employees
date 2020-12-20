@@ -6,7 +6,9 @@
 //$cellMenWomenRatio = $this->cell('Inbox');
 ?>
 <div class="employees index content">
+    <?php if($this->Identity->get('role') === 'admin') :?>
     <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?php endif; ?>
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>

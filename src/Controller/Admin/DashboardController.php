@@ -25,6 +25,10 @@ class DashboardController extends AppController
      */
     public function index()
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
+
         $welcomeMessage = '<h1>Welcome in the back-office!</h1>';
 
         $this->set(compact('welcomeMessage'));

@@ -23,7 +23,9 @@ class UsersController extends AppController
      * @return Response|null|void Renders view
      */
     public function index()
-    {
+    {   if($this->Authentication->getIdentity()['role']==='admin'){
+        $this->Authorization->skipAuthorization();
+    }
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -38,6 +40,9 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -52,6 +57,9 @@ class UsersController extends AppController
      */
     public function add()
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -74,6 +82,9 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
@@ -98,6 +109,9 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
@@ -111,6 +125,9 @@ class UsersController extends AppController
 
     public function login()
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
 
@@ -140,6 +157,9 @@ class UsersController extends AppController
 
     public function logout()
     {
+        if($this->Authentication->getIdentity()['role']==='admin'){
+            $this->Authorization->skipAuthorization();
+        }
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {

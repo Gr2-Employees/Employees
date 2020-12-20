@@ -42,7 +42,6 @@ class AppController extends Controller
     public function initialize(): void
     {
         parent::initialize();
-
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
@@ -53,5 +52,6 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
         $this->loadComponent('Authentication.Authentication');
         $this->Authentication->addUnauthenticatedActions(['login']);
+
     }
 }

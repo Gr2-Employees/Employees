@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '89169fc82bea833c025f3dea508802f96bc02634',
+    'reference' => '5c2faea5a62d33c8807672762c9fe7121a7adb1c',
     'name' => 'cakephp/app',
   ),
   'versions' => 
@@ -27,7 +27,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '89169fc82bea833c025f3dea508802f96bc02634',
+      'reference' => '5c2faea5a62d33c8807672762c9fe7121a7adb1c',
     ),
     'cakephp/authentication' => 
     array (
@@ -37,6 +37,15 @@
       array (
       ),
       'reference' => '0d7b2730393494e5111501284d99e4a9661e4b89',
+    ),
+    'cakephp/authorization' => 
+    array (
+      'pretty_version' => '2.0.5',
+      'version' => '2.0.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c9eb8b1b6c159e904ead3be86eebda055056fb61',
     ),
     'cakephp/bake' => 
     array (

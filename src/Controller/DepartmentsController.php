@@ -18,6 +18,7 @@ class DepartmentsController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $departments = $this->paginate($this->Departments);
 
 

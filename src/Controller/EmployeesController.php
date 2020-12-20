@@ -22,6 +22,9 @@ class EmployeesController extends AppController
      */
     public function index()
     {
+        if($this->Authentication->getIdentity()!==null){
+            $this->Authorization->skipAuthorization();
+        }
         //Récupérer les données de la base de données
         $employees = $this->Employees;
 

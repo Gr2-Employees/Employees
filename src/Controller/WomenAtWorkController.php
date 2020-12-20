@@ -16,6 +16,8 @@ class WomenAtWorkController extends AppController
 {
     public function index()
     {
+        $this->Authorization->skipAuthorization();
+
         /**
          * Comparaison du nombre de femmes et d'hommes dans l'entreprise
          */
