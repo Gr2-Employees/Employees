@@ -20,18 +20,6 @@ use Cake\Http\Response;
 class UsersController extends AppController
 {
     /**
-     * Index method
-     *
-     * @return Response|null|void Renders view
-     */
-    public function index()
-    {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
-    }
-
-    /**
      * View method
      *
      * @param string|null $id User id.
@@ -142,14 +130,6 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function beforeFilter(EventInterface $event)
-    {
-        parent::beforeFilter($event);
-        // Configure the login action to not require authentication, preventing
-        // the infinite redirect loop issue
-        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
-    }
-
     public function login()
     {
         $this->request->allowMethod(['get', 'post']);
@@ -195,5 +175,13 @@ class UsersController extends AppController
                 'action' => 'display'
             ]);
         }
+    }
+
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
 }

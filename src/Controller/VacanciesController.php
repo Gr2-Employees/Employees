@@ -17,19 +17,6 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
  */
 class VacanciesController extends AppController
 {
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $vacancies = $this->paginate($this->Vacancies);
-
-        $this->set(compact('vacancies'));
-    }
-
     public function showOffers()
     {
         $dept_no = $this->request->getQuery('dept_no');
@@ -215,22 +202,6 @@ class VacanciesController extends AppController
             ->set(compact('showForm'))
             ->set(compact('dept_no'))
             ->set(compact('title_no'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Vacancy id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $vacancy = $this->Vacancies->get($id, [
-            'contain' => [],
-        ]);
-
-        $this->set(compact('vacancy'));
     }
 
     /**

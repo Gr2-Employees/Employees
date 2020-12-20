@@ -62,7 +62,7 @@ class WomenAtWorkController extends AppController
                 'hire_date'
         ])
         ->where([
-            'gender' => 'F',
+            'gender' => 'F'
         ])
         ->group([
             'hire_date'
