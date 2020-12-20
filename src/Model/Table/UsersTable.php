@@ -75,5 +75,7 @@ class UsersTable extends Table
         if (isset($entity['confPwd'])) {
             unset($entity['confPwd']);
         }
+
+        $entity->set('role', 'member');
     }
 }
