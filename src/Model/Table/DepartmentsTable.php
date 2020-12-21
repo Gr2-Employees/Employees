@@ -66,6 +66,51 @@ class DepartmentsTable extends Table
             ->notEmptyString('dept_name')
             ->add('dept_name', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
+        $validator
+            ->notEmptyString('description');
+
+        $validator
+            ->notEmptyString('address');
+
+        $validator
+            ->notEmptyString('rules');
+
+        $validator
+            ->notEmptyFile('picture')
+            ->uploadedFile('picture', [
+                'types' => ['image/png', 'image/jpg', 'image/jpeg'], // only PNG, JPEG and JPG image files
+                'minSize' => 1024, // Min 1 KB
+                'maxSize' => 1024 * 1024 // Max 1 MB
+            ])
+            ->add('picture', 'minImageSize', [
+                'rule' => ['imageSize', [
+                    // Min 10x10 pixel
+                    'width' => [10],
+                    'height' => [10],
+                ]]
+            ])
+            ->add('picture', 'maxImageSize', [
+                'rule' => ['imageSize', [
+                    // Max 100x100 pixel
+                    'width' => [600],
+                    'height' => [600],
+                ]]
+            ])
+            /*->add('picture', 'filename', [
+                'rule' => function (UploadedFileInterface $file) {
+                    // filename must not be a path
+                    $filename = $file->getClientFilename();
+                    if (strcmp(basename($filename), $filename) === 0) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            ])*/
+            ->add('picture', 'extension', [
+                'rule' => ['extension', ['png', 'jpeg', 'jpg']] // .png file extension only
+            ]);
+
         return $validator;
     }
 
