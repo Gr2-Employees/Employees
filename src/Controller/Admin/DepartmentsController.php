@@ -131,12 +131,64 @@ class DepartmentsController extends AppController
 
         $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
 
+        /**
+         * Get how long the manager has been on that role
+         */
+        $query = $this->getTableLocator()->get('dept_manager')->find()
+            ->select([
+                'now' => $query->func()->now(),
+                'dept_manager.from_date'
+            ])
+            ->where([
+                'dept_manager.to_date' => '9999-01-01',
+                'dept_manager.dept_no' => $id
+            ]);
+
+        $result = $query->first();
+
+        $interval = date_diff($result->now, $result->from_date);
+        $since = $interval->format('%d day(s) %m month(s) %y year(s)');
+
+        /**
+         * Get dept's average salary
+         */
+
+        //Subquery
+        $managerQuery = $this->getTableLocator()->get('dept_manager')->find()
+            ->select([
+                'dept_manager.emp_no'
+            ])
+            ->where([
+                'dept_manager.dept_no' => $id,
+                'dept_manager.to_date' => '9999-01-01'
+            ]);
+
+        // Main query
+        $query = $this->getTableLocator()->get('salaries')->find();
+        $query->select([
+            'average' => $query->func()->avg('salary')
+        ])
+        ->join([
+            'deem' => [
+                'table' => 'dept_emp',
+                'conditions' => 'deem.emp_no = salaries.emp_no'
+            ]
+        ])
+        ->where([
+            'deem.dept_no' => $id,
+            'deem.emp_no NOT IN' => $managerQuery
+        ]);
+
+        $averageSalary = $query->first()->average;
+
         // Assignation des variables pour la vue
         $department
             ->set('nbVacants', $nbVacants)
             ->set('nbEmpl', $nbEmpl)
             ->set('picture', $picture)
-            ->set('manager_name', $manager);
+            ->set('manager_name', $manager)
+            ->set('since', $since)
+            ->set('averageSalary', $averageSalary);
 
         $this->set(compact('department'));
     }
