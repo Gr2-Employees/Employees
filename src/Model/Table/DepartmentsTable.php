@@ -91,7 +91,7 @@ class DepartmentsTable extends Table
             ])
             ->add('picture', 'maxImageSize', [
                 'rule' => ['imageSize', [
-                    // Max 100x100 pixel
+                    // Max 600x600 pixel
                     'width' => [600],
                     'height' => [600],
                 ]]

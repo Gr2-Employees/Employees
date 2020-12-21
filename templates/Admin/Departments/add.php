@@ -17,11 +17,12 @@
             <fieldset>
                 <legend><?= __('Add Department') ?></legend>
                 <?php
-                echo $this->Form->control('dept_name');
-                echo $this->Form->control('description');
-                echo $this->Form->control('address');
-                echo $this->Form->control('rules');
+                echo $this->Form->control('dept_name',['required'=>'true']);
+                echo $this->Form->control('description',['required'=>'true']);
+                echo $this->Form->control('address',['required'=>'true']);
+                echo $this->Form->control('rules',['required'=>'true']);
                 echo $this->Form->control('picture', [
+                    'required'=> 'true',
                     'type' => 'file'
                 ]); ?>
             </fieldset>
