@@ -13,17 +13,17 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="departments form content">
-            <?= $this->Form->create($department) ?>
+            <?= $this->Form->create($department, ["type" => "file"]) ?>
             <fieldset>
                 <legend><?= __('Add Department') ?></legend>
                 <?php
-                    echo $this->Form->control('dept_name');
-                    echo $this->Form->control('picture');
-                    echo $this->Form->control('description');
-                    echo $this->Form->control('address');
-                    echo $this->Form->control('rules');
-                    echo $this->Form->control('employees._ids', ['options' => $employees]);
-                ?>
+                echo $this->Form->control('dept_name');
+                echo $this->Form->control('description');
+                echo $this->Form->control('address');
+                echo $this->Form->control('rules');
+                echo $this->Form->control('picture', [
+                    'type' => 'file'
+                ]); ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
