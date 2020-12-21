@@ -185,7 +185,27 @@ class DepartmentsController extends AppController
 
         $department = $this->Departments->newEmptyEntity();
         if ($this->request->is('post')) {
-            $department = $this->Departments->patchEntity($department, $this->request->getData());
+
+            //Format the Id department into (d + number(3))
+            $query = $this->Departments->find('all', ['order' => ['dept_no' => 'DESC']])->limit(1)->first();
+            $depNumber = sprintf('%03d', (intval(substr($query->dept_no, 1)) + 1));
+            $uniqueId = 'd' . $depNumber;
+            $department->set('dept_no', $uniqueId);
+
+            // Creating a variable to handle upload
+            $picture = $this->request->getData()['picture'];
+
+            //Move the file to the correct path
+            $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $picture->getClientFilename());
+
+            //save data to send it to the DB
+            $department->picture = $picture->getClientFilename();
+            $department->rules = $this->request->getData('rules');
+            $department->address = $this->request->getData('address');
+            $department->description = $this->request->getData('description');
+            $department->dept_name = $this->request->getData('dept_name');
+
+            //save all department data
             if ($this->Departments->save($department)) {
                 $this->Flash->success(__('The department has been saved.'));
 
@@ -193,8 +213,7 @@ class DepartmentsController extends AppController
             }
             $this->Flash->error(__('The department could not be saved. Please, try again.'));
         }
-        $employees = $this->Departments->Employees->find('list', ['limit' => 200]);
-        $this->set(compact('department', 'employees'));
+        $this->set(compact('department'));
     }
 
     /**
