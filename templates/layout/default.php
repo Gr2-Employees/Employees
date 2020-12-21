@@ -87,6 +87,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
 
+            <?php if ($this->Identity->get('role') === 'admin') : ?>
+            <!-- Lien vers la page Dashboard -->
+            <li class="nav-item">
+                <?= $this->Html->link('Dashboard', [
+                    'prefix' => 'Admin',
+                    'controller' => 'Dashboard',
+                    'action' => 'index',
+                    'class' => 'nav-link'
+                ]) ?>
+            </li>
+            <?php endif; ?>
+
             <!-- Auth buttons -->
             <?php if ($this->Identity->isLoggedIn()) { ?>
 
