@@ -194,12 +194,16 @@ class DepartmentsController extends AppController
 
             // Creating a variable to handle upload
             $picture = $this->request->getData()['picture'];
+            $ext = substr(strtolower(strrchr($picture->getClientFilename(), '.')), 1);
+
+            //Changer le nom de la photo pour éviter les conflicts de nom
+            $newPicName = time() . "_" . rand(000000, 999999) . '.' . $ext;
 
             //Move the file to the correct path
-            $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $picture->getClientFilename());
+            $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $newPicName);
 
             //save data to send it to the DB
-            $department->picture = $picture->getClientFilename();
+            $department->picture = $newPicName;
             $department->rules = $this->request->getData('rules');
             $department->address = $this->request->getData('address');
             $department->description = $this->request->getData('description');
