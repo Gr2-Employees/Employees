@@ -8,10 +8,38 @@
     <aside class="column">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Department'), ['action' => 'edit', $department->dept_no], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Department'), ['action' => 'delete', $department->dept_no], ['confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
+            
+            <!-- TODO: Bug: Les liens sont cliquabes sur toute la longueur de la page -->
+            <!-- Edit Department -->
+            <?= $this->Html->link(__('Edit Department'), [
+                'action' => 'edit', $department->dept_no
+            ], [
+                'class' => 'side-nav-item',
+            ]) ?>
+
+            <!-- Delete Department -->
+            <?= $this->Form->postLink(__('Delete Department'), [
+                'action' => 'delete',
+                $department->dept_no
+            ], [
+                'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no),
+                'class' => 'side-nav-item',
+            ]) ?>
+
+            <!-- List Department -->
+            <?= $this->Html->link(__('List Departments'), [
+                'action' => 'index'
+            ], [
+                'class' => 'side-nav-item'
+            ]) ?>
+
+            <!-- Add Department -->
+            <?= $this->Html->link(__('New Department'), [
+                'action' => 'add'
+            ], [
+                'class' => 'side-nav-item'
+            ]) ?>
+
         </div>
     </aside>
     <div class="column-responsive column-80">
