@@ -1,57 +1,107 @@
-<?php
+<div id="container" class="row">
+    <aside id="aside">
+        <!-- Lien vers admin/dept/index-->
+        <?= $this->Html->link('To departments', [
+            'prefix' => 'Admin',
+            'controller' => 'Departments',
+            'action' => 'index'
+        ], [
+            'class' => 'aside-links'
+        ]) ?>
 
-if (isset($welcomeMessage)) {
-    echo $welcomeMessage;
-}
-?>
+        <!-- Lien vers admin/Employees/index-->
+        <?= $this->Html->link('To Employees', [
+            'prefix' => 'Admin',
+            'controller' => 'Employees',
+            'action' => 'index'
+        ], [
+            'class' => 'aside-links'
+        ]) ?>
 
-<!-- TODO: Ajouter des cells pour des quick infos sur les différentes parties du back-office -->
-<!-- Lien vers admin/dept/index-->
-<?= $this->Html->link('To departments', [
-    'prefix' => 'Admin',
-    'controller' => 'Departments',
-    'action' => 'index'
-]) ?>
+        <!-- Lien vers admin/Users/index-->
+        <?= $this->Html->link('To Users', [
+            'prefix' => 'Admin',
+            'controller' => 'users',
+            'action' => 'index'
+        ], [
+            'class' => 'aside-links'
+        ]) ?>
+    </aside>
+    <div id="data">
+        <div class="row" id="dataStat">
+            <div class="column-25 stat1" style="text-align: center">
+                <div class="row" style="height: 55%">
+                    <div class="col" style="line-height: 40px;">
+                        <h4 class="h4-stat"><?= __('Total employees') ?></h4>
+                        <p><?= $this->Number->format($nbTotal) ?></p>
+                    </div>
+                </div>
+                <div class="row" id="ratio">
+                    <div class="col-6">
+                        <h5 class="h5-stat"><?= __('% Men') ?></h5>
+                        <p><?= $this->Number->toPercentage($pctMan) ?></p>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="h5-stat"><?= __('% Women') ?></h5>
+                        <p><?= $this->Number->toPercentage($pctWoman) ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-25 stat1">
+                <div class="row" style="transform: translate(0%, 40%);">
+                    <div class="col" style="text-align: center; line-height: 70px;">
+                        <h4 class="h5-stat"><?= __('Total users') ?></h4>
+                        <p><?= $nbUsers . ' user(s) ' ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-25 stat1">
+                <div class="row" style="transform: translate(0%, 40%);">
+                    <div class="col" style="text-align: center; line-height: 70px;">
+                        <h4 class="h5-stat"><?= __('Average salary') ?></h4>
+                        <p><?= $this->Number->format($avgSalary, [
+                                'precision' => 2,
+                                'after' => '$'
+                            ]); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="column-25 stat1">
+                <div class="row" style="transform: translate(0%, 40%);">
+                    <div class="col" style="text-align: center; line-height: 70px;">
+                        <h4 class="h5-stat"><?= __('Total vacancies') ?></h4>
+                        <p><?= $nbVacancies . ' vacancies ' ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<hr/>
 
-<!-- Lien vers admin/Employees/index-->
-<?= $this->Html->link('To Employees', [
-    'prefix' => 'Admin',
-    'controller' => 'Employees',
-    'action' => 'index'
-]) ?>
+        <!-- Div lineChart & horizontalBar -->
+        <div class="row" id="chart">
+            <div class="col-6" style="text-align: center">
+                <h3><?= __('Number of employees per year') ?></h3>
+                <canvas id="lineChart" width="100px" height="50"></canvas>
+            </div>
+            <div class="col-6" style="text-align: center">
+                <h3><?= __('Manager salary per department') ?></h3>
+                <canvas id="horizontalBarChart" width="100px" height="50"></canvas>
+            </div>
+        </div>
 
-<hr/>
+        <!-- Div verticalBar -->
+        <div class="row" id="verticalChart">
+            <div class="col" style="text-align: center">
+                <h3><?= __('Vacancies amount per department') ?></h3>
+                <canvas id="verticalBarChart" width="200" height="60"></canvas>
+            </div>
 
-<!-- Lien vers admin/Users/index-->
-<?= $this->Html->link('To Users', [
-    'prefix' => 'Admin',
-    'controller' => 'users',
-    'action' => 'index'
-]) ?>
-<p><?= $nbTotal ?></p>
-<p><?= $this->Number->toPercentage($pctMan) ?></p>
-<p><?= $this->Number->toPercentage($pctWoman) ?></p>
-<p><?= $nbUsers ?></p>
-<p><?= $this->Number->format($avgSalary, [
-        'precision' => 2,
-        'after' => '$'
-    ]); ?>
-</p>
-<p><?= $nbVacancies ?></p>
+        </div>
 
-
-<!-- Div lineChart & horizontalBar -->
-<div class="row" id="chart" style="width:50%; height:20%">
-    <canvas id="lineChart" width="200" height="100"></canvas>
-    <canvas id="horizontalBarChart" width="200" height="100"></canvas>
+    </div>
 </div>
 
-<!-- Div verticalBar -->
-<div class="row" id="verticalChart" style="width:100%; height:10%">
-    <canvas id="verticalBarChart" width="200" height="100"></canvas>
-</div>
 
 <!-- Bar chart nbEmpl per year -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
