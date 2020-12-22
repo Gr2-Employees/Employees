@@ -26,7 +26,7 @@ class DashboardController extends AppController
      */
     public function index()
     {
-        // Récup nb emp per year
+        // Récup nbEmp per year
         $query = $this->getTableLocator()->get('employees')->find();
         $query->select([
             'nbEmpl' => $query->func()->count('employees.emp_no'),
@@ -34,42 +34,91 @@ class DashboardController extends AppController
                 'employees.hire_date' => 'identifier'
             ])
         ])
-        ->join([
-            'deem' => [
-                'table' => 'dept_emp',
-                'conditions' => 'deem.emp_no = employees.emp_no'
-            ]
-        ])
-        ->group([
-            $query->func()->year([
-                'employees.hire_date' => 'identifier'
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = employees.emp_no'
+                ]
             ])
-        ])
-        ->order([
-            $query->func()->year([
-                'employees.hire_date' => 'identifier'
+            ->where(function ($exp) {
+                return $exp->gt('employees.hire_date', '1997-01-01');
+            })
+            ->group([
+                $query->func()->year([
+                    'employees.hire_date' => 'identifier'
+                ])
             ])
-        ]);
+            ->orderAsc(
+                $query->func()->year(['employees.hire_date' => 'identifier']
+                ));
 
         $result = $query->all();
 
         $arrNbEmpl = [];
         $arrYears = [];
 
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $arrNbEmpl[] = $row->nbEmpl;
 
-            if (!in_array($row->year, $arrYears)) {
+            if (!in_array($row->year, $arrYears, true)) {
                 $arrYears[] = $row->year;
             }
         }
 
-        var_dump($arrYears);
-        var_dump($arrNbEmpl);
+        // Salary manager per dept
+        $query = $this->getTableLocator()->get('salaries')
+            ->find()
+            ->select([
+                'salary',
+                'de.dept_name'
+            ])
+            ->join([
+                'dema' => [
+                    'table' => 'dept_manager',
+                    'conditions' => 'dema.emp_no = salaries.emp_no'
+                ],
+                'de' => [
+                    'table' => 'departments',
+                    'conditions' => 'de.dept_no = dema.dept_no'
+                ]
+            ])
+            ->group([
+                'dema.dept_no'
+            ]);
 
-        $welcomeMessage = '<h1>Welcome in the back-office!</h1>';
+        $result = $query->all();
 
-        $this->set(compact('welcomeMessage'));
+        $arrSalaries = [];
+        $arrDept = [];
+
+        foreach ($result as $row) {
+            $arrSalaries[] = $row->salary;
+            $arrDept[] = $row->de['dept_name'];
+        }
+
+        // Amount of vacancies per dept
+        $query = $this->getTableLocator()->get('vacancies')->find();
+        $query->select([
+            'amount' => $query->func()->sum('quantity')
+        ])
+        ->group([
+            'dept_no'
+        ]);
+
+        $result = $query->all();
+
+        $arrVacancies = [];
+
+        foreach ($result as $row) {
+            $arrVacancies[] = (int)$row->amount;
+        }
+
+        $this
+            ->set(compact('arrNbEmpl'))
+            ->set(compact('arrYears'))
+            ->set(compact('arrSalaries'))
+            ->set(compact('arrDept'))
+            ->set(compact('arrVacancies'));
     }
 
     public function beforeFilter(EventInterface $event)
