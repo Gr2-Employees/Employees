@@ -30,6 +30,9 @@ if (isset($welcomeMessage)) {
     'controller' => 'users',
     'action' => 'index'
 ]) ?>
+<p><?= $nbTotal ?></p>
+<p><?=  $this->Number->toPercentage($pctMan) ?></p>
+<p><?=  $this->Number->toPercentage($pctWoman) ?></p>
 
 <!-- Div lineChart & horizontalBar -->
 <div class="row" id="chart" style="width:50%; height:20%">
@@ -133,7 +136,7 @@ if (isset($welcomeMessage)) {
                 echo '"' . $dept . '"' . ',';
             }?>],
             datasets: [{
-                label: 'Number of vacancies',
+                label: 'Number of vacancies per department',
                 data: [<?php foreach ($arrVacancies as $vacancy) {
                     echo $vacancy . ',';
                 } ?>],

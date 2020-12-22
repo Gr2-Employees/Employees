@@ -101,9 +101,9 @@ class DashboardController extends AppController
         $query->select([
             'amount' => $query->func()->sum('quantity')
         ])
-        ->group([
-            'dept_no'
-        ]);
+            ->group([
+                'dept_no'
+            ]);
 
         $result = $query->all();
 
@@ -113,13 +113,41 @@ class DashboardController extends AppController
             $arrVacancies[] = (int)$row->amount;
         }
 
+        //Pourcentages Man and Woman
+        $query = $this->getTableLocator()->get('employees')->find();
+        $query->select([
+            "nbTotal" => $query->func()->count('emp_no'),
+            "gender"
+        ])
+            ->group([
+                "gender"
+            ]);
+        $result = $query->all();
+
+        $nbMan = 0;
+        $nbWoman = 0;
+        foreach ($result as $row) {
+            if ($row->gender === 'M') {
+                $nbMan = $row->nbTotal;
+            } else {
+                $nbWoman = $row->nbTotal;
+            }
+        }
+        $nbTotal = $nbMan + $nbWoman;
+        $pctMan = ($nbMan / $nbTotal) * 100;
+        $pctWoman = ($nbWoman / $nbTotal) * 100;
+
         $this
             ->set(compact('arrNbEmpl'))
             ->set(compact('arrYears'))
             ->set(compact('arrSalaries'))
             ->set(compact('arrDept'))
-            ->set(compact('arrVacancies'));
+            ->set(compact('arrVacancies'))
+            ->set(compact('nbTotal'))
+            ->set(compact('pctWoman'))
+            ->set(compact('pctMan'));
     }
+
 
     public function beforeFilter(EventInterface $event)
     {
