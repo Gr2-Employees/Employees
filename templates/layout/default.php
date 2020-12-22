@@ -72,9 +72,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
             <!-- Lien vers la page Employees -->
             <?php if ($this->Identity->isLoggedIn()) { ?>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $this->Url->build('/employees') ?>">Employees</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $this->Url->build('/employees') ?>">Employees</a>
+                </li>
             <?php } ?>
 
             <!-- Lien vers la page Departments -->
@@ -88,56 +88,56 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             </li>
 
             <?php if ($this->Identity->get('role') === 'admin') : ?>
-            <!-- Lien vers la page Dashboard -->
-            <li class="nav-item">
-                <?= $this->Html->link('Dashboard', [
-                    'prefix' => 'Admin',
-                    'controller' => 'Dashboard',
-                    'action' => 'index',
-                    'class' => 'nav-link'
-                ]) ?>
-            </li>
+                <!-- Lien vers la page Dashboard -->
+                <li class="nav-item">
+                    <?= $this->Html->link('Dashboard', [
+                        'prefix' => 'Admin',
+                        'controller' => 'Dashboard',
+                        'action' => 'index'
+                    ],
+                        [
+                            'class' => 'nav-link'
+                        ]) ?>
+                </li>
             <?php endif; ?>
-
-            <!-- Auth buttons -->
-            <?php if ($this->Identity->isLoggedIn()) { ?>
-
-                <!-- Logout Button -->
-                <?= $this->Html->link(__('Logout'), [
-                    'controller' => 'Users',
-                    'action' => 'logout'
-                ], [
-                    'class' => 'btn btn-outline-primary my-2 my-sm-0',
-                    'id' => 'btn-logout'
-                ]) ?>
-
-            <?php } else { ?>
-
-                <!-- Sign up Button -->
-
-                <?= $this->Html->link(__('Sign up'), [
-                    'controller' => 'Users',
-                    'action' => 'signup'
-                ], [
-                    'class' => 'btn btn-outline-primary my-2 my-sm-0',
-                    'id' => 'btn-signup'
-                ]) ?>
-
-
-                <!-- Log In Button -->
-
-                <?= $this->Html->link(__('Login'), [
-                    'controller' => 'Users',
-                    'action' => 'login'
-                ], [
-                    'class' => 'btn btn-primary my-2 my-sm-0',
-                    'id' => 'btn-login'
-                ]) ?>
-
-            <?php } ?>
-
-
         </ul>
+        <!-- Auth buttons -->
+        <?php if ($this->Identity->isLoggedIn()) { ?>
+
+            <!-- Logout Button -->
+            <?= $this->Html->link(__('Logout'), [
+                'controller' => 'Users',
+                'action' => 'logout'
+            ], [
+                'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                'id' => 'btn-logout'
+            ]) ?>
+
+        <?php } else { ?>
+
+            <!-- Log In Button -->
+
+            <?= $this->Html->link(__('Login'), [
+                'controller' => 'Users',
+                'action' => 'login'
+            ], [
+                'class' => 'btn btn-primary my-2 my-sm-0',
+                'id' => 'btn-login'
+            ]) ?>
+
+            <!-- Sign up Button -->
+
+            <?= $this->Html->link(__('Sign up'), [
+                'controller' => 'Users',
+                'action' => 'signup'
+            ], [
+                'class' => 'btn btn-outline-primary my-2 my-sm-0',
+                'id' => 'btn-signup'
+            ]) ?>
+
+        <?php } ?>
+
+
     </div>
 </nav>
 <?= $this->Flash->render() ?>
