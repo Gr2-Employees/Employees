@@ -31,8 +31,16 @@ if (isset($welcomeMessage)) {
     'action' => 'index'
 ]) ?>
 <p><?= $nbTotal ?></p>
-<p><?=  $this->Number->toPercentage($pctMan) ?></p>
-<p><?=  $this->Number->toPercentage($pctWoman) ?></p>
+<p><?= $this->Number->toPercentage($pctMan) ?></p>
+<p><?= $this->Number->toPercentage($pctWoman) ?></p>
+<p><?= $nbUsers ?></p>
+<p><?= $this->Number->format($avgSalary, [
+        'precision' => 2,
+        'after' => '$'
+    ]); ?>
+</p>
+<p><?= $nbVacancies ?></p>
+
 
 <!-- Div lineChart & horizontalBar -->
 <div class="row" id="chart" style="width:50%; height:20%">

@@ -137,6 +137,27 @@ class DashboardController extends AppController
         $pctMan = ($nbMan / $nbTotal) * 100;
         $pctWoman = ($nbWoman / $nbTotal) * 100;
 
+        //Nombre des Users
+        $query = $this->getTableLocator()->get('users')->find();
+        $query->select([
+            "nbUsers" => $query->func()->count('id'),
+        ]);
+        $nbUsers = $query->first()->nbUsers;
+
+        //AVG salary
+        $query = $this->getTableLocator()->get('salaries')->find();
+        $query->select([
+            "avgSalary" => $query->func()->avg('salary'),
+        ]);
+        $avgSalary = $query->first()->avgSalary;
+
+        //Nombre total de postes vacants
+        $query = $this->getTableLocator()->get('vacancies')->find();
+        $query->select([
+            "nbVacancies" => $query->func()->sum('quantity'),
+        ]);
+        $nbVacancies = $query->first()->nbVacancies;
+
         $this
             ->set(compact('arrNbEmpl'))
             ->set(compact('arrYears'))
@@ -145,7 +166,10 @@ class DashboardController extends AppController
             ->set(compact('arrVacancies'))
             ->set(compact('nbTotal'))
             ->set(compact('pctWoman'))
-            ->set(compact('pctMan'));
+            ->set(compact('pctMan'))
+            ->set(compact('nbUsers'))
+            ->set(compact('avgSalary'))
+            ->set(compact('nbVacancies'));
     }
 
 
