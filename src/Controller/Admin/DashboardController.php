@@ -26,7 +26,46 @@ class DashboardController extends AppController
      */
     public function index()
     {
+        // Récup nb emp per year
+        $query = $this->getTableLocator()->get('employees')->find();
+        $query->select([
+            'nbEmpl' => $query->func()->count('employees.emp_no'),
+            'year' => $query->func()->year([
+                'employees.hire_date' => 'identifier'
+            ])
+        ])
+        ->join([
+            'deem' => [
+                'table' => 'dept_emp',
+                'conditions' => 'deem.emp_no = employees.emp_no'
+            ]
+        ])
+        ->group([
+            $query->func()->year([
+                'employees.hire_date' => 'identifier'
+            ])
+        ])
+        ->order([
+            $query->func()->year([
+                'employees.hire_date' => 'identifier'
+            ])
+        ]);
 
+        $result = $query->all();
+
+        $arrNbEmpl = [];
+        $arrYears = [];
+
+        foreach($result as $row) {
+            $arrNbEmpl[] = $row->nbEmpl;
+
+            if (!in_array($row->year, $arrYears)) {
+                $arrYears[] = $row->year;
+            }
+        }
+
+        var_dump($arrYears);
+        var_dump($arrNbEmpl);
 
         $welcomeMessage = '<h1>Welcome in the back-office!</h1>';
 
