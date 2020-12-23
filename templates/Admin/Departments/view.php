@@ -170,6 +170,7 @@
 
                 </table>
                 <div class="row">
+                    <?php if ($department->since !== 0) {?>
                     <!-- Link to revoke manager-->
                     <?= $this->Form->postLink(__('Revoke manager'), [
                         'action' => 'revokeManager',
@@ -179,6 +180,16 @@
                         'class' => 'button',
                         'style' => 'position: absolute;right: 15px;bottom: 0px;'
                     ]) ?>
+                    <?php } else { ?>
+                        <!-- Link to assign Empl as Manager -->
+                        <?=  $this->Html->link( __('Assign an employee as Manager'), [
+                            'action' => 'assignEmployee',
+                            $department->dept_no
+                        ], [
+                            'class' => 'button',
+                            'style' => 'position: absolute;right: 15px;bottom: 0px;'
+                        ])?>
+                    <?php } ?>
                 </div>
             </div>
             <div class="col-4">
