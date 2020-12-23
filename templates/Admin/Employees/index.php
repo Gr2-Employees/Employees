@@ -4,13 +4,13 @@
  * @var \App\Model\Entity\Employee[]|\Cake\Collection\CollectionInterface $employees
  */
 ?>
-<div class="employees index content">
-    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+<div class="employees index content" style="width: 95%;margin: 30px auto auto auto">
+    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
-                <tr>
+                <tr class="tr-th-employee">
                     <th><?= $this->Paginator->sort('emp_no') ?></th>
                     <th><?= $this->Paginator->sort('birth_date') ?></th>
                     <th><?= $this->Paginator->sort('first_name') ?></th>
@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                 <?php foreach ($employees as $employee): ?>
-                <tr>
+                <tr class="tr-td-employee">
                     <td><?= $this->Number->format($employee->emp_no) ?></td>
                     <td><?= h($employee->birth_date) ?></td>
                     <td><?= h($employee->first_name) ?></td>
