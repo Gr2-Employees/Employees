@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\Employee $employee
  */
 ?>
-<div class="row">
-    <aside class="column">
+<div class="row" style="padding: 40px;">
+    <aside style="width: 15%">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
             <?= $this->Html->link(__('Edit Employee'), ['action' => 'edit', $employee->emp_no], ['class' => 'side-nav-item']) ?>
@@ -14,7 +14,7 @@
             <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
         </div>
     </aside>
-    <div class="column-responsive column-80">
+    <div style="width: 75%;margin:auto">
         <div class="employees view content">
             <h3><?= h($employee->emp_no) ?></h3>
             <table>

@@ -1,3 +1,14 @@
-.tr-th-employee th, .tr-td-employee td{
+.tr-th-employee th, .tr-td-employee td {
     text-align: center;
+}
+
+.btn-add-new {
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    padding: 10px;
+    background-color: #2A6496;
+    border-radius: 3px;
+    color: white;
+    font-size: 1.8rem
 }

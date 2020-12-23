@@ -17,7 +17,8 @@
                     'prefix' => 'Admin',
                     'action' => 'index'
                 ], [
-                    'style' => 'position: absolute;right:20px;top:30px;padding:10px;background-color:#2A6496;border-radius:3px;color:white;font-size:1.8rem'
+                    'class' => 'button', 'style' => "background-color: #2A6496;border-color: #2A6496;position: absolute;top: 40px;right: 40px"
+
                 ]) ?>
 
                 <div class="col-6">
