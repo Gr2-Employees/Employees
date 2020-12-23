@@ -1,8 +1,9 @@
 <div class="table-responsive">
     <h3><?= __('Related Employees') ?></h3>
-    <?= $this->Html->link(__('New Department'), [
+    <?= $this->Html->link(__('Back to Department view'), [
         'prefix' => 'Admin',
-        'action' => 'add'
+        'action' => 'view',
+        $employees->first()->dept_no
     ], [
         'class' => 'button float-right'
     ]) ?>
