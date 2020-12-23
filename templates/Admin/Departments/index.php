@@ -41,7 +41,7 @@
                         <!-- Button Delete Dept -->
                         <?= $this->Form->postLink(__('Delete'), [
                             'prefix' => 'Admin',
-                            'action' => 'delete', 
+                            'action' => 'delete',
                             $department->dept_no
                         ], [
                             'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)

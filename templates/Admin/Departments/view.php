@@ -10,6 +10,20 @@
             <h4 class="heading"><?= __('Actions') ?></h4>
 
             <!-- TODO: Bug: Les liens sont cliquabes sur toute la longueur de la page -->
+            <!-- List Department -->
+            <?= $this->Html->link(__('List Departments'), [
+                'action' => 'index'
+            ], [
+                'class' => 'side-nav-item'
+            ]) ?>
+
+            <!-- Add Department -->
+            <?= $this->Html->link(__('New Department'), [
+                'action' => 'add'
+            ], [
+                'class' => 'side-nav-item'
+            ]) ?>
+
             <!-- Edit Department -->
             <?= $this->Html->link(__('Edit Department'), [
                 'action' => 'edit', $department->dept_no
@@ -25,21 +39,6 @@
                 'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no),
                 'class' => 'side-nav-item',
             ]) ?>
-
-            <!-- List Department -->
-            <?= $this->Html->link(__('List Departments'), [
-                'action' => 'index'
-            ], [
-                'class' => 'side-nav-item'
-            ]) ?>
-
-            <!-- Add Department -->
-            <?= $this->Html->link(__('New Department'), [
-                'action' => 'add'
-            ], [
-                'class' => 'side-nav-item'
-            ]) ?>
-
         </div>
     </aside>
     <div class="column-responsive column-75">
@@ -60,7 +59,11 @@
                 <div id="manager-info" class="col-6">
                     <!-- Manager Name -->
                     <h3><?= __('Manager') ?></h3>
-                    <h4><?= h($department->manager_name) ?></h4>
+                    <?php if (!is_null($department->manager_name)) { ?>
+                        <h4><?= h($department->manager_name) ?></h4>
+                    <?php } else { ?>
+                        <h4><?= __('Currently no manager in this department') ?></h4>
+                    <?php } ?>
 
                     <!-- Department Number-->
                     <h3><?= __('Department number') ?></h3>
@@ -69,10 +72,17 @@
 
                 <!-- Manager Picture -->
                 <div id="manager-pic" class="col-6">
+                    <?php if (!is_null($department->picture)) { ?>
                     <?= $this->Html->image('/img/' . $department->picture, [
-                        'alt' => 'Manager du département ' . $department->dept_name . '.',
+                        'alt' => 'Manager du département ' . $department->dept_name,
                         'class' => 'manager-picture'
                     ]) ?>
+                    <?php } else { ?>
+                    <?= $this->Html->image('/img/noUserPic.jpg', [
+                        'alt' => 'Manager du département ' . $department->dept_name,
+                        'class' => 'manager-picture'
+                    ]) ?>
+                    <?php } ?>
                 </div>
 
             </div>
@@ -145,7 +155,21 @@
                 <!-- Manager Name + time spent as manager -->
                 <tr>
                     <th><?= __('Manager') ?></th>
-                    <td><?= $department->manager_name . __(', since ') . $department->since ?></td>
+
+                    <?php if ($department->since !== 0) { ?>
+                        <td><?= $department->manager_name . __(', since ') . $department->since ?>
+                            <!-- Link to revoke manager-->
+                            <?= $this->Form->postLink(__('Revoke manager'), [
+                                'action' => 'revokeManager',
+                                $department->dept_no
+                            ], [
+                                'confirm' => __('Are you sure you want to revoke {0}?', $department->manager_name),
+                                'class' => 'btn btn-danger',
+                            ]) ?>
+                        </td>
+                    <?php } else { ?>
+                        <td> <?= __('No manager in this department') ?></td>
+                    <?php } ?>
                 </tr>
 
                 <!-- Number of employees-->
@@ -162,6 +186,4 @@
             </table>
         </div>
     </div>
-
-
 </div>
