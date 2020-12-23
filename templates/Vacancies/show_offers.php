@@ -8,7 +8,7 @@
     <div id="TitlePage">
         <h2>Page Hire</h2>
         <?php if (isset($vacancyName) && !is_null($vacancies)) { ?>
-        <?php if($nbVacancies === 1) { ?>
+        <?php if ($nbVacancies === 1) { ?>
             <h4> <?= __('Vacant position in department of ') . h($vacancyName) ?></h4>
         <?php } else { ?>
             <h4> <?= __('Vacant positions in department of ') . h($vacancyName) ?></h4>
@@ -37,7 +37,7 @@
                                 ],
                                 [
                                     'class' => 'btn btn-submit',
-                                    
+
                                 ]);
                         } ?>
                     </td>

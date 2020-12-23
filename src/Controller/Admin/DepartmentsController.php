@@ -101,7 +101,12 @@ class DepartmentsController extends AppController
             'to_date' => '9999-01-01'
         ]);
 
-        $picture = $query->first()->picture;
+        if (!is_null($query->first())) {
+            $picture = $query->first()->picture;
+        } else {
+            $picture = null;
+        }
+
 
         /**
          * Récupération du nom du manager
@@ -129,7 +134,11 @@ class DepartmentsController extends AppController
                 'dema.dept_no' => $id
             ]);
 
-        $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+        if (!is_null($query->first())) {
+            $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+        } else {
+            $manager = null;
+        }
 
         /**
          * Get how long the manager has been on that role
@@ -146,13 +155,16 @@ class DepartmentsController extends AppController
 
         $result = $query->first();
 
-        $interval = date_diff($result->now, $result->from_date);
-        $since = $interval->format('%d day(s) %m month(s) %y year(s)');
+        if ($result !== NULL) {
+            $interval = date_diff($result->now, $result->from_date);
+            $since = $interval->format('%d day(s) %m month(s) %y year(s)');
+        } else {
+            $since = 0;
+        }
 
         /**
          * Get dept's average salary
          */
-
         //Subquery
         $managerQuery = $this->getTableLocator()->get('dept_manager')->find()
             ->select([
@@ -168,16 +180,16 @@ class DepartmentsController extends AppController
         $query->select([
             'average' => $query->func()->avg('salary')
         ])
-        ->join([
-            'deem' => [
-                'table' => 'dept_emp',
-                'conditions' => 'deem.emp_no = salaries.emp_no'
-            ]
-        ])
-        ->where([
-            'deem.dept_no' => $id,
-            'deem.emp_no NOT IN' => $managerQuery
-        ]);
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = salaries.emp_no'
+                ]
+            ])
+            ->where([
+                'deem.dept_no' => $id,
+                'deem.emp_no NOT IN' => $managerQuery
+            ]);
 
         $averageSalary = $query->first()->average;
 
@@ -337,27 +349,113 @@ class DepartmentsController extends AppController
         $query->select([
             'nbEmpl' => $query->func()->count('emp_no')
         ])
-        ->where([
-            'dept_no' => $department,
-            'to_date' => '9999-01-01'
-        ]);
+            ->where([
+                'dept_no' => $id,
+                'to_date' => '9999-01-01'
+            ]);
 
         // If amount of employees in dept = 0
-        if ($query->first()->nbEmpl === 0 ) {
+        if ($query->first()->nbEmpl === 0) {
             if ($this->Departments->delete($department)) {
                 $this->Flash->success(__('The department has been deleted.'));
             } else {
                 $this->Flash->error(__('The department could not be deleted. Please, try again.'));
             }
         } else {
-           $this->Flash->error(__('You mustn\'t delete a department that has employees.'));
-           return $this->redirect([
-               'action' => 'view',
-               $department
-           ]);
+            $this->Flash->error(__('You mustn\'t delete a department that has employees.'));
+            return $this->redirect([
+                'action' => 'view',
+                $id
+            ]);
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function revokeManager($id = null)
+    {
+        if ($id === null) {
+            $this->Flash->error(__('There has to be a department ID to access this functionality.'));
+            return $this->redirect([
+                'prefix' => 'Admin',
+                'action' => 'index'
+            ]);
+        }
+
+        $this->request->allowMethod(['post', 'delete']);
+        $query = $this->getTableLocator()->get('dept_manager')->query();
+        $query->update()
+            ->set([
+                'to_date' => $query->func()->now(),
+            ])
+            ->where([
+                'dept_no' => $id,
+                'to_date' => '9999-01-01'
+            ]);
+
+        if ($query->execute()) {
+
+
+            // Get old's manager emp_no to update employee_title
+            $query = $this->getTableLocator()->get('employees')
+                ->find()
+                ->select([
+                    'emplId' => 'employees.emp_no'
+                ])
+                ->join([
+                    'dema' => [
+                        'table' => 'dept_manager',
+                        'conditions' => 'dema.emp_no = employees.emp_no'
+                    ],
+                    'emti' => [
+                        'table' => 'employee_title',
+                        'conditions' => 'emti.emp_no = employees.emp_no'
+                    ]
+                ])
+                ->where([
+                    'dema.dept_no' => $id,
+                    'emti.to_date' => '9999-01-01',
+                    'emti.title_no' => '7'
+                ]);
+
+            $oldManagerId = $query->first()->emplId;
+
+            // Update to_date in employee_title
+            $query = $this->getTableLocator()->get('employee_title')->query();
+            $query->update()
+                ->set([
+                    'to_date' => $query->func()->now(),
+                    'title_no' => '8'
+                ])
+                ->where([
+                    'to_date' => '9999-01-01',
+                    'title_no' => '7',
+                    'emp_no' => $oldManagerId
+                ]);
+
+            if ($query->execute()) {
+                // Add vacant manager post in dept
+                $query = $this->getTableLocator()->get('Vacancies')->query();
+                $query->insert(['dept_no', 'title_no', 'quantity'])
+                    ->values([
+                        'dept_no' => $id,
+                        'title_no' => '7',
+                        'quantity' => '1'
+                    ]);
+
+                if ($query->execute()) {
+                    $this->Flash->success(__('The manager has been revoked.'));
+                }
+            }
+        } else {
+            $this->Flash->error(__('There was an error when revoking the manager.'));
+        }
+
+        return $this->redirect([
+            'action' => 'view',
+            $id
+        ]);
+
     }
 
     public function beforeFilter(EventInterface $event)

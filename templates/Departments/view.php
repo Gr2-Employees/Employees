@@ -58,18 +58,31 @@
             <!-- Informations sur le manager -->
             <div id="manager-container" class="row">
                 <div id="manager-info" class="col-6">
+                    <!-- Manager Name -->
                     <h3><?= __('Manager') ?></h3>
-                    <h4><?= h($department->manager_name) ?></h4>
+                    <?php if (!is_null($department->manager_name)) { ?>
+                        <h4><?= h($department->manager_name) ?></h4>
+                    <?php } else { ?>
+                        <h4><?= __('Currently no manager in this department') ?></h4>
+                    <?php } ?>
+
+                    <!-- Department Number-->
                     <h3><?= __('Department number') ?></h3>
                     <h4><?= h(strtoupper($department->dept_no)) ?></h4>
-
                 </div>
 
                 <div id="manager-pic" class="col-6">
-                    <?= $this->Html->image('/img/' . $department->picture, [
-                        'alt' => 'Manager du département ' . $department->dept_name . '.',
-                        'class' => 'manager-picture'
-                    ]) ?>
+                    <?php if (!is_null($department->picture)) { ?>
+                        <?= $this->Html->image('/img/' . $department->picture, [
+                            'alt' => 'Manager du département ' . $department->dept_name,
+                            'class' => 'manager-picture'
+                        ]) ?>
+                    <?php } else { ?>
+                        <?= $this->Html->image('/img/noUserPic.jpg', [
+                            'alt' => 'Manager du département ' . $department->dept_name,
+                            'class' => 'manager-picture'
+                        ]) ?>
+                    <?php } ?>
                 </div>
 
             </div>

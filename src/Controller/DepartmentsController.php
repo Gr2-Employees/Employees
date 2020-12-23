@@ -62,21 +62,22 @@ class DepartmentsController extends AppController
          *  -> Récupérer le dept_no
          *  -> Fetch le résultat
          */
-        $query = $this->getTableLocator()->get('vacancies')
-            ->find()
-            ->select([
-                'quantity'
-            ])
-            ->where([
-                'dept_no' => $id
-            ])
-            ->first();
+        $query = $this->getTableLocator()->get('vacancies')->find();
+        $query->select([
+            'nbVacant' => $query->func()->sum('quantity')
+        ])
+        ->where([
+            'dept_no' => $id
+        ])
+        ->group([
+            'title_no'
+        ]);
 
-        if (is_null($query)) {
+        if (is_null($query->all()->count())) {
             // If no vacant spot
             $nbVacants = 0;
         } else {
-            $nbVacants = $query->quantity;
+            $nbVacants = $query->all()->count();
         }
 
         /**
@@ -121,7 +122,11 @@ class DepartmentsController extends AppController
                 'dema.dept_no' => $id
             ]);
 
-        $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+        if (!is_null($query->first())) {
+            $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
+        } else {
+            $manager = null;
+        }
 
         // Assignation des variables pour la vue
         $department
