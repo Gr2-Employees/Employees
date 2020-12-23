@@ -102,9 +102,9 @@ class DepartmentsController extends AppController
         ]);
 
         if (!is_null($query->first())) {
-            $picture = $query->first()->picture;
+            $pictureManager = $query->first()->picture;
         } else {
-            $picture = null;
+            $pictureManager = null;
         }
 
 
@@ -197,7 +197,7 @@ class DepartmentsController extends AppController
         $department
             ->set('nbVacants', $nbVacants)
             ->set('nbEmpl', $nbEmpl)
-            ->set('picture', $picture)
+            ->set('pictureManager', $pictureManager)
             ->set('manager_name', $manager)
             ->set('since', $since)
             ->set('averageSalary', $averageSalary);
@@ -305,7 +305,7 @@ class DepartmentsController extends AppController
                 //Changer le nom de la photo pour éviter les conflicts de nom
                 $ext = substr(strtolower(strrchr($picture->getClientFilename(), '.')), 1);
                 $newPicName = time() . "_" . rand(000000, 999999) . '.' . $ext;
-                
+
                 //Move the file to the correct path
                 $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $newPicName);
 

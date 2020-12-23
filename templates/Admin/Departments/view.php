@@ -72,19 +72,12 @@
 
                 <!-- Manager Picture -->
                 <div id="manager-pic" class="col-6">
-                    <?php if (!is_null($department->picture)) { ?>
-                    <?= $this->Html->image('/img/' . $department->picture, [
-                        'alt' => 'Manager du département ' . $department->dept_name,
-                        'class' => 'manager-picture'
-                    ]) ?>
-                    <?php } else { ?>
-                    <?= $this->Html->image('/img/noUserPic.jpg', [
-                        'alt' => 'Manager du département ' . $department->dept_name,
-                        'class' => 'manager-picture'
-                    ]) ?>
-                    <?php } ?>
+                    <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
+                        'alt' => 'Photo du département ' . $department->dept_name . '.',
+                        'class' => 'manager-picture',
+                        'style' => 'margin-bottom: 20px'])
+                    ?>
                 </div>
-
             </div>
             <table>
                 <!-- Department's description-->
@@ -149,41 +142,61 @@
             </table>
         </div>
         <!-- Statistics & informations -->
-        <div class="departments view content" style="width:100%;margin-top:50px;">
-            <h2><?= __('Statistics & informations') ?></h2>
-            <table>
-                <!-- Manager Name + time spent as manager -->
-                <tr>
-                    <th><?= __('Manager') ?></th>
+        <div class=" row departments view content" style="margin-top:50px;">
+            <div class="col-8">
+                <h2><?= __('Statistics & informations') ?></h2>
+                <table>
+                    <!-- Manager Name + time spent as manager -->
+                    <tr>
+                        <th><?= __('Manager') ?></th>
+                        <?php if ($department->since !== 0) { ?>
+                            <td><?= $department->manager_name . __(', since ') . $department->since ?></td>
+                        <?php } else { ?>
+                            <td> <?= __('No manager in this department') ?></td>
+                        <?php } ?>
+                    </tr>
 
-                    <?php if ($department->since !== 0) { ?>
-                        <td><?= $department->manager_name . __(', since ') . $department->since ?>
-                            <!-- Link to revoke manager-->
-                            <?= $this->Form->postLink(__('Revoke manager'), [
-                                'action' => 'revokeManager',
-                                $department->dept_no
-                            ], [
-                                'confirm' => __('Are you sure you want to revoke {0}?', $department->manager_name),
-                                'class' => 'btn btn-danger',
-                            ]) ?>
-                        </td>
+                    <!-- Number of employees-->
+                    <tr>
+                        <th><?= __('Number of employees') ?></th>
+                        <td><?= __('There are ') . $this->Number->format($department->nbEmpl) . ' ' . __('employees in this department.') ?></td>
+                    </tr>
+
+                    <!-- Employee's average salary (without Manager's salary) -->
+                    <tr>
+                        <th><?= __('Employee\'s Average Salary') ?></th>
+                        <td><?= $this->Number->currency($department->averageSalary, 'USD') ?></td>
+                    </tr>
+
+                </table>
+                <div class="row">
+                    <!-- Link to revoke manager-->
+                    <?= $this->Form->postLink(__('Revoke manager'), [
+                        'action' => 'revokeManager',
+                        $department->dept_no
+                    ], [
+                        'confirm' => __('Are you sure you want to revoke {0}?', $department->manager_name),
+                        'class' => 'button',
+                        'style' => 'position: absolute;right: 15px;bottom: 0px;'
+                    ]) ?>
+                </div>
+            </div>
+            <div class="col-4">
+                <!-- Manager Picture -->
+                <div id="manager-pic" style="float: right">
+                    <?php if (!is_null($department->pictureManager)) { ?>
+                        <?= $this->Html->image('/img/' . $department->pictureManager, [
+                            'alt' => 'Manager du département ' . $department->dept_name,
+                            'class' => 'manager-picture'
+                        ]) ?>
                     <?php } else { ?>
-                        <td> <?= __('No manager in this department') ?></td>
+                        <?= $this->Html->image('/img/noUserPic.jpg', [
+                            'alt' => 'Manager du département ' . $department->dept_name,
+                            'class' => 'manager-picture',
+                        ]) ?>
                     <?php } ?>
-                </tr>
-
-                <!-- Number of employees-->
-                <tr>
-                    <th><?= __('Number of employees') ?></th>
-                    <td><?= __('There are ') . $this->Number->format($department->nbEmpl) . ' ' . __('employees in this department.') ?></td>
-                </tr>
-
-                <!-- Employee's average salary (without Manager's salary) -->
-                <tr>
-                    <th><?= __('Employee\'s Average Salary') ?></th>
-                    <td><?= $this->Number->currency($department->averageSalary, 'USD') ?></td>
-                </tr>
-            </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

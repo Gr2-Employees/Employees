@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-6" style="text-align: center;padding-top: 30px">
                     <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
-                        'alt' => 'Manager du département ' . $department->dept_name . '.',
+                        'alt' => 'Photo du département ' . $department->dept_name . '.',
                         'class' => 'manager-picture',
                         'style' => 'margin-bottom: 20px'
                     ]) ?>
