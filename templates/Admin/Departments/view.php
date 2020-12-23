@@ -151,7 +151,7 @@
                 <!-- Number of employees-->
                 <tr>
                     <th><?= __('Number of employees') ?></th>
-                    <td><?= __('There are ') . $department->nbEmpl . ' ' . __('employees in this department.') ?></td>
+                    <td><?= __('There are ') . $this->Number->format($department->nbEmpl) . ' ' . __('employees in this department.') ?></td>
                 </tr>
 
                 <!-- Employee's average salary (without Manager's salary) -->

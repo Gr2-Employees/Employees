@@ -209,7 +209,8 @@ class DepartmentsController extends AppController
                 'em.gender',
                 'em.hire_date',
                 'dept_emp.from_date',
-                'dept_emp.to_date'
+                'dept_emp.to_date',
+                'dept_emp.dept_no'
             ])
             ->join([
                 'em' => [
@@ -240,16 +241,16 @@ class DepartmentsController extends AppController
 
             //Format the Id department into (d + number(3))
             $query = $this->Departments->find('all', ['order' => ['dept_no' => 'DESC']])->limit(1)->first();
-            $depNumber = sprintf('%03d', (intval(substr($query->dept_no, 1)) + 1));
+            $depNumber = sprintf('%03d', ((int)substr($query->dept_no, 1) + 1));
             $uniqueId = 'd' . $depNumber;
             $department->set('dept_no', $uniqueId);
 
             // Creating a variable to handle upload
             $picture = $this->request->getData()['picture'];
-            $ext = substr(strtolower(strrchr($picture->getClientFilename(), '.')), 1);
+            $ext = strtolower(substr(strrchr($picture->getClientFilename(), '.'), 1));
 
             //Changer le nom de la photo pour éviter les conflicts de nom
-            $newPicName = time() . "_" . rand(000000, 999999) . '.' . $ext;
+            $newPicName = time() . "_" . random_int(000000, 999999) . '.' . $ext;
 
             //Move the file to the correct path
             $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $newPicName);
@@ -331,10 +332,29 @@ class DepartmentsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $department = $this->Departments->get($id);
-        if ($this->Departments->delete($department)) {
-            $this->Flash->success(__('The department has been deleted.'));
+
+        $query = $this->getTableLocator()->get('dept_emp')->find();
+        $query->select([
+            'nbEmpl' => $query->func()->count('emp_no')
+        ])
+        ->where([
+            'dept_no' => $department,
+            'to_date' => '9999-01-01'
+        ]);
+
+        // If amount of employees in dept = 0
+        if ($query->first()->nbEmpl === 0 ) {
+            if ($this->Departments->delete($department)) {
+                $this->Flash->success(__('The department has been deleted.'));
+            } else {
+                $this->Flash->error(__('The department could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The department could not be deleted. Please, try again.'));
+           $this->Flash->error(__('You mustn\'t delete a department that has employees.'));
+           return $this->redirect([
+               'action' => 'view',
+               $department
+           ]);
         }
 
         return $this->redirect(['action' => 'index']);

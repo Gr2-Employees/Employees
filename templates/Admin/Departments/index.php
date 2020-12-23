@@ -24,9 +24,28 @@
                     <td><?= h($department->dept_name) ?></td>
                     <td><?= h($department->description) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $department->dept_no]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $department->dept_no]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $department->dept_no], ['confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)]) ?>
+                        <!-- Button View Dept -->
+                        <?= $this->Html->link(__('View'), [
+                            'prefix' => 'Admin',
+                            'action' => 'view',
+                            $department->dept_no
+                        ]) ?>
+
+                        <!-- Button Edit Dept -->
+                        <?= $this->Html->link(__('Edit'), [
+                            'prefix' => 'Admin',
+                            'action' => 'edit',
+                            $department->dept_no
+                        ]) ?>
+
+                        <!-- Button Delete Dept -->
+                        <?= $this->Form->postLink(__('Delete'), [
+                            'prefix' => 'Admin',
+                            'action' => 'delete', 
+                            $department->dept_no
+                        ], [
+                            'confirm' => __('Are you sure you want to delete # {0}?', $department->dept_no)
+                        ]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
