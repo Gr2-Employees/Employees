@@ -4,11 +4,11 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row">
-    <aside class="column">
+<div class="row" style="margin-top:50px; ">
+    <aside class="col-2">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
-            
+
             <!-- TODO: Bug: Les liens sont cliquabes sur toute la longueur de la page -->
             <!-- Edit Department -->
             <?= $this->Html->link(__('Edit Department'), [
@@ -42,7 +42,7 @@
 
         </div>
     </aside>
-    <div class="column-responsive column-80">
+    <div class="column-responsive column-75">
         <div class="departments view content">
             <div style="position: relative" class="row">
                 <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
@@ -138,29 +138,30 @@
                 </tr>
             </table>
         </div>
+        <!-- Statistics & informations -->
+        <div class="departments view content" style="width:100%;margin-top:50px;">
+            <h2><?= __('Statistics & informations') ?></h2>
+            <table>
+                <!-- Manager Name + time spent as manager -->
+                <tr>
+                    <th><?= __('Manager') ?></th>
+                    <td><?= $department->manager_name . __(', since ') . $department->since ?></td>
+                </tr>
+
+                <!-- Number of employees-->
+                <tr>
+                    <th><?= __('Number of employees') ?></th>
+                    <td><?= __('There are ') . $department->nbEmpl . ' ' . __('employees in this department.') ?></td>
+                </tr>
+
+                <!-- Employee's average salary (without Manager's salary) -->
+                <tr>
+                    <th><?= __('Employee\'s Average Salary') ?></th>
+                    <td><?= $this->Number->currency($department->averageSalary, 'USD') ?></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
-    <!-- Statistics & informations -->
-    <div style="width:100%;">
-        <h2><?= __('Statistics & informations') ?></h2>
-        <table>
-            <!-- Manager Name + time spent as manager -->
-            <tr>
-                <th><?= __('Manager') ?></th>
-                <td><?= $department->manager_name . __(', since ') . $department->since ?></td>
-            </tr>
 
-            <!-- Number of employees-->
-            <tr>
-                <th><?= __('Number of employees') ?></th>
-                <td><?= __('There are ') . $department->nbEmpl . ' ' . __('employees in this department.') ?></td>
-            </tr>
-
-            <!-- Employee's average salary (without Manager's salary) -->
-            <tr>
-                <th><?= __('Employee\'s Average Salary') ?></th>
-                <td><?= $this->Number->currency($department->averageSalary, 'USD') ?></td>
-            </tr>
-        </table>
-    </div>
 </div>
