@@ -119,9 +119,10 @@ class DashboardController extends AppController
             "nbTotal" => $query->func()->count('emp_no'),
             "gender"
         ])
-            ->group([
-                "gender"
-            ]);
+        ->group([
+            "gender"
+        ]);
+
         $result = $query->all();
 
         $nbMan = 0;
@@ -139,10 +140,8 @@ class DashboardController extends AppController
 
         //Nombre des Users
         $query = $this->getTableLocator()->get('users')->find();
-        $query->select([
-            "nbUsers" => $query->func()->count('id'),
-        ]);
-        $nbUsers = $query->first()->nbUsers;
+
+        $nbUsers = sizeof($query->all());
 
         //AVG salary
         $query = $this->getTableLocator()->get('salaries')->find();
