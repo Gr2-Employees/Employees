@@ -11,13 +11,16 @@ body {
     padding: 8px;
     width: 70px;
 }
-#btn-login{
+
+#btn-login {
     position: absolute;
     right: 120px;
 }
-#btn-login:hover{
+
+#btn-login:hover {
     background-color: #2a6496;
 }
+
 #btn-signup {
     position: absolute;
     right: 35px;

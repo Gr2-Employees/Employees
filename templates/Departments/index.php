@@ -4,14 +4,7 @@
  * @var \App\Model\Entity\Department[]|\Cake\Collection\CollectionInterface $departments
  */
 ?>
-<div class="departments index content">
-    <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) :?>
-    <?= $this->Html->link(__('New Department'), [
-        'prefix' => 'Admin',
-        'controller' => 'Departments',
-        'action' => 'add'
-        ], ['class' => 'button float-right']) ?>
-    <?php endif; ?>
+<div class="departments index content" style="width: 95%;margin: 30px auto auto auto">
     <h3><?= __('Departments') ?></h3>
     <div class="table-responsive">
         <table>
@@ -28,7 +21,7 @@
                 <tr>
                     <td><?= h(strtoupper($department->dept_no)) ?></td>
                     <td><?= h($department->dept_name) ?></td>
-                    <td><?= h($department->description) ?></td>
+                    <td><?= $this->Text->Truncate(h($department->description),130) ?></td>
 
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $department->dept_no]) ?>

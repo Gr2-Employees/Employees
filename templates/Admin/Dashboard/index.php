@@ -33,17 +33,17 @@
                 <div class="row" style="height: 55%">
                     <div class="col" style="line-height: 40px;">
                         <h4 class="h4-stat"><?= __('Total employees') ?></h4>
-                        <p><?= $this->Number->format($nbTotal) ?></p>
+                        <p class="dash-p"><?= $this->Number->format($nbTotal) ?></p>
                     </div>
                 </div>
                 <div class="row" id="ratio">
                     <div class="col-6">
                         <h5 class="h5-stat"><?= __('% Men') ?></h5>
-                        <p><?= $this->Number->toPercentage($pctMan) ?></p>
+                        <p lass="dash-p"><?= $this->Number->toPercentage($pctMan) ?></p>
                     </div>
                     <div class="col-6">
                         <h5 class="h5-stat"><?= __('% Women') ?></h5>
-                        <p><?= $this->Number->toPercentage($pctWoman) ?></p>
+                        <p lass="dash-p"><?= $this->Number->toPercentage($pctWoman) ?></p>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <div class="row" style="transform: translate(0%, 40%);">
                     <div class="col" style="text-align: center; line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Total users') ?></h4>
-                        <p><?= $nbUsers . ' user(s) ' ?></p>
+                        <p lass="dash-p"><?= $nbUsers . ' user(s) ' ?></p>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <div class="row" style="transform: translate(0%, 40%);">
                     <div class="col" style="text-align: center; line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Average salary') ?></h4>
-                        <p><?= $this->Number->format($avgSalary, [
+                        <p lass="dash-p"><?= $this->Number->format($avgSalary, [
                                 'precision' => 2,
                                 'after' => '$'
                             ]); ?>
@@ -71,7 +71,7 @@
                 <div class="row" style="transform: translate(0%, 40%);">
                     <div class="col" style="text-align: center; line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Total vacancies') ?></h4>
-                        <p><?= $nbVacancies . ' vacancies ' ?></p>
+                        <p lass="dash-p"><?= $nbVacancies . ' vacancies ' ?></p>
                     </div>
                 </div>
             </div>

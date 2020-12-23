@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\Department[]|\Cake\Collection\CollectionInterface $departments
  */
 ?>
-<div class="departments index content">
-    <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+<div class="departments index content" style="width: 95%;margin: 30px auto auto auto">
+    <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
     <h3><?= __('Departments') ?></h3>
     <div class="table-responsive">
         <table>
@@ -22,7 +22,7 @@
                 <tr>
                     <td><?= h($department->dept_no) ?></td>
                     <td><?= h($department->dept_name) ?></td>
-                    <td><?= h($department->description) ?></td>
+                    <td><?= $this->Text->Truncate(h($department->description),130) ?></td>
                     <td class="actions">
                         <!-- Button View Dept -->
                         <?= $this->Html->link(__('View'), [

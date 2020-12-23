@@ -72,8 +72,8 @@ class DepartmentsTable extends Table
         $validator
             ->notEmptyString('address');
 
-        $validator
-            ->notEmptyString('rules');
+        /*$validator
+            ->notEmptyString('rules');*/
 
         $validator
             ->notEmptyFile('picture')
