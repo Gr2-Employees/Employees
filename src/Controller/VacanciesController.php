@@ -21,10 +21,10 @@ class VacanciesController extends AppController
     {
         $dept_no = $this->request->getQuery('dept_no');
 
-        $vacancies = $this->getTableLocator()->get('Vacancies')
-            ->find()
+        $vacancies = $this->getTableLocator()->get('Vacancies')->find();
+        $vacancies
             ->select([
-                'amount' => 'vacancies.quantity',
+                'amount' => $vacancies->func()->sum('quantity'),
                 'name' => 'de.dept_name',
                 'title' => 'ti.title',
                 'title_no' => 'ti.title_no',
@@ -47,7 +47,6 @@ class VacanciesController extends AppController
                 'vacancies.title_no'
             ])
             ->all();
-
 
         if (!is_null($vacancies->first())) {
             $nbVacancies = $vacancies->count();
