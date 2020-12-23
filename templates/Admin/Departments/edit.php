@@ -30,12 +30,21 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="departments form content">
-            <?= $this->Form->create($department) ?>
+            <?= $this->Form->create($department, ["type" => "file"]) ?>
             <fieldset>
                 <legend><?= __('Edit Department') ?></legend>
                 <?php
-                echo $this->Form->control('dept_name');
-                echo $this->Form->control('picture');
+                echo $this->Form->control('dept_name');?>
+                <div class="col-6">
+                    <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
+                        'alt' => 'Manager du département ' . $department->dept_name . '.',
+                        'class' => 'manager-picture'
+                    ]) ?>
+                </div>
+                <?php
+                echo $this->Form->control('picture', [
+                'type' => 'file','required'=>'false',
+                ]);
                 echo $this->Form->control('description');
                 echo $this->Form->control('address');
                 echo $this->Form->control('rules');

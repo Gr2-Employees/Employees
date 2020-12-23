@@ -285,7 +285,30 @@ class DepartmentsController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $department = $this->Departments->patchEntity($department, $this->request->getData());
+            if(isset($_POST['picture'])){
+                // Creating a variable to handle upload
+                $picture = $this->request->getData()['picture'];
+
+                //Changer le nom de la photo pour éviter les conflicts de nom
+                $ext = substr(strtolower(strrchr($picture->getClientFilename(), '.')), 1);
+                $newPicName = time() . "_" . rand(000000, 999999) . '.' . $ext;
+                
+                //Move the file to the correct path
+                $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $newPicName);
+
+                //Suppresion de l'image ancienne
+                $oldPicDirectory = WWW_ROOT .'img/uploads/dept_pictures/' . $department->picture;
+                unlink($oldPicDirectory);
+
+                //save new picture to send it to the DB
+                $department->picture = $newPicName;
+            }
+
+            $department->rules = $this->request->getData('rules');
+            $department->address = $this->request->getData('address');
+            $department->description = $this->request->getData('description');
+            $department->dept_name = $this->request->getData('dept_name');
+
             if ($this->Departments->save($department)) {
                 $this->Flash->success(__('The department has been saved.'));
 

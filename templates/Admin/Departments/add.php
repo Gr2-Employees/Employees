@@ -20,7 +20,7 @@
                 echo $this->Form->control('dept_name',['required'=>'true']);
                 echo $this->Form->control('description',['required'=>'true']);
                 echo $this->Form->control('address',['required'=>'true']);
-                echo $this->Form->control('rules',['required'=>'true']);
+                echo $this->Form->control('rules');
                 echo $this->Form->control('picture', [
                     'required'=> 'true',
                     'type' => 'file'
