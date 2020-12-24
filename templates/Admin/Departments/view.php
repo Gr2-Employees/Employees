@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row" style="margin-top:50px; ">
+<div class="row mt-3">
     <aside class="col-2">
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
@@ -43,13 +43,13 @@
     </aside>
     <div class="column-responsive column-75">
         <div class="departments view content">
-            <div style="position: relative" class="row">
+            <div class="row position-relative">
                 <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
 
                 <!-- Button close view -->
                 <?= $this->Html->link(__('<i></i>'), '/departments', [
-                    "class" => "far fa-2x fa-window-close",
-                    "style" => "right:0;position:absolute",
+                    "class" => "far fa-2x fa-window-close position-absolute",
+                    "style" => "right:0;",
                     "escape" => false
                 ]) ?>
             </div>
@@ -74,8 +74,8 @@
                 <div id="manager-pic" class="col-6">
                     <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
                         'alt' => 'Photo du département ' . $department->dept_name . '.',
-                        'class' => 'manager-picture',
-                        'style' => 'margin-bottom: 20px'])
+                        'class' => 'manager-picture mb-4'
+                    ])
                     ?>
                 </div>
             </div>
@@ -142,7 +142,7 @@
             </table>
         </div>
         <!-- Statistics & informations -->
-        <div class=" row departments view content" style="margin-top:50px;">
+        <div class=" row departments view content mt-4">
             <div class="col-8">
                 <h2><?= __('Statistics & informations') ?></h2>
                 <table>
@@ -176,18 +176,18 @@
                         $department->dept_no
                     ], [
                         'confirm' => __('Are you sure you want to revoke {0}?', $department->manager_name),
-                        'class' => 'button',
-                        'style' => 'position: absolute;right: 15px;bottom: 0px;'
+                        'class' => 'button position-absolute',
+                        'style' => 'right: 15px;bottom: 0px;'
                     ]) ?>
                 </div>
             </div>
             <div class="col-4">
                 <!-- Manager Picture -->
-                <div id="manager-pic" style="float: right">
+                <div id="manager-pic">
                     <?php if (!is_null($department->pictureManager)) { ?>
                         <?= $this->Html->image('/img/' . $department->pictureManager, [
                             'alt' => 'Manager du département ' . $department->dept_name,
-                            'class' => 'manager-picture'
+                            'class' => 'manager-picture float-right'
                         ]) ?>
                     <?php } else { ?>
                         <?= $this->Html->image('/img/noUserPic.jpg', [
