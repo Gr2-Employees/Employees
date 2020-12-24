@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\Employee[]|\Cake\Collection\CollectionInterface $employees
  */
 ?>
-<div class="employees index content" style="width: 95%;margin: 30px auto auto auto">
-    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
+<div class="employees index content col-95 mt-5 mx-auto">
+    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right btn-blue']) ?>
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>
