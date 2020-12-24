@@ -4,10 +4,9 @@
  * @var \App\Model\Entity\Department $department
  */
 ?>
-<div class="row"
-     style="min-height:91vh;background-image: url('/img/login-background-min.jpg');background-size: cover;background-position: center;background-repeat: no-repeat">
-    <div class="column-responsive column-80" style="margin: 50px auto auto auto;">
-        <div class="departments form content" style="position: relative">
+<div class="row row-styled-background">
+    <div class="column-responsive column-80 m-auto">
+        <div class="departments form content position-relative">
             <?= $this->Form->create($department, ["type" => "file"]) ?>
             <fieldset class="row">
 
@@ -17,7 +16,7 @@
                     'prefix' => 'Admin',
                     'action' => 'index'
                 ], [
-                    'class' => 'button', 'style' => "background-color: #2A6496;border-color: #2A6496;position: absolute;top: 40px;right: 40px"
+                    'class' => 'button btn-blue position-absolute', 'style' => "top: 25px;right: 40px"
 
                 ]) ?>
 
@@ -29,11 +28,10 @@
                     echo $this->Form->control('rules');
                     ?>
                 </div>
-                <div class="col-6" style="text-align: center;padding-top: 30px">
+                <div class="col-6 pt-3 text-center">
                     <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
                         'alt' => 'Photo du département ' . $department->dept_name . '.',
-                        'class' => 'manager-picture',
-                        'style' => 'margin-bottom: 20px'
+                        'class' => 'manager-picture mb-4'
                     ]) ?>
 
                     <?php
@@ -42,7 +40,7 @@
                     ]); ?>
                 </div>
             </fieldset>
-            <?= $this->Form->button(__('Submit'), ['style' => "margin-left: 15px;background-color: #2A6496;border-color: #2A6496"]) ?>
+            <?= $this->Form->button(__('Submit'), ["class" => "btn-blue ml-4"]) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
