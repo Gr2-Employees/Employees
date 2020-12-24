@@ -8,14 +8,14 @@
     <div class="col-add">
         <div class="users form content">
             <?= $this->Form->create($user) ?>
-            <fieldset style="position: relative">
+            <fieldset class="position-relative">
                 <legend><?= __('Add User') ?></legend>
                 <!-- Button admin/users/index -->
                 <?= $this->Html->link(__('List Users'), [
                     'prefix' => 'Admin',
                     'action' => 'index'
                 ], [
-                    'class' => 'button','style' => "background-color: #2A6496;border-color: #2A6496;position: absolute;top: 0px;right: 0px"
+                    'class' => 'button btn-blue position-absolute','style' => "top: 0px;right: 0px"
                 ]) ?>
                 <?php
                 echo $this->Form->control('email');
