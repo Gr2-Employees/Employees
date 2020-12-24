@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Department[]|\Cake\Collection\CollectionInterface $departments
  */
 ?>
-<div class="departments index content" style="width: 95%;margin: 30px auto auto auto">
+<div class="departments index content col-95 mt-5 mx-auto">
     <h3><?= __('Departments') ?></h3>
     <div class="table-responsive">
         <table>
