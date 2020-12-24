@@ -183,7 +183,7 @@
                     <?php } else { ?>
                         <!-- Link to assign Empl as Manager -->
                         <?=  $this->Html->link( __('Assign an employee as Manager'), [
-                            'action' => 'assignEmployee',
+                            'action' => 'showQualified',
                             $department->dept_no
                         ], [
                             'class' => 'button',
@@ -203,7 +203,7 @@
                     <?php } else { ?>
                         <?= $this->Html->image('/img/noUserPic.jpg', [
                             'alt' => 'Manager du département ' . $department->dept_name,
-                            'class' => 'manager-picture',
+                            'class' => 'manager-picture float-right',
                         ]) ?>
                     <?php } ?>
                 </div>
