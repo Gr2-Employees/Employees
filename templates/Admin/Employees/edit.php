@@ -4,10 +4,9 @@
  * @var \App\Model\Entity\Employee $employee
  */
 ?>
-<div class="row"
-     style="min-height:91vh;background-image: url('/img/login-background-min.jpg');background-size: cover;background-position: center;background-repeat: no-repeat">
-    <div class="column-responsive column-80" style="margin: 50px auto auto auto;">
-        <div class="employees form content" style="position: relative;padding: 4rem">
+<div class="row row-styled-background">
+    <div class="column-responsive column-80 mt-5 mx-auto">
+        <div class="employees form content position-relative p-5">
             <?= $this->Form->create($employee) ?>
             <fieldset>
                 <legend><?= __('Edit Employee') ?></legend>
@@ -16,7 +15,7 @@
                     'prefix' => 'Admin',
                     'action' => 'index'
                 ], [
-                    'class' => 'button', 'style' => "background-color: #2A6496;border-color: #2A6496;position: absolute;top: 40px;right: 50px"
+                    'class' => 'button btn-blue position-absolute', 'style' => "top: 40px;right: 40px"
                 ]) ?>
                 <div class="row">
                     <div class="column">
@@ -33,7 +32,7 @@
                     </div>
                 </div>
             </fieldset>
-            <?= $this->Form->button(__('Submit'), ['style' => "margin-left: 15px;background-color: #2A6496;border-color: #2A6496"]) ?>
+            <?= $this->Form->button(__('Submit'), ['class'=>'btn-blue ml-3']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

@@ -73,6 +73,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     background-image: url('../img/employee.jpg');
     height: 600px;
     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     padding: 120px;
     box-shadow: 1px -1px 43px 1px rgba(0, 0, 0, 0.51);
     -webkit-box-shadow: 1px -1px 43px 1px rgba(0, 0, 0, 0.51);
@@ -237,6 +239,10 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light {
     bottom: 2%;
     left: 50%;
     transform: translate(-50%, -50%);
+    height: 5rem !important;
+    line-height: 5rem !important;
+    border-color: transparent;
+    font-size: 1.5rem;
 }
 
 .btn-articles:hover {

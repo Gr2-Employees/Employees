@@ -4,11 +4,9 @@
  * @var \App\Model\Entity\Employee $employee
  */
 ?>
-<div class="row"
-     style="min-height:91vh;background-image: url('/img/login-background-min.jpg');background-size: cover;background-position: center;background-repeat: no-repeat">
-
-    <div class="column-responsive column-80" style="margin: 35px auto">
-        <div class="employees form content" style="position: relative; padding:4rem">
+<div class="row row-styled-background">
+    <div class="column-responsive column-80 mt-4 mx-auto">
+        <div class="employees form content position-relative p-5"">
             <?= $this->Form->create($employee) ?>
             <fieldset style="position: relative">
                 <legend><?= __('Add Employee') ?></legend>
@@ -26,7 +24,7 @@
                 echo $this->Form->control('departments._ids', ['options' => $departments]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit'), ['style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => "btn-blue"]) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

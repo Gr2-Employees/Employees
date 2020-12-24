@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="users index content" style="width: 95%;margin: 30px auto auto auto">
+<div class="users index content col-95 mt-5 mx-auto">
     <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
     <h3><?= __('Users') ?></h3>
     <div class="table-responsive">

@@ -101,7 +101,7 @@
                 </p>
                 <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'),
                     '/files/IBEN_09_Cashless_20200825_FR_V3.pdf', [
-                        'class' => 'btn btn-primary btn-home btn-articles',
+                        'class' => 'button btn-articles',
                         'target' => '_blank',
                         'escape' => false
                     ]) ?>
@@ -124,7 +124,7 @@
                 <p>La crise du coronavirus est loin d’être terminée et le confinement du printemps a fait
                     de sérieux dégâts à l’économie belge...</p>
                 <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'), '/files/IBEN_11_Transactions_Update_ete_20200904_FR_V3.pdf', [
-                    'class' => 'btn btn-primary btn-home btn-articles',
+                    'class' => 'button btn-articles',
                     'target' => '_blank',
                     'escape' => false
                 ]) ?>
@@ -146,7 +146,7 @@
                 <p>Avant la crise du coronavirus, le développement durable était devenu une préoccupation de plus en
                     plus sensible...</p>
                 <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'), '/files/Post_covid_consumer_FR.pdf', [
-                    'class' => 'btn btn-primary btn-home btn-articles',
+                    'class' => 'button btn-articles',
                     'target' => '_blank',
                     'escape' => false
                 ]) ?>
@@ -169,7 +169,7 @@
                     non hypothécaire. C’est un des résultats qui ressort de la nouvelle ING ...</p>
 
                 <?= $this->Html->link(__('<i class="fas fa-arrow-right"></i> Lire plus'), '/files/IBEN-FR.pdf', [
-                    'class' => 'btn btn-primary btn-home btn-articles',
+                    'class' => 'button btn-articles',
                     'target' => '_blank',
                     'escape' => false
                 ]) ?>
@@ -292,7 +292,7 @@
             </div>
         </div>
         <div class="row">
-            <div style="text-align: center; color:white;" class="col">
+            <div style="color:white;" class="col text-center">
                 &copy Nathan, Thomas et Radad
             </div>
         </div>

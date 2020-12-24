@@ -5,7 +5,7 @@
  */
 //$cellMenWomenRatio = $this->cell('Inbox');
 ?>
-<div class="employees index content" style="width: 95%;margin: 30px auto auto auto">
+<div class="employees index content col-95 mt-5 mx-auto">
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>

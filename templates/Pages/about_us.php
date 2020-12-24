@@ -1,6 +1,6 @@
     <div id="who-are-we-background" class="row">
         <div id="who-are-we-content" class="col-6">
-                <h2 style="text-align: center">Qui sommes-nous ?</h2>
+                <h2 class="text-center">Qui sommes-nous ?</h2>
                 <p>United Suite, est un conglomérat de plusieurs petites banques qui ont décidé de s'unir lors de la crise bancaire de mai 1873.</p>
                 <p>Fondée en juillet 1872, la Banque United Suite n'a cessé, au cours des nonantes années qui ont suivi, d'acquérir des actionnaires, de racheter ou s'unir avec d'autres banques implantées dans les principales villes belges.</p><br>
                 <p>En 1931, United Suite s'engagea non seulement dans les activités bancaires traditionnelles, mais également dans la gestion d'intérêts industriels principalement localisés en Belgique et en Afrique.</p>

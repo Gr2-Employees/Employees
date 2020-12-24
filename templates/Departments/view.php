@@ -43,14 +43,14 @@
             </div>
         </aside>
     <?php } ?>
-    <div class="col-department">
+    <div class="column-80">
         <div class="departments view content">
-            <div style="position: relative" class="row">
+            <div class="row position-relative">
                 <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>
                 <?= $this->Html->link(__('<i></i>'), '/departments',
                     [
-                        "class" => "far fa-2x fa-window-close",
-                        "style" => "right:0;position:absolute",
+                        "class" => "far fa-2x fa-window-close position-absolute",
+                        "style" => "right:0;",
                         "escape" => false
                     ]) ?>
             </div>
