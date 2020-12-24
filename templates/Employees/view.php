@@ -25,13 +25,13 @@
             </div>
         </aside>
     <?php } ?>
-    <div class="col-employee">
-        <div style="position: relative" class="employees view content">
+    <div class="col-8">
+        <div class="employees view content position-relative">
             <h3><?= h($employee->emp_no) ?></h3>
             <?= $this->Html->link(__('<i></i>'), 'employees/',
                 [
-                    "class" => "far fa-2x fa-window-close",
-                    "style" => "right:30px;top:25px;position:absolute",
+                    "class" => "far fa-2x fa-window-close position-absolute",
+                    "style" => "right:30px;top:25px;",
                     "escape" => false
                 ]) ?>
             <table>
