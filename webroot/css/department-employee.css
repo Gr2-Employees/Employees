@@ -11,11 +11,6 @@ h3 {
     padding: 30px;
 }
 
-.col-department {
-    max-width: 70%;
-    min-width: 60%;
-}
-
 .manager-picture {
     max-width: 350px;
     height: 300px;
@@ -50,11 +45,6 @@ table {
     margin-top: 20px;
 }
 
-.col-employee {
-    max-width: 70%;
-    min-width: 60%;
-    margin: auto;
-}
 /*Admin pages*/
   .tr-th-employee th, .tr-td-employee td {
       text-align: center;
@@ -74,15 +64,16 @@ table {
     background-color: #2A6496;
     border-color: #2A6496;
 }
-.col-95{
-    width: 95%;
-}
+
 .row-styled-background{
     min-height:91vh;
     background-image: url('/img/login-background-min.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+.col-95{
+    width: 95%;
 }
 .col-15{
     width:15%
