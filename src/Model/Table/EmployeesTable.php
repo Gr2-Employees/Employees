@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Employee;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -12,19 +15,19 @@ use App\Model\Behavior\InitialisableBehavior;
 /**
  * Employees Model
  *
- * @method \App\Model\Entity\Employee newEmptyEntity()
- * @method \App\Model\Entity\Employee newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Employee[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Employee get($primaryKey, $options = [])
- * @method \App\Model\Entity\Employee findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Employee patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Employee[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Employee|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Employee saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Employee[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Employee[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Employee[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Employee[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Employee newEmptyEntity()
+ * @method Employee newEntity(array $data, array $options = [])
+ * @method Employee[] newEntities(array $data, array $options = [])
+ * @method Employee get($primaryKey, $options = [])
+ * @method Employee findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Employee patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Employee[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Employee|false save(EntityInterface $entity, $options = [])
+ * @method Employee saveOrFail(EntityInterface $entity, $options = [])
+ * @method Employee[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Employee[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Employee[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Employee[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class EmployeesTable extends Table
 {
@@ -63,8 +66,8 @@ class EmployeesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Partner;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,19 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Partners Model
  *
- * @method \App\Model\Entity\Partner newEmptyEntity()
- * @method \App\Model\Entity\Partner newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Partner[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Partner get($primaryKey, $options = [])
- * @method \App\Model\Entity\Partner findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Partner patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Partner[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Partner|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Partner saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Partner[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Partner[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Partner[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Partner[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Partner newEmptyEntity()
+ * @method Partner newEntity(array $data, array $options = [])
+ * @method Partner[] newEntities(array $data, array $options = [])
+ * @method Partner get($primaryKey, $options = [])
+ * @method Partner findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Partner patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Partner[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Partner|false save(EntityInterface $entity, $options = [])
+ * @method Partner saveOrFail(EntityInterface $entity, $options = [])
+ * @method Partner[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Partner[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Partner[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Partner[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class PartnersTable extends Table
 {
@@ -45,8 +48,8 @@ class PartnersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

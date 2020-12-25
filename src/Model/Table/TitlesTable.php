@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Title;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,19 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Titles Model
  *
- * @method \App\Model\Entity\Title newEmptyEntity()
- * @method \App\Model\Entity\Title newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Title[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Title get($primaryKey, $options = [])
- * @method \App\Model\Entity\Title findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Title patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Title[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Title|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Title saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Title newEmptyEntity()
+ * @method Title newEntity(array $data, array $options = [])
+ * @method Title[] newEntities(array $data, array $options = [])
+ * @method Title get($primaryKey, $options = [])
+ * @method Title findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Title patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Title[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Title|false save(EntityInterface $entity, $options = [])
+ * @method Title saveOrFail(EntityInterface $entity, $options = [])
+ * @method Title[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Title[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Title[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Title[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class TitlesTable extends Table
 {
@@ -40,7 +43,7 @@ class TitlesTable extends Table
         $this->setTable('titles');
         $this->setDisplayField('title');
         $this->setPrimaryKey(['emp_no', 'title', 'from_date']);
-        
+
         $this->belongsTo('employees', [
             'foreignKey' => 'emp_no',
         ]);
@@ -49,8 +52,8 @@ class TitlesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Entity\User;
+use App\Model\Table\UsersTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
@@ -14,7 +15,7 @@ use Cake\Http\Response;
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UsersTable $Users
+ * @property UsersTable $Users
  * @method User[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
@@ -61,6 +62,7 @@ class UsersController extends AppController
 
                         if (sizeof($query) === 0) {
                             $user = $this->Users->patchEntity($user, $this->request->getData());
+
                             if ($this->Users->save($user)) {
                                 $this->Flash->success(__('The user has been saved.'));
 
@@ -68,6 +70,7 @@ class UsersController extends AppController
                                     'action' => 'login'
                                 ]);
                             }
+
                             $this->Flash->error(__('The user could not be saved. Please, try again.'));
                         } else {
                             $this->Flash->error(__('This email is already taken'));

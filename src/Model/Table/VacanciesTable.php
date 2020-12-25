@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Vacancy;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,19 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Vacancies Model
  *
- * @method \App\Model\Entity\Vacancy newEmptyEntity()
- * @method \App\Model\Entity\Vacancy newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Vacancy[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Vacancy get($primaryKey, $options = [])
- * @method \App\Model\Entity\Vacancy findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Vacancy patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Vacancy[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Vacancy|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Vacancy saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Vacancy[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Vacancy[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Vacancy[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Vacancy[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Vacancy newEmptyEntity()
+ * @method Vacancy newEntity(array $data, array $options = [])
+ * @method Vacancy[] newEntities(array $data, array $options = [])
+ * @method Vacancy get($primaryKey, $options = [])
+ * @method Vacancy findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Vacancy patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Vacancy[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Vacancy|false save(EntityInterface $entity, $options = [])
+ * @method Vacancy saveOrFail(EntityInterface $entity, $options = [])
+ * @method Vacancy[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Vacancy[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Vacancy[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Vacancy[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class VacanciesTable extends Table
 {
@@ -45,8 +48,8 @@ class VacanciesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
