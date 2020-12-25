@@ -5,10 +5,21 @@
         <?= $this->Form->create() ?>
         <fieldset>
             <legend><?= __('Please enter your username and password') ?></legend>
-            <?= $this->Form->control('email', ['required' => true]) ?>
-            <?= $this->Form->control('password', ['required' => true]) ?>
+            <!-- Email field -->
+            <?= $this->Form->control('email', [
+                'required' => true
+            ]) ?>
+
+            <!-- Password field -->
+            <?= $this->Form->control('password', [
+                'required' => true
+            ]) ?>
         </fieldset>
-        <?= $this->Form->submit(__('Login'), ["id" => "btn-form-login"]) ?>
+
+        <!-- Button Submit -->
+        <?= $this->Form->submit(__('Login'), [
+            'id' => 'btn-form-login'
+        ]) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

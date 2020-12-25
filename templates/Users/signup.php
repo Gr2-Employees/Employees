@@ -10,16 +10,23 @@
             <?= $this->Form->create($user) ?>
             <fieldset>
                 <legend><?= __('Sign Up') ?></legend>
-                <?php
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('password');
-                    echo $this->Form->control('confPwd', [
-                        'label' => __('Confirm your password'),
-                        'type' => 'password'
-                    ]);
-                ?>
+
+                <!-- Email field -->
+                <?= $this->Form->control('email') ?>
+
+                <!-- Password field -->
+                <?= $this->Form->control('password') ?>
+
+                <!-- Confirmation Password field -->
+                <?= $this->Form->control('confPwd', [
+                    'label' => __('Confirm your password'),
+                    'type' => 'password'
+                ]) ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit'), ["id" => "btn-form-add-user"]) ?>
+
+            <?= $this->Form->button(__('Submit'), [
+                'id' => 'btn-form-add-user'
+            ]) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
