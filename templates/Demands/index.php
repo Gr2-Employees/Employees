@@ -35,7 +35,19 @@
                         ], [
                             'confirm' => __('Are you sure you want to approve # {0}?',
                                 $demand->id),
-                            'class' => 'side-nav-item button btn-blue'
+                            'class' => 'button btn-blue',
+                            'style'=>'color:white'
+
+                        ]) ?>
+                        <!-- Link to Approve demand -->
+                        <?= $this->Form->postLink(__('Decline'), [
+                            'controller' => 'Demands',
+                            'action' => 'decline', $demand->id
+                        ], [
+                            'confirm' => __('Are you sure you want to decline # {0}?',
+                                $demand->id),
+                            'class' => 'button',
+                            'style'=>'color:white'
                         ]) ?>
                     </td>
                 </tr>
