@@ -62,42 +62,95 @@ class DemandsController extends AppController
             ->where([
                 'id' => $id
             ]);
-        $result = $query->first();
-        switch ($result->approved_by) {
+
+        $approvedRole = $query->first()->approved_by;
+
+        switch ($approvedRole) {
             //Insérer le role dans le champ approved_by
             case 'none' :
-                $query = $this->getTableLocator()->get('demands')->query();
+                $query = $this->getTableLocator()->get('Demands')->query();
                 $query->update()
-                    ->set(['approved_by' => $role])
-                    ->where(['id' => $id])
+                    ->set([
+                        'approved_by' => $role
+                    ])
+                    ->where([
+                        'id' => $id
+                    ])
                     ->execute();
-                $this->redirect(['action' => 'index']);
+
+                $this->redirect([
+                    'action' => 'index'
+                ]);
                 break;
 
             //Comparer le role (different)
             case 'manager' :
-                if ($role !== $result->approved_by) {
-                    $query = $this->getTableLocator()->get('demands')->query();
+                if ($role !== $approvedRole) {
+                    $query = $this->getTableLocator()->get('Demands')->query();
                     $query->update()
-                        ->set(['approved_by' => 'both', 'status' => 'validated'])
-                        ->where(['id' => $id])
+                        ->set([
+                            'approved_by' => 'both',
+                            'status' => 'validated'
+                        ])
+                        ->where([
+                            'id' => $id
+                        ])
                         ->execute();
-                    $this->redirect(['action' => 'index']);
+
+                    $this->redirect([
+                        'action' => 'index'
+                    ]);
                 }
                 break;
             //Comparer le role (different)
             case 'comptable' :
-                if ($role !== $result->approved_by) {
-                    $query = $this->getTableLocator()->get('demands')->query();
+                if ($role !== $approvedRole) {
+                    $query = $this->getTableLocator()->get('Demands')->query();
                     $query->update()
-                        ->set(['approved_by' => 'both', 'status' => 'validated'])
-                        ->where(['id' => $id])
+                        ->set([
+                            'approved_by' => 'both',
+                            'status' => 'validated'
+                        ])
+                        ->where([
+                            'id' => $id
+                        ])
                         ->execute();
-                    $this->redirect(['action' => 'index']);
+
+                    $this->redirect([
+                        'action' => 'index'
+                    ]);
                 }
             default;
         }
+    }
 
+    public function decline($id = null)
+    {
+
+        $this->disableAutoRender();
+
+        if ($id === null) {
+            return $this->redirect([
+                'action' => 'index'
+            ]);
+        }
+
+        $demand = $this->Demands->get($id);
+        $demand->status = 'declined';
+
+        if ($this->Demands->save($demand)) {
+            $this->Flash->success(__('The demand has been declined'));
+
+            return $this->redirect([
+                'action' => 'index'
+            ]);
+        } else {
+            $this->Flash->error(__('There was a problem declining the demand, please try again.'));
+
+            return $this->redirect([
+                'action' => 'index'
+            ]);
+        }
     }
 
     /**
@@ -170,11 +223,11 @@ class DemandsController extends AppController
     {
         parent::beforeRender($event);
 
-        if ($this->Authentication->getIdentity()->role !== 'member'
+        if (!isset($this->Authentication->getIdentity())
+            && $this->Authentication->getIdentity()->role !== 'member'
             && $this->Authentication->getIdentity()->role !== 'admin'
             && $this->Authentication->getIdentity()->role !== 'comptable'
-            && $this->Authentication->getIdentity()->role !== 'manager')
-        {
+            && $this->Authentication->getIdentity()->role !== 'manager') {
             return $this->redirect('/');
         }
     }
