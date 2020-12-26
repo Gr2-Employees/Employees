@@ -26,6 +26,14 @@
         ], [
             'class' => 'aside-links'
         ]) ?>
+
+        <!-- Lien vers Demands-->
+        <?= $this->Html->link('To Demands', [
+            'controller' => '../Demands',
+            'action' => 'index'
+        ], [
+            'class' => 'aside-links'
+        ]) ?>
     </aside>
     <div id="data">
         <div class="row" id="dataStat">
