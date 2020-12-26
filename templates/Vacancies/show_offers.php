@@ -5,8 +5,15 @@
  */
 ?>
 <div class="vacancies index content">
-    <div id="TitlePage">
-        <h2>Page Hire</h2>
+    <div id="TitlePage" class="position-relative">
+        <h2 >Page Hire</h2>
+        <?= $this->Html->link(__('Back to Departments'), [
+            'controller' => 'Departments',
+            'action' => 'index'
+        ], [
+            "class" => "btn button btn-blue position-absolute",
+            "style"=>"top:0;right:0px"
+        ]) ?>
         <?php if (isset($vacancyName) && !is_null($vacancies)) { ?>
         <?php if ($nbVacancies === 1) { ?>
             <h4> <?= __('Vacant position in department of ') . h($vacancyName) ?></h4>
@@ -48,9 +55,6 @@
     <?php } else { ?>
 
         <?= $this->Flash->render() ?>
-        <?= $this->Html->link(__('Back to Departments'), [
-            'controller' => 'departments',
-            'action' => 'index'
-        ]) ?>
+
     <?php } ?>
 </div>
