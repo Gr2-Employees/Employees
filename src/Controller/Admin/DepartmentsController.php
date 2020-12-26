@@ -237,7 +237,7 @@ class DepartmentsController extends AppController
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      * @throws Exception
      */
-    public function add(): ?Response
+    public function add()
     {
         $department = $this->Departments->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -283,7 +283,7 @@ class DepartmentsController extends AppController
      * @return Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws RecordNotFoundException When record not found.
      */
-    public function edit($id = null): ?Response
+    public function edit($id = null)
     {
         $department = $this->Departments->get($id, [
             'contain' => [],
@@ -332,7 +332,7 @@ class DepartmentsController extends AppController
      * @return Response|null|void Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
-    public function delete($id = null): ?Response
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $department = $this->Departments->get($id);
@@ -365,7 +365,7 @@ class DepartmentsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function revokeManager($id = null): ?Response
+    public function revokeManager($id = null)
     {
         if ($id === null) {
             $this->Flash->error(__('There has to be a department ID to access this functionality.'));
@@ -451,7 +451,7 @@ class DepartmentsController extends AppController
         ]);
     }
 
-    public function showQualified($id = null): ?Response
+    public function showQualified($id = null)
     {
         if ($id === null) {
             $this->Flash->error(__('There has to be a department ID to access this functionality.'));
