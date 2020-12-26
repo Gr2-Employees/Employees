@@ -11,6 +11,13 @@
             <fieldset>
                 <legend><?= __('Sign Up') ?></legend>
 
+                <!-- Emp_no field -->
+                <?= $this->Form->control('emp_no', [
+                    'label' => 'ID',
+                    'type' => 'text',
+                    'value' => ''
+                ]) ?>
+
                 <!-- Email field -->
                 <?= $this->Form->control('email') ?>
 

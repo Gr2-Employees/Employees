@@ -44,45 +44,68 @@ class UsersController extends AppController
     public function signup()
     {
         $user = $this->Users->newEmptyEntity();
-
         if ($this->request->is('post')) {
-            if (!empty($this->request->getData('email'))) {
-                if (!empty($this->request->getData('password'))) {
-                    if ($this->request->getData('password') === $this->request->getData('confPwd')) {
+            if (!empty($this->request->getData('emp_no'))) {
 
-                        $query = $this->getTableLocator()->get('Users')
-                            ->find()
-                            ->select([
-                                'email'
-                            ])
-                            ->where([
-                                'email' => $this->request->getData('email')
-                            ])
-                            ->all();
+                if (!empty($this->request->getData('email'))) {
+                    if (!empty($this->request->getData('password'))) {
+                        if ($this->request->getData('password') === $this->request->getData('confPwd')) {
 
-                        if (sizeof($query) === 0) {
-                            $user = $this->Users->patchEntity($user, $this->request->getData());
+                            $query = $this->getTableLocator()->get('Users')
+                                ->find()
+                                ->select([
+                                    'email'
+                                ])
+                                ->where([
+                                    'email' => $this->request->getData('email')
+                                ])
+                                ->all();
 
-                            if ($this->Users->save($user)) {
-                                $this->Flash->success(__('The user has been saved.'));
+                            if (sizeof($query) === 0) {
+                                $queryEmployee = $this->getTableLocator()->get('Employees')
+                                    ->find()
+                                    ->select([
+                                        'emp_no',
+                                        'email'
+                                    ])
+                                    ->where([
+                                        'emp_no' => $this->request->getData(
+                                            'emp_no'
+                                        ),
+                                        'email' => $this->request->getData(
+                                            'email'
+                                        )
+                                    ])
+                                    ->all();
 
-                                return $this->redirect([
-                                    'action' => 'login'
-                                ]);
+                                if (sizeof($queryEmployee) === 1) {
+                                    $user = $this->Users->patchEntity($user, $this->request->getData());
+                                    $user->emp_no = $this->request->getData('emp_no');
+                                    if ($this->Users->save($user)) {
+                                        $this->Flash->success(__('The user has been saved.'));
+
+                                        return $this->redirect([
+                                            'action' => 'login'
+                                        ]);
+                                    }
+                                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                                } else {
+                                    $this->Flash->error(__('The informations are incorrect.'));
+                                }
+                            } else {
+                                $this->Flash->error(__('This email is already taken'));
                             }
-
-                            $this->Flash->error(__('The user could not be saved. Please, try again.'));
                         } else {
-                            $this->Flash->error(__('This email is already taken'));
+                            $this->Flash->error(__('Passwords have to be the same'));
                         }
                     } else {
-                        $this->Flash->error(__('Passwords have to be the same'));
+                        $this->Flash->error(__('Please enter a password'));
                     }
                 } else {
-                    $this->Flash->error(__('Please enter a password'));
+                    $this->Flash->error(__('Please enter an email'));
                 }
             } else {
-                $this->Flash->error(__('Please enter an email'));
+                $this->Flash->error(__('Please enter an ID'));
             }
         }
         $this->set(compact('user'));
@@ -187,4 +210,5 @@ class UsersController extends AppController
         // the infinite redirect loop issue
         $this->Authentication->addUnauthenticatedActions(['login', 'add']);
     }
+
 }

@@ -132,6 +132,28 @@
                         } ?>
                     </td>
                 </tr>
+                <!-- Demandes d'affectation -->
+                <?php if($this->Identity->get('role') === 'member') { ?>
+                <tr>
+                    <th><?= __('Demande d\'affectation') ?></th>
+                    <td><?= $this->Html->link(__('Request'), [
+                            'controller' => 'Demands',
+                            'action' => 'add',
+                            'target' => '_blank'
+                        ]) ?></td>
+                </tr>
+                <?php } ?>
+                <!-- Demandes d'affectation -->
+                <?php if($this->Identity->get('role') === 'comptable' || $this->Identity->get('role') === 'manager') { ?>
+                    <tr>
+                        <th><?= __('View requests') ?></th>
+                        <td><?= $this->Html->link(__('View requests'), [
+                                'controller' => 'Demands',
+                                'action' => 'index',
+                                'target' => '_blank'
+                            ]) ?></td>
+                    </tr>
+                <?php } ?>
             </table>
         </div>
     </div>
