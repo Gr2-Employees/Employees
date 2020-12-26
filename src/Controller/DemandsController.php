@@ -223,11 +223,17 @@ class DemandsController extends AppController
     {
         parent::beforeRender($event);
 
-        if (!isset($this->Authentication->getIdentity())
-            && $this->Authentication->getIdentity()->role !== 'member'
-            && $this->Authentication->getIdentity()->role !== 'admin'
-            && $this->Authentication->getIdentity()->role !== 'comptable'
-            && $this->Authentication->getIdentity()->role !== 'manager') {
+        if ($this->Authentication->getResult()->isValid()) {
+            if ($this->Authentication->getIdentity()->role !== 'member'
+                && $this->Authentication->getIdentity()->role !== 'admin'
+                && $this->Authentication->getIdentity()->role !== 'comptable'
+                && $this->Authentication->getIdentity()->role !== 'manager')
+            {
+                return $this->redirect('/');
+
+            }
+        } else {
+            $this->Flash->error('You must be connected');
             return $this->redirect('/');
         }
     }
