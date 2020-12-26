@@ -43,6 +43,7 @@ class DemandsController extends AppController
 
     public function approve($id = null)
     {
+        $this->disableAutoRender();
         if ($id == null) {
             return $this->redirect(['action' => 'index']);
         }
@@ -65,12 +66,31 @@ class DemandsController extends AppController
                     ->set(['approved_by' => $role])
                     ->where(['id' => $id])
                     ->execute();
+                $this->redirect(['action'=>'index']);
+                break;
+
+            //Comparer le role (different)
+            case 'manager' :
+                if($role !== $result->approved_by){
+                    $query = $this->getTableLocator()->get('demands')->query();
+                    $query->update()
+                        ->set(['approved_by' => 'both'])
+                        ->where(['id' => $id])
+                        ->execute();
+                    $this->redirect(['action'=>'index']);
+                }
                 break;
             //Comparer le role (different)
-
-            case 'manager' : break;
-            //Comparer le role (different)
-            case 'comptable' :  break;
+            case 'comptable' :
+                if($role !== $result->approved_by){
+                    $query = $this->getTableLocator()->get('demands')->query();
+                    $query->update()
+                        ->set(['approved_by' => 'both'])
+                        ->where(['id' => $id])
+                        ->execute();
+                    $this->redirect(['action'=>'index']);
+                }
+                default;
         }
     }
 
