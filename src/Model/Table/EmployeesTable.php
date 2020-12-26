@@ -97,8 +97,8 @@ class EmployeesTable extends Table
             ->requirePresence('gender', 'create')
             ->notEmptyString('gender')
             ->add('gender', 'validValue',[
-                'rule' => ['inlist',['F','M']],
-                'message' => 'This value must be either F or M',
+                'rule' => ['inlist',['F','M', 'Others']],
+                'message' => 'This value must be either F or M or Others.',
             ]);
 
         $validator
