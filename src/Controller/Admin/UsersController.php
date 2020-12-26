@@ -122,10 +122,7 @@ class UsersController extends AppController
                 'element' => 'success'
             ]);
 
-            return $this->redirect([
-                'controller' => '../Pages',
-                'action' => 'display'
-            ]);
+            return $this->redirect('/');
         }
     }
 
