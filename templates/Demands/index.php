@@ -5,7 +5,7 @@
  */
 ?>
 <div class="demands index content">
-    <?= $this->Html->link(__('New Demand'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <?= $this->Html->link(__('New Demand'), ['action' => 'add'], ['class' => 'button btn-blue float-right']) ?>
     <h3><?= __('Demands') ?></h3>
     <div class="table-responsive">
         <table>
@@ -37,8 +37,8 @@
                             ], [
                                 'confirm' => __('Are you sure you want to approve # {0}?',
                                     $demand->id),
-                                'class' => 'button btn-blue',
-                                'style' => 'color:white'
+                                'class' => 'button',
+                                'style' => 'color:white;background-color:green;border-color:green'
 
                             ]) ?>
 
@@ -50,7 +50,7 @@
                                 'confirm' => __('Are you sure you want to decline # {0}?',
                                     $demand->id),
                                 'class' => 'button',
-                                'style' => 'color:white'
+                                'style' => 'color:white;'
                             ]) ?>
 
                         <?php } else {

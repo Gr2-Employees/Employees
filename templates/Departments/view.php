@@ -43,7 +43,7 @@
             </div>
         </aside>
     <?php } ?>
-    <div class="column-80">
+    <div class="column-80 m-auto">
         <div class="departments view content">
             <div class="row position-relative">
                 <h1><?= __('Department of') . ' ' . h($department->dept_name) ?></h1>

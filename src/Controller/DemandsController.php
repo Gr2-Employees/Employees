@@ -96,11 +96,12 @@ class DemandsController extends AppController
                             'id' => $id
                         ])
                         ->execute();
-
-                    $this->redirect([
-                        'action' => 'index'
-                    ]);
+                } else {
+                    $this->Flash->error('This demand is already approved by a manager');
                 }
+                $this->redirect([
+                    'action' => 'index'
+                ]);
                 break;
             //Comparer le role (different)
             case 'comptable' :
@@ -119,8 +120,13 @@ class DemandsController extends AppController
                     $this->redirect([
                         'action' => 'index'
                     ]);
+                } else {
+                    $this->Flash->error('This demand is already approved by an accounting');
                 }
-            default;
+                $this->redirect([
+                    'action' => 'index'
+                ]);
+                default;
         }
     }
 
