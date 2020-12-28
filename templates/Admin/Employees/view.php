@@ -61,7 +61,6 @@
                             <th><?= __('Salary') ?></th>
                             <th><?= __('From Date') ?></th>
                             <th><?= __('To Date') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($employee->salaries as $salaries) : ?>
                         <tr>
@@ -69,11 +68,6 @@
                             <td><?= h($salaries->salary) ?></td>
                             <td><?= h($salaries->from_date) ?></td>
                             <td><?= h($salaries->to_date) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'Salaries', 'action' => 'view', $salaries->emp_no]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'Salaries', 'action' => 'edit', $salaries->emp_no]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Salaries', 'action' => 'delete', $salaries->emp_no], ['confirm' => __('Are you sure you want to delete # {0}?', $salaries->emp_no)]) ?>
-                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </table>
