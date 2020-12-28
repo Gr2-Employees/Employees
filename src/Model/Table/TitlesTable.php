@@ -42,11 +42,8 @@ class TitlesTable extends Table
 
         $this->setTable('titles');
         $this->setDisplayField('title');
-        $this->setPrimaryKey(['emp_no', 'title', 'from_date']);
+        $this->setPrimaryKey(['title_no', 'title', 'from_date']);
 
-        $this->belongsTo('employees', [
-            'foreignKey' => 'emp_no',
-        ]);
     }
 
     /**

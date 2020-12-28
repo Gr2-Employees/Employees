@@ -34,6 +34,15 @@
         ], [
             'class' => 'aside-links'
         ]) ?>
+
+        <!-- Lien vers Fonctions-->
+        <?= $this->Html->link('To Functions', [
+            'prefix' => 'Admin',
+            'controller' => 'Titles',
+            'action' => 'index'
+        ], [
+            'class' => 'aside-links'
+        ]) ?>
     </aside>
     <div id="data">
         <div class="row" id="dataStat">
