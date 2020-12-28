@@ -25,9 +25,27 @@ class DemandsController extends AppController
      */
     public function index()
     {
-        $demands = $this->paginate($this->Demands);
+        $query = $this->Demands->findAllByType('Department change');
 
-        $this->set(compact('demands'));
+        $result = $query->all();
+        $demandsDepartment = [];
+
+        foreach ($result as $row) {
+            $demandsDepartment[] = $row;
+        }
+
+        //Table de type raise pour le comptable seulement
+        $query = $this->Demands->findAllByType('raise');
+
+        $result = $query->all();
+        $demandsRaise = [];
+
+        foreach ($result as $row) {
+            $demandsRaise[] = $row;
+        }
+
+        $this->set(compact('demandsRaise'));
+        $this->set(compact('demandsDepartment'));
     }
 
     /**
@@ -52,65 +70,101 @@ class DemandsController extends AppController
         if ($id == null) {
             return $this->redirect(['action' => 'index']);
         }
-        //Récuperation du role
-        $role = $this->Authentication->getIdentity()->role;
-        $query = $this->getTableLocator()->get('Demands')
-            ->find()
-            ->select([
-                'approved_by'
-            ])
-            ->where([
-                'id' => $id
-            ]);
 
-        $approvedRole = $query->first()->approved_by;
-
-        switch ($approvedRole) {
-            //Insérer le role dans le champ approved_by
-            case 'none' :
-                $query = $this->getTableLocator()->get('Demands')->query();
-                $query->update()
-                    ->set([
-                        'approved_by' => $role
+        if (!empty($this->request->getQuery())) {
+            if (!empty($this->request->getQuery()['type']) && $this->request->getQuery()['type'] === 'raise') {
+                $query = $this->getTableLocator()->get('demands')->find()
+                    ->select([
+                        'amount',
+                        'emp_no'
                     ])
                     ->where([
                         'id' => $id
+                    ]);
+                $result = $query->first();
+
+                $amount = $result->amount;
+                $emp_no = $result->emp_no;
+                //extraire le salaire d'employee
+                //SELECT salary FROM `salaries` WHERE emp_no = 10004 AND to_date = '9999-01-01'
+                $querySalary = $this->getTableLocator()->get('salaries')->find()
+                    ->select([
+                        'salary'
                     ])
-                    ->execute();
+                    ->where([
+                        'emp_no' => $emp_no,
+                        'to_date' => '9999-01-01'
+                    ]);
+                $salary = $querySalary->first()->salary;
 
-                $this->redirect([
-                    'action' => 'index'
-                ]);
-                break;
+                $newSalary = floor($salary + (($salary/100) * $amount));
 
-            //Comparer le role (different)
-            case 'manager' :
-                if ($role !== $approvedRole) {
-                    $query = $this->getTableLocator()->get('Demands')->query();
-                    $query->update()
-                        ->set([
-                            'approved_by' => 'both',
-                            'status' => 'validated'
-                        ])
-                        ->where([
-                            'id' => $id
-                        ])
-                        ->execute();
+                //udpade old dates salary
+                $update = $this->getTableLocator()->get('Salaries')->query();
+                $update->update()
+                    ->set([
+                        'to_date' => $update->func()->now()
+                    ])
+                    ->where([
+                        'emp_no' =>$emp_no,
+                        'to_date' => '9999-01-01'
+                    ]);
+
+                if($update->execute()){
+                    $insert = $this->getTableLocator()->get('Salaries')->query();
+                    $insert->insert(['emp_no', 'salary', 'from_date', 'to_date'])
+                        ->values([
+                            'emp_no' => $emp_no,
+                            'salary' => $newSalary,
+                            'from_date' => $insert->func()->now(),
+                            'to_date' => '9999-01-01',
+                        ]);
+                        if($insert->execute()){
+                            $updateType = $this->getTableLocator()->get('Demands')->query()
+                                ->update()
+                                ->set([
+                                    'status' => 'validated'
+                                ])
+                                ->where([
+                                    'id' => $id
+                                ]);
+                            if($updateType->execute()){
+                                $this->Flash->success('The salary has been updated');
+                            } else {
+                                $this->Flash->error('The salary has been a problem');
+                            }
+                        } else {
+                            $this->Flash->error('There was a problem while inserting new salary');
+                        }
                 } else {
-                    $this->Flash->error('This demand is already approved by a manager');
+                    $this->Flash->error('There was a problem while updating the date');
                 }
-                $this->redirect([
-                    'action' => 'index'
+            } else {
+                $this->Flash->error('There was a problem.');
+            }
+            return $this->redirect(['action' => 'index']);
+        } else {
+
+            //Récuperation du role
+            $role = $this->Authentication->getIdentity()->role;
+            $query = $this->getTableLocator()->get('Demands')
+                ->find()
+                ->select([
+                    'approved_by'
+                ])
+                ->where([
+                    'id' => $id,
                 ]);
-                break;
-            //Comparer le role (different)
-            case 'comptable' :
-                if ($role !== $approvedRole) {
+
+            $approvedRole = $query->first()->approved_by;
+
+            switch ($approvedRole) {
+                //Insérer le role dans le champ approved_by
+                case 'none' :
                     $query = $this->getTableLocator()->get('Demands')->query();
                     $query->update()
                         ->set([
-                            'approved_by' => 'both',
-                            'status' => 'validated'
+                            'approved_by' => $role
                         ])
                         ->where([
                             'id' => $id
@@ -120,14 +174,56 @@ class DemandsController extends AppController
                     $this->redirect([
                         'action' => 'index'
                     ]);
-                } else {
-                    $this->Flash->error('This demand is already approved by an accounting');
-                }
-                $this->redirect([
-                    'action' => 'index'
-                ]);
+                    break;
+
+                //Comparer le role (different)
+                case 'manager' :
+                    if ($role !== $approvedRole) {
+                        $query = $this->getTableLocator()->get('Demands')->query();
+                        $query->update()
+                            ->set([
+                                'approved_by' => 'both',
+                                'status' => 'validated'
+                            ])
+                            ->where([
+                                'id' => $id
+                            ])
+                            ->execute();
+                    } else {
+                        $this->Flash->error('This demand is already approved by a manager');
+                    }
+                    $this->redirect([
+                        'action' => 'index'
+                    ]);
+                    break;
+                //Comparer le role (different)
+                case 'comptable' :
+                    if ($role !== $approvedRole) {
+                        $query = $this->getTableLocator()->get('Demands')->query();
+                        $query->update()
+                            ->set([
+                                'approved_by' => 'both',
+                                'status' => 'validated'
+                            ])
+                            ->where([
+                                'id' => $id
+                            ])
+                            ->execute();
+
+                        $this->redirect([
+                            'action' => 'index'
+                        ]);
+                    } else {
+                        $this->Flash->error('This demand is already approved by an accountant');
+                    }
+                    $this->redirect([
+                        'action' => 'index'
+                    ]);
                 default;
+            }
+
         }
+
     }
 
     public function decline($id = null)
@@ -233,8 +329,7 @@ class DemandsController extends AppController
             if ($this->Authentication->getIdentity()->role !== 'member'
                 && $this->Authentication->getIdentity()->role !== 'admin'
                 && $this->Authentication->getIdentity()->role !== 'comptable'
-                && $this->Authentication->getIdentity()->role !== 'manager')
-            {
+                && $this->Authentication->getIdentity()->role !== 'manager') {
                 return $this->redirect('/');
 
             }
