@@ -8,10 +8,10 @@
     <div class="column-responsive column-80 mt-4 mx-auto">
         <div class="employees form content position-relative p-5"">
             <?= $this->Form->create($employee) ?>
-            <fieldset style="position: relative">
+            <fieldset class="position-relative">
                 <legend><?= __('Add Employee') ?></legend>
                 <?= $this->Html->link(__('List Employees'), ['action' => 'index'],
-                    ['class' => 'button', 'style' => "background-color: #2A6496;border-color: #2A6496;position: absolute;top: 0px;right: 0px"]) ?>
+                    ['class' => 'button position-absolute', 'style' => "background-color: #2A6496;border-color: #2A6496;top: 0px;right: 0px"]) ?>
 
                 <?php
                 echo $this->Form->control('birth_date');
