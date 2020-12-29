@@ -5,25 +5,47 @@
  */
 ?>
 <div class="employees index content col-95 mt-5 mx-auto">
-    <?= $this->Html->link(__('New Employee'), ['action' => 'add'], ['class' => 'button float-right btn-blue']) ?>
+    <!-- Search form -->
+    <?= $this->Form->create(null, [
+        'url' => [
+            'action' => 'search'
+        ]
+    ]) ?>
+    <!-- Search input -->
+    <?= $this->Form->control('search', [
+        'type' => 'text',
+        'placeholder' => 'Search...',
+        'class' => 'md-form active-cyan active-cyan-2 mb-3'
+    ]) ?>
+    <!-- Submit -->
+    <?= $this-> Form-> button('Submit') ?>
+
+    <?= $this->Form->end() ?>
+
+    <!-- Add Employee -->
+    <?= $this->Html->link(__('New Employee'), [
+        'action' => 'add'
+    ], [
+        'class' => 'button float-right btn-blue'
+    ]) ?>
     <h3><?= __('Employees') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
-                <tr class="tr-th-employee">
-                    <th><?= $this->Paginator->sort('emp_no') ?></th>
-                    <th><?= $this->Paginator->sort('birth_date') ?></th>
-                    <th><?= $this->Paginator->sort('first_name') ?></th>
-                    <th><?= $this->Paginator->sort('last_name') ?></th>
-                    <th><?= $this->Paginator->sort('gender') ?></th>
-                    <th><?= $this->Paginator->sort('hire_date') ?></th>
-                    <th><?= $this->Paginator->sort('picture') ?></th>
-                    <th><?= $this->Paginator->sort('email') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr class="tr-th-employee">
+                <th><?= $this->Paginator->sort('emp_no') ?></th>
+                <th><?= $this->Paginator->sort('birth_date') ?></th>
+                <th><?= $this->Paginator->sort('first_name') ?></th>
+                <th><?= $this->Paginator->sort('last_name') ?></th>
+                <th><?= $this->Paginator->sort('gender') ?></th>
+                <th><?= $this->Paginator->sort('hire_date') ?></th>
+                <th><?= $this->Paginator->sort('picture') ?></th>
+                <th><?= $this->Paginator->sort('email') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($employees as $employee): ?>
+            <?php foreach ($employees as $employee): ?>
                 <tr class="tr-td-employee">
                     <td><?= $this->Number->format($employee->emp_no) ?></td>
                     <td><?= h($employee->birth_date) ?></td>
@@ -39,7 +61,7 @@
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $employee->emp_no], ['confirm' => __('Are you sure you want to delete # {0}?', $employee->emp_no)]) ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
