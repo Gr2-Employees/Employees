@@ -29,7 +29,7 @@
                     <td><?= h($demand->status) ?></td>
                     <td class="actions">
                         <?php if ($this->Identity->get('role') !== 'admin') { ?>
-                            <?php if ($demand->status !== 'approved') { ?>
+                            <?php if ($demand->status !== 'validated') { ?>
                                 <!-- Link to Approve demand -->
                                 <?= $this->Form->postLink(__('Approve'), [
                                     'controller' => 'Demands',
@@ -52,21 +52,21 @@
                                     'class' => 'button',
                                     'style' => 'color:white;'
                                 ]) ?>
+                            <?php } else { ?>
+                                <?= __('No action available') ?>
                             <?php } ?>
-                        <?php } else {
-                            if ($this->Identity->get('role') === 'admin') {
-                                // Link to Delete demand
-                                echo $this->Form->postLink(__('Delete'), [
-                                    'controller' => 'Demands',
-                                    'action' => 'delete',
-                                    $demand->id
-                                ], [
-                                    'confirm' => __('Are you sure you want to delete # {0}?',
-                                        $demand->id),
-                                    'class' => 'button',
-                                    'style' => 'color:white'
-                                ]);
-                            }
+                        <?php } else if ($this->Identity->get('role') === 'admin') {
+                            // Link to Delete demand
+                            echo $this->Form->postLink(__('Delete'), [
+                                'controller' => 'Demands',
+                                'action' => 'delete',
+                                $demand->id
+                            ], [
+                                'confirm' => __('Are you sure you want to delete # {0}?',
+                                    $demand->id),
+                                'class' => 'button',
+                                'style' => 'color:white'
+                            ]);
                         } ?>
                     </td>
                 </tr>
@@ -77,6 +77,7 @@
 
     <div class="table-responsive mt-4">
         <h3><?= __('Raise salary demands') ?></h3>
+
         <!-- Table raise pour le comptable-->
         <?php if ($this->Identity->get('role') === 'comptable' || $this->Identity->get('role') === 'admin') { ?>
             <table>
@@ -135,21 +136,21 @@
                                     'style' => 'color:white;'
                                 ]) ?>
 
-                            <?php } else {
-                                if ($this->Identity->get('role') === 'admin') {
-                                    // Link to Delete raise demand
-                                    echo $this->Form->postLink(__('Delete'), [
-                                        'controller' => 'Demands',
-                                        'action' => 'delete',
-                                        $demand->id
-                                    ], [
-                                        'confirm' => __('Are you sure you want to delete # {0}?',
-                                            $demand->id),
-                                        'class' => 'button',
-                                        'style' => 'color:white'
-                                    ]);
-                                }
-                            } ?>
+                            <?php } else if ($this->Identity->get('role') === 'admin') {
+                                // Link to Delete raise demand
+                                echo $this->Form->postLink(__('Delete'), [
+                                    'controller' => 'Demands',
+                                    'action' => 'delete',
+                                    $demand->id
+                                ], [
+                                    'confirm' => __('Are you sure you want to delete # {0}?',
+                                        $demand->id),
+                                    'class' => 'button',
+                                    'style' => 'color:white'
+                                ]);
+                            } else if ($demand->status !== 'in progress') { ?>
+                                <?= __('No action available') ?>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
