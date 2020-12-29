@@ -81,3 +81,9 @@ table {
 .col-80{
     width:80%;
 }
+.active-blue input.frm-control[type=text]{
+    border-color : transparent !important;
+    border-radius: 0px;
+    box-shadow: 0 1px 0 0 #05338f;
+}
+

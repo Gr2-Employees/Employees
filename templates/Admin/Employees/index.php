@@ -11,7 +11,7 @@
             'action' => 'index'
         ]
     ]) ?>
-    <div class="md-form active-cyan mb-3">
+    <div class="md-form active-blue mb-3">
     <!-- Search input -->
     <?= $this->Form->control('search', [
         'label' => '',
