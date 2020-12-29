@@ -18,10 +18,15 @@
                 <legend><?= __('Add Demand') ?></legend>
                 <?php
                     echo $this->Form->select('type',[
-                        'raise' => 'raise',
-                        'Department_change' => 'Department_change'
+                        'raise' => 'Raise',
+                        'Department_change' => 'Department change'
                     ]);
                     echo $this->Form->control('about');
+                    echo $this->Form->control('amount',[
+                        'label' => 'Please complete this field if you want a raise.',
+                        'placeholder' => 'Amount'
+                    ]);
+
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
