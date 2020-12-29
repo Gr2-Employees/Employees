@@ -30,16 +30,28 @@ class EmployeesController extends AppController
         $this->set(compact('employees'));
 
         if ($this->request->is('post')) {
-            if(!empty($this->request->getData('search'))){
-                $toSearch = (int)$this->request->getData('search');
+            if (!empty($this->request->getData('search'))) {
+                $toSearch = $this->request->getData('search');
                 // req
                 $searchQuery = $this->getTableLocator()->get('Employees')->find()
-                    ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
+                    ->where(['OR' => [
+                        ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                        ['birth_date LIKE' => "%$toSearch%"],
+                        ['first_name LIKE' => "%$toSearch%"],
+                        ['last_name LIKE' => "%$toSearch%"],
+                        ['gender LIKE' => "%$toSearch%"],
+                        ['hire_date LIKE' => "%$toSearch%"],
+                        ['email LIKE' => "%$toSearch%"],
+                    ]]);
+
                 //data
                 $result = $searchQuery->all();
                 $employees = [];
                 foreach ($result as $row) {
                     $employees[] = $row;
+                }
+                if(empty($employees)){
+                    $this->Flash->error('No results match your search criteria');
                 }
                 $this->set(compact('employees'));
             }

@@ -48,11 +48,11 @@
             <?php foreach ($employees as $employee): ?>
                 <tr class="tr-td-employee">
                     <td><?= $this->Number->format($employee->emp_no) ?></td>
-                    <td><?= h($employee->birth_date) ?></td>
+                    <td><?= h($employee->birth_date->i18nFormat('yyyy-MM-dd')) ?></td>
                     <td><?= h($employee->first_name) ?></td>
                     <td><?= h($employee->last_name) ?></td>
                     <td><?= h($employee->gender) ?></td>
-                    <td><?= h($employee->hire_date) ?></td>
+                    <td><?= h($employee->hire_date->i18nFormat('yyyy-MM-dd')) ?></td>
                     <td><?= h($employee->picture) ?></td>
                     <td><?= h($employee->email) ?></td>
                     <td class="actions">
