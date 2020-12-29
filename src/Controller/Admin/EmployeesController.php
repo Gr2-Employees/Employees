@@ -25,15 +25,8 @@ class EmployeesController extends AppController
      */
     public function index()
     {
-        $employees = $this->paginate($this->Employees);
-
-        $this->set(compact('employees'));
-    }
-
-    public function search() {
         if ($this->request->is('post')) {
-            $toSearch = $this->request->getData('search');
-            var_dump($toSearch);
+            $toSearch = (int)$this->request->getData('search');
 
             // req
             $searchQuery = $this->getTableLocator()->get('Employees')
@@ -41,16 +34,47 @@ class EmployeesController extends AppController
                 ->select([
                     'emp_no'
                 ])
-                ->where(function (QueryExpression $exp, Query $q) {
-                    return $exp->like('emp_no', '%' . $toSearch . '%');
-                });
+                ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
 
             //data
             $result = $searchQuery->all();
-            var_dump($result);die;
-            // $employees = $data
+            $employees = [];
+            foreach ($result as $row) {
+                $employees[] = $row;
+            }
+            $this->set(compact('employees'));
+
+        }else{
+            $employees = $this->paginate($this->Employees);
+
+            $this->set(compact('employees'));
         }
     }
+
+    /*public function search() {
+        $this->disableAutoRender();
+        if ($this->request->is('post')) {
+            $toSearch = (int)$this->request->getData('search');
+
+            // req
+            $searchQuery = $this->getTableLocator()->get('Employees')
+                ->find()
+                ->select([
+                    'emp_no'
+                ])
+                ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
+
+            //data
+            $result = $searchQuery->all();
+            foreach($result as $row){
+                $employee[] = $row;
+            }
+
+
+            $this->viewBuilder()->setLayout('index');
+            // $employees = $data
+        }
+    }*/
 
     /**
      * View method
