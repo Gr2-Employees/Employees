@@ -28,23 +28,21 @@ class EmployeesController extends AppController
         $employees = $this->paginate($this->Employees);
 
         $this->set(compact('employees'));
-        if ($this->request->is('post')) {
-            $toSearch = (int)$this->request->getData('search');
-            // req
-            $searchQuery = $this->getTableLocator()->get('Employees')
-                ->find()
-                ->select([
-                    'emp_no'
-                ])
-                ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
-            //data
-            $result = $searchQuery->all();
-            $employees = [];
-            foreach ($result as $row) {
-                $employees[] = $row;
-            }
-            $this->set(compact('employees'));
 
+        if ($this->request->is('post')) {
+            if(!empty($this->request->getData('search'))){
+                $toSearch = (int)$this->request->getData('search');
+                // req
+                $searchQuery = $this->getTableLocator()->get('Employees')->find()
+                    ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
+                //data
+                $result = $searchQuery->all();
+                $employees = [];
+                foreach ($result as $row) {
+                    $employees[] = $row;
+                }
+                $this->set(compact('employees'));
+            }
         }
     }
 
