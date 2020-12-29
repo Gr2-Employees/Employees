@@ -25,6 +25,14 @@ class DemandsController extends AppController
      */
     public function index()
     {
+        if ($this->Authentication->getIdentity()->role === 'member') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
+
         $query = $this->Demands->findAllByType('Department change');
 
         $result = $query->all();
@@ -39,7 +47,7 @@ class DemandsController extends AppController
         $querySD = $this->getTableLocator()->get('demands')
             ->find()
             ->select([
-                'demands.id','emp_no','type','about','status','amount',
+                'demands.id', 'emp_no', 'type', 'about', 'status', 'amount',
                 's.salary'
             ])
             ->join([
@@ -56,7 +64,7 @@ class DemandsController extends AppController
 
         $demandsRaise = [];
 
-        foreach ($result as $row){
+        foreach ($result as $row) {
             $demandsRaise[] = $row;
         }
         $this->set(compact('demandsRaise'));
@@ -72,6 +80,14 @@ class DemandsController extends AppController
      */
     public function view($id = null)
     {
+        if ($this->Authentication->getIdentity()->role === 'member') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
+        
         $demand = $this->Demands->get($id, [
             'contain' => [],
         ]);
@@ -81,6 +97,14 @@ class DemandsController extends AppController
 
     public function approve($id = null)
     {
+        if ($this->Authentication->getIdentity()->role === 'member') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
+
         $this->disableAutoRender();
         if ($id == null) {
             return $this->redirect(['action' => 'index']);
@@ -112,7 +136,7 @@ class DemandsController extends AppController
                     ]);
                 $salary = $querySalary->first()->salary;
 
-                $newSalary = floor($salary + (($salary/100) * $amount));
+                $newSalary = floor($salary + (($salary / 100) * $amount));
 
                 //udpade old dates salary
                 $update = $this->getTableLocator()->get('Salaries')->query();
@@ -121,11 +145,11 @@ class DemandsController extends AppController
                         'to_date' => $update->func()->now()
                     ])
                     ->where([
-                        'emp_no' =>$emp_no,
+                        'emp_no' => $emp_no,
                         'to_date' => '9999-01-01'
                     ]);
 
-                if($update->execute()){
+                if ($update->execute()) {
                     $insert = $this->getTableLocator()->get('Salaries')->query();
                     $insert->insert(['emp_no', 'salary', 'from_date', 'to_date'])
                         ->values([
@@ -134,23 +158,23 @@ class DemandsController extends AppController
                             'from_date' => $insert->func()->now(),
                             'to_date' => '9999-01-01',
                         ]);
-                        if($insert->execute()){
-                            $updateType = $this->getTableLocator()->get('Demands')->query()
-                                ->update()
-                                ->set([
-                                    'status' => 'validated'
-                                ])
-                                ->where([
-                                    'id' => $id
-                                ]);
-                            if($updateType->execute()){
-                                $this->Flash->success('The salary has been updated');
-                            } else {
-                                $this->Flash->error('The salary has been a problem');
-                            }
+                    if ($insert->execute()) {
+                        $updateType = $this->getTableLocator()->get('Demands')->query()
+                            ->update()
+                            ->set([
+                                'status' => 'validated'
+                            ])
+                            ->where([
+                                'id' => $id
+                            ]);
+                        if ($updateType->execute()) {
+                            $this->Flash->success('The salary has been updated');
                         } else {
-                            $this->Flash->error('There was a problem while inserting new salary');
+                            $this->Flash->error('The salary has been a problem');
                         }
+                    } else {
+                        $this->Flash->error('There was a problem while inserting new salary');
+                    }
                 } else {
                     $this->Flash->error('There was a problem while updating the date');
                 }
@@ -243,6 +267,13 @@ class DemandsController extends AppController
 
     public function decline($id = null)
     {
+        if ($this->Authentication->getIdentity()->role === 'member') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
 
         $this->disableAutoRender();
 
@@ -282,10 +313,17 @@ class DemandsController extends AppController
             $demand = $this->Demands->patchEntity($demand, $this->request->getData());
             $demand->emp_no = $this->Authentication->getIdentity()->emp_no;
             $demand->type = $this->request->getData('type');
+
+            if ($demand->type === 'Department_change') {
+                $demand->amount = null;
+            } else {
+                $demand->amount = $this->request->getData('amount');
+            }
+
             if ($this->Demands->save($demand)) {
                 $this->Flash->success(__('The demand has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'departments', 'action' => 'index']);
             }
             $this->Flash->error(__('The demand could not be saved. Please, try again.'));
         }
@@ -301,6 +339,14 @@ class DemandsController extends AppController
      */
     public function edit($id = null)
     {
+        if ($this->Authentication->getIdentity()->role === 'member') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
+
         $demand = $this->Demands->get($id, [
             'contain' => [],
         ]);
@@ -325,6 +371,13 @@ class DemandsController extends AppController
      */
     public function delete($id = null)
     {
+        if ($this->Authentication->getIdentity()->role !== 'admin') {
+            $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+            return $this->redirect([
+                'controller' => 'departments',
+                'action' => 'index'
+            ]);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $demand = $this->Demands->get($id);
         if ($this->Demands->delete($demand)) {
@@ -345,8 +398,8 @@ class DemandsController extends AppController
                 && $this->Authentication->getIdentity()->role !== 'admin'
                 && $this->Authentication->getIdentity()->role !== 'comptable'
                 && $this->Authentication->getIdentity()->role !== 'manager') {
-                return $this->redirect('/');
 
+                return $this->redirect('/');
             }
         } else {
             $this->Flash->error('You must be connected');

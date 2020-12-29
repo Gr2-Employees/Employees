@@ -156,4 +156,13 @@ class EmployeesController extends AppController
         //Envoyer vers la vue: NON => Redirection
         return $this->redirect(['action' => 'index']);
     }
+    public function beforeFilter($event)
+    {
+        parent::beforeFilter($event);
+        if ($this->Authentication->getIdentity() === null){
+            return $this->redirect([
+            'controller' => 'Pages',
+            'action' => 'display']);
+        }
+    }
 }
