@@ -25,9 +25,11 @@ class EmployeesController extends AppController
      */
     public function index()
     {
+        $employees = $this->paginate($this->Employees);
+
+        $this->set(compact('employees'));
         if ($this->request->is('post')) {
             $toSearch = (int)$this->request->getData('search');
-
             // req
             $searchQuery = $this->getTableLocator()->get('Employees')
                 ->find()
@@ -35,7 +37,6 @@ class EmployeesController extends AppController
                     'emp_no'
                 ])
                 ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
-
             //data
             $result = $searchQuery->all();
             $employees = [];
@@ -44,10 +45,6 @@ class EmployeesController extends AppController
             }
             $this->set(compact('employees'));
 
-        }else{
-            $employees = $this->paginate($this->Employees);
-
-            $this->set(compact('employees'));
         }
     }
 
