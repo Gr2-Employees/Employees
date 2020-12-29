@@ -11,16 +11,15 @@
             'action' => 'index'
         ]
     ]) ?>
+    <div class="md-form active-cyan mb-3">
     <!-- Search input -->
     <?= $this->Form->control('search', [
-        '?' => 'keyword',
+        'label' => '',
         'type' => 'text',
         'placeholder' => 'Search...',
-        'class' => 'md-form active-cyan active-cyan-2 mb-3'
+        'class' => 'frm-control'
     ]) ?>
-    <!-- Submit -->
-    <?= $this-> Form-> button('Submit') ?>
-
+    </div>
     <?= $this->Form->end() ?>
 
     <!-- Add Employee -->
