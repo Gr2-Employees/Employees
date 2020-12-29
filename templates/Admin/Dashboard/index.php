@@ -44,18 +44,10 @@
             'class' => 'aside-links'
         ]) ?>
 
-        <!-- Lien vers la page Demands -->
-            <?= $this->Html->link('To Demands', [
-                'controller' => '../Demands',
-                'action' => 'index'
-            ], [
-               'class' => 'aside-links'
-            ]) ?>
-
     </aside>
     <div id="data">
         <div class="row" id="dataStat">
-            <div class="column-25 stat1" style="text-align: center">
+            <div class="column-25 stat1 text-center">
                 <div class="row" style="height: 55%">
                     <div class="col" style="line-height: 40px;">
                         <h4 class="h4-stat"><?= __('Total employees') ?></h4>
@@ -75,7 +67,7 @@
             </div>
             <div class="column-25 stat1">
                 <div class="row" style="transform: translate(0%, 40%);">
-                    <div class="col" style="text-align: center; line-height: 70px;">
+                    <div class="col text-center" style="line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Total users') ?></h4>
                         <p lass="dash-p"><?= $nbUsers . ' user(s) ' ?></p>
                     </div>
@@ -83,7 +75,7 @@
             </div>
             <div class="column-25 stat1">
                 <div class="row" style="transform: translate(0%, 40%);">
-                    <div class="col" style="text-align: center; line-height: 70px;">
+                    <div class="col text-center" style="line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Average salary') ?></h4>
                         <p lass="dash-p"><?= $this->Number->format($avgSalary, [
                                 'precision' => 2,
@@ -95,7 +87,7 @@
             </div>
             <div class="column-25 stat1">
                 <div class="row" style="transform: translate(0%, 40%);">
-                    <div class="col" style="text-align: center; line-height: 70px;">
+                    <div class="col text-center" style="line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Total vacancies') ?></h4>
                         <p lass="dash-p"><?= $nbVacancies . ' vacancies ' ?></p>
                     </div>
@@ -106,11 +98,11 @@
 
         <!-- Div lineChart & horizontalBar -->
         <div class="row" id="chart">
-            <div class="col-6" style="text-align: center">
+            <div class="col-6 text-center">
                 <h3><?= __('Number of employees per year') ?></h3>
                 <canvas id="lineChart" width="100px" height="50"></canvas>
             </div>
-            <div class="col-6" style="text-align: center">
+            <div class="col-6 text-center">
                 <h3><?= __('Manager salary per department') ?></h3>
                 <canvas id="horizontalBarChart" width="100px" height="50"></canvas>
             </div>
@@ -118,7 +110,7 @@
 
         <!-- Div verticalBar -->
         <div class="row" id="verticalChart">
-            <div class="col" style="text-align: center">
+            <div class="col text-center">
                 <h3><?= __('Vacancies amount per department') ?></h3>
                 <canvas id="verticalBarChart" width="200" height="60"></canvas>
             </div>
