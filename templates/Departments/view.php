@@ -5,44 +5,6 @@
  */
 ?>
 <div class="row principal-row">
-    <?php if ($this->Identity->isLoggedIn() && $this->Identity->get('role') == 'admin') { ?>
-        <aside class="col-aside">
-            <div class="side-nav">
-                <h4 class="heading"><?= __('Actions') ?></h4>
-                <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
-                    <!-- Button Edit Department-->
-                    <?= $this->Html->link(__('Edit Department'), [
-                        'prefix' => 'Admin',
-                        'controller' => 'Departments',
-                        'action' => 'edit',
-                        $department->dept_no
-                    ], ['class' => 'side-nav-item']) ?>
-
-                    <!-- Button Delete Department-->
-                    <?= $this->Form->postLink(__('Delete Department'), [
-                        'prefix' => 'Admin',
-                        'controller' => 'Departments',
-                        'action' => 'delete',
-                        $department->dept_no
-                    ], [
-                        'confirm' => __('Are you sure you want to delete # {0}?',
-                            $department->dept_no),
-                        'class' => 'side-nav-item']) ?>
-
-                    <!-- Button Add Department-->
-                    <?= $this->Html->link(__('New Department'), [
-                        'prefix' => 'Admin',
-                        'controller' => 'Departments',
-                        'action' => 'add'], [
-                        'class' => 'side-nav-item'
-                    ]) ?>
-
-                <?php endif; ?>
-
-                <?= $this->Html->link(__('List Departments'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            </div>
-        </aside>
-    <?php } ?>
     <div class="column-80 m-auto">
         <div class="departments view content">
             <div class="row position-relative">
@@ -133,18 +95,18 @@
                     </td>
                 </tr>
                 <!-- Demandes d'affectation -->
-                <?php if($this->Identity->get('role') === 'member') { ?>
-                <tr>
-                    <th><?= __('Demande d\'affectation') ?></th>
-                    <td><?= $this->Html->link(__('Request'), [
-                            'controller' => 'Demands',
-                            'action' => 'add',
-                            'target' => '_blank'
-                        ]) ?></td>
-                </tr>
+                <?php if ($this->Identity->get('role') === 'member') { ?>
+                    <tr>
+                        <th><?= __('Demande d\'affectation') ?></th>
+                        <td><?= $this->Html->link(__('Request'), [
+                                'controller' => 'Demands',
+                                'action' => 'add',
+                                'target' => '_blank'
+                            ]) ?></td>
+                    </tr>
                 <?php } ?>
                 <!-- Demandes d'affectation -->
-                <?php if($this->Identity->get('role') === 'comptable' || $this->Identity->get('role') === 'manager') { ?>
+                <?php if ($this->Identity->get('role') === 'comptable' || $this->Identity->get('role') === 'manager') { ?>
                     <tr>
                         <th><?= __('View requests') ?></th>
                         <td><?= $this->Html->link(__('View requests'), [
