@@ -34,16 +34,31 @@ class DemandsController extends AppController
             $demandsDepartment[] = $row;
         }
 
-        //Table de type raise pour le comptable seulement
-        $query = $this->Demands->findAllByType('raise');
 
-        $result = $query->all();
+        //Table demands de type raise + salaire actuel
+        $querySD = $this->getTableLocator()->get('demands')
+            ->find()
+            ->select([
+                'demands.id','emp_no','type','about','status','amount',
+                's.salary'
+            ])
+            ->join([
+                's' => [
+                    'table' => 'salaries',
+                    'conditions' => 's.emp_no = demands.emp_no'
+                ]
+            ])
+            ->where([
+                's.to_date' => '9999-01-01',
+                'demands.type' => 'raise'
+            ]);
+        $result = $querySD->all();
+
         $demandsRaise = [];
 
-        foreach ($result as $row) {
+        foreach ($result as $row){
             $demandsRaise[] = $row;
         }
-
         $this->set(compact('demandsRaise'));
         $this->set(compact('demandsDepartment'));
     }

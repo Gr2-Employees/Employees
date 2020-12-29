@@ -84,6 +84,7 @@
                 <tr>
                     <th><?= __('id') ?></th>
                     <th><?= __('emp_no') ?></th>
+                    <th><?= __('salary') ?></th>
                     <th><?= __('type') ?></th>
                     <th><?= __('about') ?></th>
                     <th><?= __('status') ?></th>
@@ -96,6 +97,7 @@
                     <tr>
                         <td><?= $this->Number->format($demand->id) ?></td>
                         <td><?= $this->Number->format($demand->emp_no) ?></td>
+                        <td><?= $this->Number->format($demand->s['salary'], ['after' => '$']) ?></td>
                         <td><?= h($demand->type) ?></td>
                         <td><?= h($demand->about) ?></td>
                         <td><?= h($demand->status) ?></td>
