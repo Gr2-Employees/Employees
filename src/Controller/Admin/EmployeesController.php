@@ -30,6 +30,28 @@ class EmployeesController extends AppController
         $this->set(compact('employees'));
     }
 
+    public function search() {
+        if ($this->request->is('post')) {
+            $toSearch = $this->request->getData('search');
+            var_dump($toSearch);
+
+            // req
+            $searchQuery = $this->getTableLocator()->get('Employees')
+                ->find()
+                ->select([
+                    'emp_no'
+                ])
+                ->where(function (QueryExpression $exp, Query $q) {
+                    return $exp->like('emp_no', '%' . $toSearch . '%');
+                });
+
+            //data
+            $result = $searchQuery->all();
+            var_dump($result);die;
+            // $employees = $data
+        }
+    }
+
     /**
      * View method
      *
