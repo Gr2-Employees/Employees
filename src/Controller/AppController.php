@@ -51,6 +51,6 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
         $this->loadComponent('Authentication.Authentication');
-        $this->Authentication->addUnauthenticatedActions(['index', 'display', 'signup', 'login']);
+        $this->Authentication->addUnauthenticatedActions(['index', 'display', 'signup', 'login', 'showOffers', 'view', 'applyOffer']);
     }
 }

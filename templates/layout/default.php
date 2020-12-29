@@ -87,7 +87,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
 
-            <?php if ($this->Identity->get('role') === 'admin') : ?>
+            <?php if ($this->Identity->get('role') === 'admin') { ?>
                 <!-- Lien vers la page Dashboard -->
                 <li class="nav-item">
                     <?= $this->Html->link('Dashboard', [
@@ -99,7 +99,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                             'class' => 'nav-link'
                         ]) ?>
                 </li>
-            <?php endif; ?>
+            <?php } ?>
+
+            <?php if ($this->Identity->get('role') !== 'admin') { ?>
+            <!-- Lien vers la page Demands -->
+            <li class="nav-item">
+                <?= $this->Html->link('Demands', [
+                    'controller' => 'Demands',
+                    'action' => 'index'
+                ], [
+                    'class' => 'nav-link'
+                ]) ?>
+            </li>
+            <?php } ?>
         </ul>
         <!-- Auth buttons -->
         <?php if ($this->Identity->isLoggedIn()) { ?>
