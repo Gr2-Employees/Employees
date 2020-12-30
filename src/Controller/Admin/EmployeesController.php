@@ -29,59 +29,41 @@ class EmployeesController extends AppController
 
         $this->set(compact('employees'));
 
-        if ($this->request->is('post')) {
-            if (!empty($this->request->getData('search'))) {
-                $toSearch = $this->request->getData('search');
-                // req
-                $searchQuery = $this->getTableLocator()->get('Employees')->find()
-                    ->where(['OR' => [
-                        ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
-                        ['birth_date LIKE' => "%$toSearch%"],
-                        ['first_name LIKE' => "%$toSearch%"],
-                        ['last_name LIKE' => "%$toSearch%"],
-                        ['gender LIKE' => "%$toSearch%"],
-                        ['hire_date LIKE' => "%$toSearch%"],
-                        ['email LIKE' => "%$toSearch%"],
-                    ]]);
+        if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
+            $toSearch = $this->request->getQuery('search');
 
-                //data
-                $result = $searchQuery->all();
-                $employees = [];
-                foreach ($result as $row) {
-                    $employees[] = $row;
-                }
-                if(empty($employees)){
-                    $this->Flash->error('No results match your search criteria');
-                }
-                $this->set(compact('employees'));
+            if(strlen($toSearch) < 2) {
+                $this->Flash->error('You must enter at least 2 characters to search.');
+                return null;
             }
-        }
-    }
-
-    /*public function search() {
-        $this->disableAutoRender();
-        if ($this->request->is('post')) {
-            $toSearch = (int)$this->request->getData('search');
-
             // req
             $searchQuery = $this->getTableLocator()->get('Employees')
                 ->find()
-                ->select([
-                    'emp_no'
-                ])
-                ->where(['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"]);
+                ->where(['OR' => [
+                    ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                    ['birth_date LIKE' => "%$toSearch%"],
+                    ['first_name LIKE' => "%$toSearch%"],
+                    ['last_name LIKE' => "%$toSearch%"],
+                    ['hire_date LIKE' => "%$toSearch%"],
+                    ['email LIKE' => "%$toSearch%"],
+                ]]);
 
             //data
             $result = $searchQuery->all();
-            foreach($result as $row){
-                $employee[] = $row;
+
+            $employees = [];
+
+            foreach ($result as $row) {
+                $employees[] = $row;
             }
 
+            if (sizeof($employees) === 0) {
+                $this->Flash->error('No results match your search criteria');
+            }
 
-            $this->viewBuilder()->setLayout('index');
-            // $employees = $data
+            $this->set(compact('employees'));
         }
-    }*/
+    }
 
     /**
      * View method
