@@ -5,6 +5,24 @@
  */
 ?>
 <div class="users index content col-95 mt-5 mx-auto">
+    <!-- Search form -->
+    <?= $this->Form->create(null, [
+        'type'=>'get',
+        'url' => [
+            'action' => 'index'
+        ]
+    ]) ?>
+    <div class="md-form active-blue mb-3">
+        <!-- Search input -->
+        <?= $this->Form->control('search', [
+            'label' => '',
+            'type' => 'text',
+            'placeholder' => 'Search...',
+            'class' => 'frm-control'
+        ]) ?>
+    </div>
+    <?= $this->Form->end() ?>
+    <!-- Ass btn -->
     <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
     <h3><?= __('Users') ?></h3>
     <div class="table-responsive">
