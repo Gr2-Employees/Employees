@@ -28,6 +28,30 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
+
+        if ($this->request->is('get')) {
+            if (!empty($this->request->getQuery('search'))) {
+                $toSearch = $this->request->getQuery('search');
+                // req
+                $searchQuery = $this->getTableLocator()->get('Users')->find()
+                    ->where(['OR' => [
+                        ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                        ['email LIKE' => "%$toSearch%"],
+                        ['role LIKE' => "%$toSearch%"],
+                    ]]);
+
+                //data
+                $result = $searchQuery->all();
+                $users = [];
+                foreach ($result as $row) {
+                    $users[] = $row;
+                }
+                if(empty($users)){
+                    $this->Flash->error('No results match your search criteria');
+                }
+                $this->set(compact('users'));
+            }
+        }
     }
 
     /**
