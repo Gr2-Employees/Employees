@@ -5,7 +5,22 @@
  */
 ?>
 <div class="employees index content" style="width: 95%;margin: 30px auto auto auto">
-    <h3><?= __('Qualified employees for Manager position') ?></h3>
+    <!-- Search form -->
+    <?= $this->Form->create(null, [
+        'type' => 'get',
+    ]) ?>
+    <div class="md-form active-blue mb-3">
+        <!-- Search input -->
+        <?= $this->Form->control('search', [
+            'label' => '',
+            'type' => 'text',
+            'placeholder' => 'Search...',
+            'class' => 'frm-control'
+        ]) ?>
+    </div>
+    <?= $this->Form->end() ?>
+
+    <h3><?= __('Qualified Senior Staff employees for Manager position') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
@@ -14,7 +29,6 @@
                 <th><?= $this->Paginator->sort('Full Name') ?></th>
                 <th><?= $this->Paginator->sort('gender') ?></th>
                 <th><?= $this->Paginator->sort('hire_date') ?></th>
-                <th><?= $this->Paginator->sort('title') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
             </thead>
@@ -25,7 +39,6 @@
                     <td><?= h($employee->first_name . ' ' . $employee->last_name) ?></td>
                     <td><?= h($employee->gender) ?></td>
                     <td><?= h($employee->hire_date) ?></td>
-                    <td><?= h($employee->ti['title']) ?></td>
                     <td class="actions">
                         <?= $this->Form->postLink(__('Assign'), [
                             'action' => 'showQualified',
