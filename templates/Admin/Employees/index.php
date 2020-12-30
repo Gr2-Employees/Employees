@@ -9,7 +9,8 @@
     <?= $this->Form->create(null, [
         'url' => [
             'action' => 'index'
-        ]
+        ],
+        'type' => 'get'
     ]) ?>
     <div class="md-form active-blue mb-3">
     <!-- Search input -->
