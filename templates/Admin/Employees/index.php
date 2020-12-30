@@ -10,8 +10,9 @@
         'url' => [
             'action' => 'index'
         ],
-        'type' => 'get'
+        'type' => 'get',
     ]) ?>
+
     <div class="md-form active-blue mb-3">
     <!-- Search input -->
     <?= $this->Form->control('search', [
@@ -21,6 +22,7 @@
         'class' => 'frm-control'
     ]) ?>
     </div>
+
     <?= $this->Form->end() ?>
 
     <!-- Add Employee -->

@@ -1,7 +1,7 @@
 <div id="container" class="row">
     <aside id="aside">
         <!-- Lien vers admin/dept/index-->
-        <?= $this->Html->link('To departments', [
+        <?= $this->Html->link('To Departments', [
             'prefix' => 'Admin',
             'controller' => 'Departments',
             'action' => 'index'

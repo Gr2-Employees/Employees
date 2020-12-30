@@ -123,7 +123,7 @@ class DepartmentsController extends AppController
                 'employee_title.to_date' => '9999-01-01',
                 'employee_title.title_no' => '7',
                 'dema.dept_no' => $id
-        ]);
+            ]);
 
         if (!is_null($query->first())) {
             $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];
@@ -142,7 +142,7 @@ class DepartmentsController extends AppController
             ->where([
                 'dept_manager.to_date' => '9999-01-01',
                 'dept_manager.dept_no' => $id
-        ]);
+            ]);
 
         $result = $query->first();
 
@@ -164,13 +164,13 @@ class DepartmentsController extends AppController
             ->where([
                 'dept_manager.dept_no' => $id,
                 'dept_manager.to_date' => '9999-01-01'
-        ]);
+            ]);
 
         // Main query
         $query = $this->getTableLocator()->get('salaries')->find();
         $query->select([
             'average' => $query->func()->avg('salary')
-            ])
+        ])
             ->join([
                 'deem' => [
                     'table' => 'dept_emp',
@@ -180,7 +180,7 @@ class DepartmentsController extends AppController
             ->where([
                 'deem.dept_no' => $id,
                 'deem.emp_no NOT IN' => $managerQuery
-        ]);
+            ]);
 
         $averageSalary = $query->first()->average;
 
@@ -224,7 +224,7 @@ class DepartmentsController extends AppController
             ->where([
                 'dept_emp.to_date' => '9999-01-01'
             ])
-        ->limit(255);
+            ->limit(255);
 
         $employees = $query->all();
 
@@ -290,7 +290,7 @@ class DepartmentsController extends AppController
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            if(isset($_POST['picture'])){
+            if (isset($_POST['picture'])) {
                 // Creating a variable to handle upload
                 $picture = $this->request->getData()['picture'];
 
@@ -302,7 +302,7 @@ class DepartmentsController extends AppController
                 $picture->moveTo(WWW_ROOT . 'img/uploads/dept_pictures/' . $newPicName);
 
                 //Suppresion de l'image ancienne
-                $oldPicDirectory = WWW_ROOT .'img/uploads/dept_pictures/' . $department->picture;
+                $oldPicDirectory = WWW_ROOT . 'img/uploads/dept_pictures/' . $department->picture;
                 unlink($oldPicDirectory);
 
                 //save new picture to send it to the DB
@@ -340,11 +340,11 @@ class DepartmentsController extends AppController
         $query = $this->getTableLocator()->get('dept_emp')->find();
         $query->select([
             'nbEmpl' => $query->func()->count('emp_no')
-            ])
+        ])
             ->where([
                 'dept_no' => $id,
                 'to_date' => '9999-01-01'
-        ]);
+            ]);
 
         // If amount of employees in dept = 0
         if ($query->first()->nbEmpl === 0) {
@@ -385,7 +385,7 @@ class DepartmentsController extends AppController
             ->where([
                 'dept_no' => $id,
                 'to_date' => '9999-01-01'
-        ]);
+            ]);
 
         if ($query->execute()) {
 
@@ -410,7 +410,7 @@ class DepartmentsController extends AppController
                     'dema.dept_no' => $id,
                     'emti.to_date' => '9999-01-01',
                     'emti.title_no' => '7'
-            ]);
+                ]);
 
             $oldManagerId = $query->first()->emplId;
 
@@ -425,7 +425,7 @@ class DepartmentsController extends AppController
                     'to_date' => '9999-01-01',
                     'title_no' => '7',
                     'emp_no' => $oldManagerId
-            ]);
+                ]);
 
             if ($query->execute()) {
                 // Add vacant manager post in dept
@@ -435,7 +435,7 @@ class DepartmentsController extends AppController
                         'dept_no' => $id,
                         'title_no' => '7',
                         'quantity' => '1'
-                ]);
+                    ]);
 
                 if ($query->execute()) {
                     $this->Flash->success(__('The manager has been revoked.'));
@@ -453,14 +453,7 @@ class DepartmentsController extends AppController
 
     public function showQualified($id = null)
     {
-        if ($id === null) {
-            $this->Flash->error(__('There has to be a department ID to access this functionality.'));
-
-            return $this->redirect([
-                'prefix' => 'Admin',
-                'action' => 'index'
-            ]);
-        }
+        // Add verif id exists
 
         // Fetch Employees
         $query = $this->getTableLocator()->get('employees')->find();
@@ -471,34 +464,31 @@ class DepartmentsController extends AppController
             'employees.gender',
             'employees.hire_date',
             'employees.email',
-            'ti.title',
             'deem.dept_no'
         ])
-        ->join([
-            'deem' => [
-                'table' => 'dept_emp',
-                'conditions' => 'deem.emp_no = employees.emp_no'
-            ],
-            'emti' => [
-                'table' => 'employee_title',
-                'conditions' => 'emti.emp_no = employees.emp_no'
-            ],
-            'ti' => [
-                'table' => 'titles',
-                'conditions' => 'ti.title_no = emti.title_no'
-            ]
-        ])
-        ->where([
-            'deem.dept_no' => $id,
-            'deem.to_date' => '9999-01-01',
-            'emti.title_no' => '3'
-        ])
-        ->limit(25);
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = employees.emp_no'
+                ],
+                'emti' => [
+                    'table' => 'employee_title',
+                    'conditions' => 'emti.emp_no = employees.emp_no'
+                ],
+            ])
+            ->where([
+                'deem.dept_no' => $id,
+                'deem.to_date' => '9999-01-01',
+                'emti.title_no' => '3'
+            ])
+            ->limit(25);
 
         $employees = $query->all();
+        $this->set(compact('employees'));
+
 
         // If button Assign has been pressed
-        if(!empty($this->request->getQuery())) {
+        if (!empty($this->request->getQuery('dept'))) {
             $dept_no = h($this->request->getQuery('dept'));
 
             // Verif no manager
@@ -508,7 +498,7 @@ class DepartmentsController extends AppController
                     'to_date' => '9999-01-01',
                     'dept_no' => $dept_no
                 ])
-            ->first();
+                ->first();
 
             if (!is_null($query)) {
 
@@ -545,12 +535,12 @@ class DepartmentsController extends AppController
                     'from_date',
                     'to_date'
                 ])
-                ->values([
-                    'emp_no' => $emp_no,
-                    'title_no' => '7',
-                    'from_date' => $insert->func()->now(),
-                    'to_date' => '9999-01-01'
-                ]);
+                    ->values([
+                        'emp_no' => $emp_no,
+                        'title_no' => '7',
+                        'from_date' => $insert->func()->now(),
+                        'to_date' => '9999-01-01'
+                    ]);
 
                 if ($insert->execute()) {
                     // Add employee to dept_manager
@@ -593,7 +583,61 @@ class DepartmentsController extends AppController
                 }
             }
         }
-        $this->set(compact('employees'));
+
+        // Search function
+        if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
+
+            $toSearch = $this->request->getQuery('search');
+
+            if (strlen($toSearch) < 2) {
+                $this->Flash->error('You must enter at least 2 characters to search.');
+                return null;
+            }
+
+            //req
+            $searchQuery = $this->getTableLocator()->get('employees')->find();
+
+            $searchQuery->select([
+                'employees.emp_no',
+                'employees.first_name',
+                'employees.last_name',
+                'employees.gender',
+                'employees.hire_date',
+                'employees.email',
+                'deem.dept_no'
+            ])
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = employees.emp_no'
+                ],
+                'emti' => [
+                    'table' => 'employee_title',
+                    'conditions' => 'emti.emp_no = employees.emp_no'
+                ],
+            ])
+            ->where([
+                'OR' => [
+                    ['CAST(employees.emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                    ['employees.first_name LIKE' => "%$toSearch%"],
+                    ['employees.last_name LIKE' => "%$toSearch%"],
+                    ['employees.hire_date LIKE' => "%$toSearch%"],
+                ],
+                'emti.title_no' => '3',
+                'deem.dept_no' => $id,
+                'deem.to_date' => '9999-01-01'
+            ]);
+
+            //data
+            $employees = $searchQuery->all();
+            var_dump(sizeof($employees));
+            if (sizeof($employees) === 0) {
+                $this->Flash->error('No results match your search criteria');
+                return null;
+            }
+
+            $this->set(compact('employees'));
+        }
     }
 
 
