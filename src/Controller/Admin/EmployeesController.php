@@ -90,15 +90,65 @@ class EmployeesController extends AppController
     {
         $employee = $this->Employees->newEmptyEntity();
         if ($this->request->is('post')) {
-            $employee = $this->Employees->patchEntity($employee, $this->request->getData());
+
+            //Fetch last emp_no and add + 1
+            $query = $this->getTableLocator()->get('Employees')
+                ->find()
+                ->select([
+                    'emp_no'
+                ])
+                ->orderDesc('emp_no')
+                ->limit(1)
+                ->first();
+
+            $newEmpNo = $query->emp_no + 1;
+
+            // Picture treatment
+            // Creating a variable to handle upload
+            $picture = $this->request->getData()['picture'];
+            $ext = strtolower(substr(strrchr($picture->getClientFilename(), '.'), 1));
+
+            //Changer le nom de la photo pour éviter les conflicts de nom
+            $newPicName = time() . "_" . random_int(000000, 999999) . '.' . $ext;
+
+            //Move the file to the correct path
+            $picture->moveTo(WWW_ROOT . 'img/uploads/emp_pictures/' . $newPicName);
+
+            //save data to send it to the DB
+            $employee->set('emp_no', $newEmpNo)
+                ->set('first_name', $this->request->getData('first_name'))
+                ->set('last_name', $this->request->getData('last_name'))
+                ->set('gender', $this->request->getData('gender'))
+                ->set('birth_date', $this->request->getData('birth_date'))
+                ->set('email', $this->request->getData('email'))
+                ->set('hire_date', $this->request->getData('hire_date'))
+                ->set('picture', $newPicName);
+
+            //TODO: dept_no field -> to dept_emp ?
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect([
+                    'prefix' => 'Admin',
+                    'action' => 'index'
+                ]);
             }
             $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
-        $departments = $this->Employees->Departments->find('list', ['limit' => 200]);
+        $query = $this->getTableLocator()->get('departments')
+            ->find()
+            ->select([
+                'dept_no'
+            ])
+            ->orderAsc('dept_no')
+            ->toList();
+
+        $departments = [];
+
+        foreach($query as $row) {
+            $departments[] = $row->dept_no;
+        }
+
         $this->set(compact('employee', 'departments'));
     }
 
