@@ -33,7 +33,47 @@ class UsersController extends AppController
             'contain' => [],
         ]);
 
+        //Vérif user is the same
+        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            //check if user is the same
+            $query = $this->getTableLocator()->get('Users')
+                ->find()
+                ->where([
+                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                ]);
+
+            if (sizeof($query->all()) === 0) {
+                $this->Flash->error(__('Your access to this page has been denied.'));
+
+                return $this->redirect([
+                    'controller' => 'Pages',
+                    'action' => 'display'
+                ]);
+            }
+        }
+
         $this->set(compact('user'));
+    }
+
+    public function pwdChange($id = null) {
+        // TODO: Add template pwdChange, add form with new pwd field, verif old & new pass !== same, etc.
+        if ($id === null) {
+            $this->Flash->error('Your access to this page has been denied.');
+
+            return $this->redirect([
+                'controller' => 'Pages',
+                'action' => 'display'
+            ]);
+        }
+
+        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            if ($this->Authentication->getIdentity()->get('emp_no') === $id) {
+                // here be dragons
+            } else {
+                $this->Flash->error('You aren\'t authorized to access this page.');
+            }
+        }
+
     }
 
     /**
