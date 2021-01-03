@@ -7,7 +7,9 @@
 <div class="row row-styled-background">
     <div class="column-responsive column-80 mt-5 mx-auto">
         <div class="employees form content position-relative p-5">
-            <?= $this->Form->create($employee) ?>
+            <?= $this->Form->create($employee, [
+                'type' => 'file'
+            ]) ?>
             <fieldset>
                 <legend><?= __('Edit Employee') ?></legend>
                 <!-- Button admin/dept/index -->
@@ -20,14 +22,33 @@
                 <div class="row">
                     <div class="column">
                         <?php
-                        echo $this->Form->control('birth_date');
-                        echo $this->Form->control('first_name');
-                        echo $this->Form->control('last_name');
-                        echo $this->Form->control('gender');
-                        echo $this->Form->control('hire_date');
-                        echo $this->Form->control('picture');
-                        echo $this->Form->control('email');
-                        echo $this->Form->control('departments._ids', ['options' => $departments]);
+                        echo $this->Form->control('first_name', [
+                            'required' => 'true'
+                        ]);
+                        echo $this->Form->control('last_name', [
+                            'required' => 'true'
+                        ]);
+                        echo $this->Form->control('gender', [
+                            'required' => 'true',
+                            'options' => [
+                                'M' => 'M',
+                                'F' => 'F',
+                                'Others' => 'Others'
+                            ]
+                        ]);
+                        echo $this->Form->control('birth_date', [
+                            'required' => 'true'
+                        ]);
+                        echo $this->Form->control('email', [
+                            'required' => 'true'
+                        ]);
+                        echo $this->Form->control('hire_date', [
+                            'required' => 'true'
+                        ]);
+                        echo $this->Form->control('picture', [
+                            'required'=>'false',
+                            'type' => 'file'
+                        ]);
                         ?>
                     </div>
                 </div>
