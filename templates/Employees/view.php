@@ -4,9 +4,9 @@
  * @var \App\Model\Entity\Employee $employee
  */
 ?>
-<div class="row principal-row">
-    <div class="col-8">
-        <div class="employees view content position-relative">
+<div class="row principal-row row-styled-background">
+    <div class="col-8 m-auto">
+        <div class="employees view content position-relative p-5">
             <h3><?= h($employee->emp_no) ?></h3>
             <?= $this->Html->link(__('<i></i>'), 'employees/',
                 [
@@ -43,18 +43,6 @@
                 <tr>
                     <th><?= __('Function') ?></th>
                     <td><?= h($employee->fonction) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Salaries') ?></th>
-                    <td colspan="2">
-                        <ul>
-                            <?php foreach ($employee->salaries as $salary) : ?>
-                                <li><?= $this->Number->currency($salary->salary, "EUR", [
-                                        'locale' => 'FR_fr'
-                                    ]) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </td>
                 </tr>
             </table>
         </div>

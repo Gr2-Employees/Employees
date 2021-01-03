@@ -114,9 +114,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <?php } ?>
         </ul>
         <!-- Auth buttons -->
-        <?php if ($this->Identity->isLoggedIn()) { ?>
-
+        <?php
+         if ($this->Identity->isLoggedIn()) { ?>
             <!-- Logout Button -->
+             <?= $this->Html->link(__('<i></i>'), [
+                 'controller' => 'users',
+                 'action' => 'view',
+                 $this->Identity->get('emp_no')
+             ],
+                 [
+                     "class" => "fas fa-2x fa-user-circle position-absolute",
+                     "style" => "right:110px;top:25px;",
+                     "escape" => false
+                 ]) ?>
             <?= $this->Html->link(__('Logout'), [
                 'controller' => 'Users',
                 'action' => 'logout'
