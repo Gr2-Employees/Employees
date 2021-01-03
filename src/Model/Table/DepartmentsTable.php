@@ -96,17 +96,6 @@ class DepartmentsTable extends Table
                     'height' => [600],
                 ]]
             ])
-            /*->add('picture', 'filename', [
-                'rule' => function (UploadedFileInterface $file) {
-                    // filename must not be a path
-                    $filename = $file->getClientFilename();
-                    if (strcmp(basename($filename), $filename) === 0) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            ])*/
             ->add('picture', 'extension', [
                 'rule' => ['extension', [
                     'png', 'jpeg', 'jpg' // .png file extension only
