@@ -180,9 +180,14 @@ class EmployeesController extends AppController
                         ]);
                     if($insertEmpT->execute()){
                         $this->Flash->success(__('The employee has been saved.'));
-                    } else {
-                        $this->Flash->error(__('The employee could not be saved. Please, try again.'));
+
+                        return $this->redirect([
+                            'prefix' => 'Admin',
+                            'action' => 'index'
+                        ]);
                     }
+
+                    $this->Flash->error(__('The employee could not be saved. Please, try again.'));
                 } else {
                     $this->Flash->error(__('The employee could not be saved. Please, try again.'));
                 }
@@ -263,5 +268,9 @@ class EmployeesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+
+
+
+
     }
 }
