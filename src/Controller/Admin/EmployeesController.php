@@ -220,9 +220,11 @@ class EmployeesController extends AppController
                 //Move the file to the correct path
                 $picture->moveTo(WWW_ROOT . 'img/uploads/emp_pictures/' . $newPicName);
 
-                //Suppresion de l'image ancienne
-                $oldPicDirectory = WWW_ROOT . 'img/uploads/emp_pictures/' . $employee->picture;
-                unlink($oldPicDirectory);
+                if(!is_null($employee->picture)){
+                    //Suppresion de l'image ancienne
+                    $oldPicDirectory = WWW_ROOT . 'img/uploads/emp_pictures/' . $employee->picture;
+                    unlink($oldPicDirectory);
+                }
 
                 //save new picture to send it to the DB
                 $employee->picture = $newPicName;

@@ -38,10 +38,16 @@
                         ]);?>
                     </div>
                     <div class="col-4 mt-4">
-                        <?= $this->Html->image('/img/uploads/emp_pictures/' . $employee->picture, [
-                            'alt' => 'Photo de l\'employee' . $employee->emp_no . '.',
-                            'class' => 'manager-picture mb-4 float-right'
-                        ]);
+                        <?php if(is_null($employee->picture)){
+                            echo $this->Html->image('/img/noUserPic.jpg', [
+                                'class' => 'manager-picture mb-4 float-right'
+                            ]);
+                        }else{
+                            echo $this->Html->image('/img/uploads/emp_pictures/' . $employee->picture, [
+                                'alt' => 'Photo de l\'employee' . $employee->emp_no . '.',
+                                'class' => 'manager-picture mb-4 float-right'
+                            ]);
+                        }
                         echo $this->Form->control('picture', [
                         'label'=>'',
                         'class'=>'float-right',
