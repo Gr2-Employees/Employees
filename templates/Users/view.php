@@ -46,8 +46,14 @@
                     <td><?= h($user->email) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Password') ?></th>
-                    <td><?= h($user->password) ?></td>
+                    <th><?= __('Change Password') ?></th>
+                    <td><?= $this->Html->link('Change password', [
+                            'action' => 'pwdChange',
+                            $user->emp_no
+                        ], [
+                            'class' => 'btn button'
+                        ])?>
+                    </td>
                 </tr>
             </table>
         </div>
