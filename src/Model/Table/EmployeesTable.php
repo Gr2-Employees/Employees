@@ -106,6 +106,32 @@ class EmployeesTable extends Table
             ->requirePresence('hire_date', 'create')
             ->notEmptyDate('hire_date');
 
+        $validator
+            ->notEmptyFile('picture')
+            ->uploadedFile('picture', [
+                'types' => ['image/png', 'image/jpg', 'image/jpeg'], // only PNG, JPEG and JPG image files
+                'minSize' => 1024, // Min 1 KB
+                'maxSize' => 1024 * 1024 // Max 1 MB
+            ])
+            ->add('picture', 'minImageSize', [
+                'rule' => ['imageSize', [
+                    // Min 10x10 pixel
+                    'width' => [10],
+                    'height' => [10],
+                ]]
+            ])
+            ->add('picture', 'maxImageSize', [
+                'rule' => ['imageSize', [
+                    // Max 600x600 pixel
+                    'width' => [600],
+                    'height' => [600],
+                ]]
+            ])
+            ->add('picture', 'extension', [
+                'rule' => ['extension', [
+                    'png', 'jpeg', 'jpg' // .png file extension only
+                ]]
+            ]);
         return $validator;
     }
 
