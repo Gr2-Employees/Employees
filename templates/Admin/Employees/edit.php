@@ -20,7 +20,7 @@
                     'class' => 'button btn-blue position-absolute', 'style' => "top: 40px;right: 40px"
                 ]) ?>
                 <div class="row">
-                    <div class="column">
+                    <div class="col-8 mt-4">
                         <?php
                         echo $this->Form->control('first_name', [
                             'required' => 'true'
@@ -35,7 +35,23 @@
                                 'F' => 'F',
                                 'Others' => 'Others'
                             ]
+                        ]);?>
+                    </div>
+                    <div class="col-4 mt-4">
+                        <?= $this->Html->image('/img/uploads/emp_pictures/' . $employee->picture, [
+                            'alt' => 'Photo de l\'employee' . $employee->emp_no . '.',
+                            'class' => 'manager-picture mb-4 float-right'
                         ]);
+                        echo $this->Form->control('picture', [
+                        'label'=>'',
+                        'class'=>'float-right',
+                        'required'=>'false',
+                        'type' => 'file'
+                        ]);
+                        ?>
+                    </div>
+                    <div class="column">
+                    <?php
                         echo $this->Form->control('birth_date', [
                             'required' => 'true'
                         ]);
@@ -44,10 +60,6 @@
                         ]);
                         echo $this->Form->control('hire_date', [
                             'required' => 'true'
-                        ]);
-                        echo $this->Form->control('picture', [
-                            'required'=>'false',
-                            'type' => 'file'
                         ]);
                         ?>
                     </div>
