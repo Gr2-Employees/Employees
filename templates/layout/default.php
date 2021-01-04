@@ -124,7 +124,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
              ],
                  [
                      "class" => "fas fa-2x fa-user-circle position-absolute",
-                     "style" => "right:110px;top:25px;",
+                     "style" => "right:110px;top:27px;",
                      "escape" => false
                  ]) ?>
             <?= $this->Html->link(__('Logout'), [

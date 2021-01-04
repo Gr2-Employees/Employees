@@ -60,6 +60,7 @@ class UsersController extends AppController
                 ]),
                 'birth_date',
                 'hire_date',
+                'picture',
                 'deem.dept_no',
                 'ti.title',
                 'salary' => $query->func()->max('salary')
@@ -95,6 +96,7 @@ class UsersController extends AppController
 
             // Setting data
             $user->set('full_name', $userData->full_name);
+            $user->set('picture', $userData->picture);
             $user->set('department', $userData->deem['dept_no']);
             $user->set('title', $userData->ti['title']);
             $user->set('birth_date', $birth);
