@@ -90,7 +90,7 @@
                             'action' => 'resetPassword',
                             $user->emp_no
                         ], [
-                            'class' => 'button'
+                            'class' => 'button btn-blue m-auto'
                         ]) ?>
                     </td>
                 </tr>
