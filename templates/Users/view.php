@@ -4,56 +4,59 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-
-            <!-- Link to index -->
-            <?= $this->Html->link(__('List Users'), [
-                'action' => 'index'
-            ], [
-                'class' => 'side-nav-item'
-            ]) ?>
-
-            <!-- TODO: Add auth to that user, only that user can edit the profile -->
-            <?= $this->Html->link(__('Edit User'), [
-                'action' => 'edit', $user->emp_no
-            ], [
-                'class' => 'side-nav-item'
-            ]) ?>
-
-            <!-- TODO: Add auth to that user, only that user can delete the profile -->
-            <?= $this->Form->postLink(__('Delete User'), [
-                'action' => 'delete', $user->emp_no
-            ], [
-                'confirm' => __('Are you sure you want to delete # {0}?', $user->emp_no),
-                'class' => 'side-nav-item'
-            ]) ?>
-
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+<div class="row row-styled-background">
+    <div class="column-responsive column-50 m-auto">
         <div class="users view content">
-            <h3><?= h($user->id) ?></h3>
+            <!-- User Info -->
+            <h3><?= h($user->full_name) ?></h3>
             <table>
+
+                <!-- Employee ID -->
                 <tr>
                     <th><?= __('User ID') ?></th>
                     <td><?= $this->Number->format($user->emp_no) ?></td>
                 </tr>
+
+                <!-- Employee Email -->
                 <tr>
                     <th><?= __('Email') ?></th>
                     <td><?= h($user->email) ?></td>
                 </tr>
+
+                <!-- Employee Birth Date -->
                 <tr>
-                    <th><?= __('Change Password') ?></th>
-                    <td><?= $this->Html->link('Change password', [
-                            'action' => 'pwdChange',
-                            $user->emp_no
-                        ], [
-                            'class' => 'btn button'
-                        ])?>
-                    </td>
+                    <th><?= __('Birth Date') ?></th>
+                    <td><?= h($user->birth_date) ?></td>
+                </tr>
+
+                <!-- Employee Hire Date -->
+                <tr>
+                    <th><?= __('Hire Date') ?></th>
+                    <td><?= h($user->hire_date) ?></td>
+                </tr>
+
+                <!-- Employee Rôle -->
+                <tr>
+                    <th><?= __('Rôle') ?></th>
+                    <td><?= ucFirst(h($user->role)) ?></td>
+                </tr>
+
+                <!-- Employee Department -->
+                <tr>
+                    <th><?= __('Department') ?></th>
+                    <td><?= ucFirst(h($user->department)) ?></td>
+                </tr>
+
+                <!-- Employee Title -->
+                <tr>
+                    <th><?= __('Title') ?></th>
+                    <td><?= ucFirst(h($user->title)) ?></td>
+                </tr>
+
+                <!-- Employee Highest Salary -->
+                <tr>
+                    <th><?= __('Salary') ?></th>
+                    <td><?=  $this->Number->currency($user->salary)?></td>
                 </tr>
             </table>
         </div>
