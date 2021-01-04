@@ -58,6 +58,18 @@
                     <th><?= __('Salary') ?></th>
                     <td><?=  $this->Number->currency($user->salary)?></td>
                 </tr>
+
+                <!-- Reset Password -->
+                <tr>
+                    <th><?= __('Reset My Password') ?></th>
+                    <td> <?= $this->Html->link( __('Reset My Password'), [
+                            'action' => 'resetPassword',
+                            $user->emp_no
+                        ], [
+                            'class' => 'button'
+                        ]) ?>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
