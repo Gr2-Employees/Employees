@@ -11,7 +11,6 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
-
 /**
  * Users Controller
  *
@@ -33,7 +32,7 @@ class UsersController extends AppController
             'contain' => [],
         ]);
 
-        //Vérif user is the same
+        //Vérif user is authenticated
         if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
             //check if user is the same
             $query = $this->getTableLocator()->get('Users')
@@ -50,30 +49,60 @@ class UsersController extends AppController
                     'action' => 'display'
                 ]);
             }
+
+            // Fetch all info for User
+            $query = $this->getTableLocator()->get('Employees')->find();
+            $query->select([
+                'full_name' => $query->func()->concat([
+                    'first_name' => 'identifier',
+                    ' ',
+                    'last_name' => 'identifier'
+                ]),
+                'birth_date',
+                'hire_date',
+                'deem.dept_no',
+                'ti.title',
+                'salary' => $query->func()->max('salary')
+            ])
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = employees.emp_no'
+                ],
+                'emti' => [
+                    'table' => 'employee_title',
+                    'conditions' => 'emti.emp_no = employees.emp_no'
+                ],
+                'ti' => [
+                    'table' => 'titles',
+                    'conditions' => 'ti.title_no = emti.title_no'
+                ],
+                'sa' => [
+                    'table' => 'salaries',
+                    'conditions' => 'sa.emp_no = employees.emp_no'
+                ]
+            ])
+            ->where([
+                'employees.emp_no' => $id
+            ]);
+
+            // Query Data
+            $userData = $query->first();
+
+            // Format dates
+            $birth = $userData->birth_date->i18nFormat('dd MMMM yyyy');
+            $hire = $userData->hire_date->i18nFormat('dd MMMM yyyy');
+
+            // Setting data
+            $user->set('full_name', $userData->full_name);
+            $user->set('department', $userData->deem['dept_no']);
+            $user->set('title', $userData->ti['title']);
+            $user->set('birth_date', $birth);
+            $user->set('hire_date', $hire);
+            $user->set('salary', $userData->salary);
         }
 
         $this->set(compact('user'));
-    }
-
-    public function pwdChange($id = null) {
-        // TODO: Add template pwdChange, add form with new pwd field, verif old & new pass !== same, etc.
-        if ($id === null) {
-            $this->Flash->error('Your access to this page has been denied.');
-
-            return $this->redirect([
-                'controller' => 'Pages',
-                'action' => 'display'
-            ]);
-        }
-
-        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
-            if ($this->Authentication->getIdentity()->get('emp_no') === $id) {
-                // here be dragons
-            } else {
-                $this->Flash->error('You aren\'t authorized to access this page.');
-            }
-        }
-
     }
 
     /**
@@ -202,14 +231,6 @@ class UsersController extends AppController
         $result = $this->Authentication->getResult();
         // regardless of POST or GET, redirect if user is logged in
         if ($result->isValid()) {
-
-            if ($this->Authentication->getIdentity()->role === 'admin') {
-                return $this->redirect([
-                    'prefix' => 'Admin',
-                    'controller' => 'Dashboard',
-                    'action' => 'index'
-                ]);
-            }
 
             // redirect to /articles after login success
             $redirect = $this->request->getQuery('redirect', [
