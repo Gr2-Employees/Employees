@@ -15,8 +15,8 @@
 <div class="content content-home">
     <div id="div1" class="row">
         <div class="col-6">
-            <h2>Welcome To Gusto Restaurant</h2>
-            <h1>LOVES HEALTHY FOOD</h1>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <h1><?=strtoupper('Curabitur cursus')?></h1>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.</p>
             <?= $this->Html->link(__('A propos'), '/pages/about-us', [
@@ -30,8 +30,8 @@
 
         </div>
         <div id="div2-2" class="col-7">
-            <h2>Welcome To Gusto Restaurant</h2>
-            <h1>LOVES HEALTHY FOOD</h1>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <h1><?=strtoupper('Curabitur cursus')?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
@@ -47,8 +47,8 @@
     </div>
     <div id="div3" class="row">
         <div id="div3-1" class="col-6">
-            <h2>Welcome To Gusto Restaurant</h2>
-            <h1>LOVES HEALTHY FOOD</h1>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <h1><?=strtoupper('Curabitur cursus')?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
@@ -60,8 +60,8 @@
     </div>
     <div id="div4" class="row">
         <div id="div4-1" class="col-6">
-            <h2>Women at work</h2>
-            <h1>LOVES HEALTHY FOOD</h1>
+            <h2>Lorem ipsum dolor sit amet</h2>
+            <h1><?=strtoupper('Curabitur cursus')?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
