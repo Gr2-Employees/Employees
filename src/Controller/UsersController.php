@@ -105,6 +105,74 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    public function resetPassword($id = null)
+    {
+        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            $query = $this->getTableLocator()->get('Users')
+                ->find()
+                ->where([
+                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                ]);
+
+            if (sizeof($query->all()) === 0) {
+                $this->Flash->error(__('Your access to this page has been denied.'));
+
+                return $this->redirect([
+                    'controller' => 'Pages',
+                    'action' => 'display'
+                ]);
+            }
+
+            if ($this->request->is('post')) {
+                //clear old pwd
+                $erasePwd = $this->getTableLocator()->get('Users')
+                    ->query()
+                    ->update()
+                    ->set([
+                        'password' => null
+                    ])
+                    ->where([
+                        'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                    ]);
+
+                if ($erasePwd->execute()) {
+                    // verif same pwd
+                    $data = $this->request->getData();
+
+                    if ($data['New_Password'] === $data['confPwd']) {
+                        $hashedPwd = password_hash($data['New_Password'], PASSWORD_BCRYPT);
+
+                        $updatePwd = $this->getTableLocator()->get('Users')
+                            ->query()
+                            ->update()
+                            ->set([
+                                'password' => $hashedPwd
+                            ])
+                            ->where([
+                                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                            ]);
+
+                        if ($updatePwd->execute()) {
+                            $this->Flash->success(__('Your password has been changed.'));
+
+                            return $this->redirect(['action' => 'view', $id]);
+                        }
+
+                        $this->Flash->error(__('An error occured, please try again.'));
+                        return false;
+                    }
+
+                    $this->Flash->error(__('The passwords must match.'));
+                } else {
+                    $this->Flash->error(__('An error occured, please try again.'));
+                    return false;
+                }
+            }
+        }
+
+    }
+
+
     /**
      * Add method
      *
