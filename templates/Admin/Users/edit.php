@@ -5,13 +5,6 @@
  */
 ?>
 <div class="row row row-styled-background">
-    <!-- Link to delete User -->
-    <?= $this->Form->postLink(__('Delete'), [
-        'action' => 'delete', $user->emp_no
-    ], [
-        'confirm' => __('Are you sure you want to delete # {0}?', $user->emp_no),
-        'class' => 'side-nav-item'
-    ]) ?>
     <div class="col-7 m-auto">
         <div class="users form content">
             <?= $this->Form->create($user) ?>
@@ -28,7 +21,6 @@
                 ]) ?>
 
                 <?= $this->Form->control('email') ?>
-                <?= $this->Form->control('password') ?>
             </fieldset>
 
             <?= $this->Form->button(__('Submit'), [

@@ -15,7 +15,7 @@
                     echo $this->Form->select('type',[
                         'type' => [
                             'raise' => 'Raise',
-                            'Department_change' => 'Department change'
+                            'Department change' => 'Department change'
                         ]
                     ]);
                     echo $this->Form->control('about',['placeholder' => 'Talk about it in more detail']);

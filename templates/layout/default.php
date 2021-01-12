@@ -101,44 +101,59 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 </li>
             <?php } ?>
 
-            <?php if ($this->Identity->get('role') !== 'admin') { ?>
-            <!-- Lien vers la page Demands -->
-            <li class="nav-item">
-                <?= $this->Html->link('Demands', [
-                    'controller' => 'Demands',
-                    'action' => 'index'
-                ], [
-                    'class' => 'nav-link'
-                ]) ?>
-            </li>
+            <?php if ($this->Identity->get('role') === 'admin' || $this->Identity->get('role') === 'manager' || $this->Identity->get('role') === 'comptable') { ?>
+                <!-- Lien vers la page Demands -->
+                <li class="nav-item">
+                    <?= $this->Html->link('Demands', [
+                        'controller' => 'Demands',
+                        'action' => 'index'
+                    ], [
+                        'class' => 'nav-link'
+                    ]) ?>
+                </li>
             <?php } ?>
         </ul>
         <!-- Auth buttons -->
         <?php
-         if ($this->Identity->isLoggedIn()) { ?>
+        if ($this->Identity->isLoggedIn()) { ?>
+            <!-- Profile link -->
+            <?php if ($this->Identity->get('role') === 'admin') { ?>
+                <?= $this->Html->link(__('<i></i>'), [
+                    'prefix' => 'Admin',
+                    'controller' => 'Users',
+                    'action' => 'view',
+                    $this->Identity->get('emp_no')
+                ],
+                [
+                    "class" => "fas fa-2x fa-user-circle position-absolute",
+                    "style" => "right:110px;top:27px;",
+                    "escape" => false
+                ]) ?>
+            <?php } else { ?>
+                <?= $this->Html->link(__('<i></i>'), [
+                    'controller' => 'Users',
+                    'action' => 'view',
+                    $this->Identity->get('emp_no')
+                ],
+                [
+                    "class" => "fas fa-2x fa-user-circle position-absolute",
+                    "style" => "right:110px;top:27px;",
+                    "escape" => false
+                ]) ?>
+            <?php } ?>
+
             <!-- Logout Button -->
-             <?= $this->Html->link(__('<i></i>'), [
-                 'controller' => 'users',
-                 'action' => 'view',
-                 $this->Identity->get('emp_no')
-             ],
-                 [
-                     "class" => "fas fa-2x fa-user-circle position-absolute",
-                     "style" => "right:110px;top:27px;",
-                     "escape" => false
-                 ]) ?>
             <?= $this->Html->link(__('Logout'), [
                 'controller' => 'Users',
                 'action' => 'logout'
             ], [
                 'class' => 'btn btn-outline-primary my-2 my-sm-0',
                 'id' => 'btn-logout'
-            ]) ?>
+            ]); ?>
 
-        <?php } else { ?>
+            <?php } else { ?>
 
             <!-- Log In Button -->
-
             <?= $this->Html->link(__('Login'), [
                 'controller' => 'Users',
                 'action' => 'login'
@@ -148,17 +163,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             ]) ?>
 
             <!-- Sign up Button -->
-
             <?= $this->Html->link(__('Sign up'), [
                 'controller' => 'Users',
                 'action' => 'signup'
             ], [
                 'class' => 'btn btn-outline-primary my-2 my-sm-0',
                 'id' => 'btn-signup'
-            ]) ?>
-
+            ]);?>
         <?php } ?>
-
 
     </div>
 </nav>

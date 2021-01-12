@@ -16,7 +16,7 @@
                     <!-- Employee ID -->
                     <tr>
                         <th><?= __('User ID') ?></th>
-                        <td><?= $this->Number->format($user->emp_no) ?></td>
+                        <td><?= h($user->emp_no) ?></td>
                     </tr>
 
                     <!-- Employee Email -->

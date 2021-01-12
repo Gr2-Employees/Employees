@@ -220,7 +220,7 @@
                 <div class="col-6">
                     <h6>À propos</h6>
                     <p class="footer-links"><?= $this->Html->link(__('Qui sommes-nous?'), '/pages/about-us', ['target' => '_blank']) ?></p>
-                    <p class="footer-links"><?= $this->Html->link(__('News'), '/pages/news', ['target' => '_blank']) ?></p>
+                    <p class="footer-links"><?= $this->Html->link(__('News'), '#news') ?></p>
                     <h6>Rapport annuel</h6>
                     <p class="footer-links"><?= $this->Html->link(__('Rapport annuel'), '/files/rapport-annuel-2019.pdf', ['target' => '_blank']) ?></p>
                 </div>

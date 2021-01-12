@@ -10,7 +10,7 @@
         <div class="users form content">
             <?= $this->Form->create(null) ?>
             <fieldset>
-                <legend><?= __('Sign Up') ?></legend>
+                <legend><?= __('Change password') ?></legend>
 
                 <!-- Password field -->
                 <?= $this->Form->control('New Password', [

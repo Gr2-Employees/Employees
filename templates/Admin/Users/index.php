@@ -31,7 +31,6 @@
                 <tr>
                     <th><?= $this->Paginator->sort('emp_no') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('password') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -40,7 +39,6 @@
                 <tr>
                     <td><?= $this->Number->format($user->emp_no) ?></td>
                     <td><?= h($user->email) ?></td>
-                    <td><?= h($user->password) ?></td>
                     <td class="actions">
                         <!-- Link to View User -->
                         <?= $this->Html->link(__('View'), [
