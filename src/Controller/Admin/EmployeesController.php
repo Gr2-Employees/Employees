@@ -241,11 +241,22 @@ class EmployeesController extends AppController
             $employee->birth_date = $this->request->getData('birth_date');
             $employee->email = $this->request->getData('email');
             $employee->hire_date = $this->request->getData('hire_date');
-            if($this->Employees->save($employee)){
-                $this->Flash->success(__('The employee has been saved.'));
-                return $this->redirect(['action' => 'index']);
+
+            $query = $this->getTableLocator()->get('Users')->query();
+            $query->update()
+                ->where([
+                    'emp_no' => $id
+                ])
+                ->set([
+                    'email' => $this->request->getData('email')
+                ]);
+            if($query->execute()){
+                if($this->Employees->save($employee)){
+                    $this->Flash->success(__('The employee has been saved.'));
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The employee could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The employee could not be saved. Please, try again.'));
         }
         $this->set(compact('employee'));
     }
@@ -268,9 +279,5 @@ class EmployeesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-
-
-
-
     }
 }
