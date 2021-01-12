@@ -14,37 +14,57 @@
                     "style" => "right:30px;top:25px;",
                     "escape" => false
                 ]) ?>
-            <table>
-                <tr>
-                    <th><?= __('First Name') ?></th>
-                    <td><?= h($employee->first_name) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Last Name') ?></th>
-                    <td><?= h($employee->last_name) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Gender') ?></th>
-                    <td><?= h($employee->gender) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Emp No') ?></th>
-                    <td><?= $this->Number->format($employee->emp_no) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Birth Date') ?></th>
-                    <td><?= h($employee->birth_date) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Hire Date') ?></th>
-                    <td><?= h($employee->hire_date) ?></td>
-                </tr>
+            <div class="row">
+                <div class="col-6">
+                    <table>
+                        <tr>
+                            <th><?= __('First Name') ?></th>
+                            <td><?= h($employee->first_name) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Last Name') ?></th>
+                            <td><?= h($employee->last_name) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Gender') ?></th>
+                            <td><?= h($employee->gender) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Emp No') ?></th>
+                            <td><?= $this->Number->format($employee->emp_no) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Birth Date') ?></th>
+                            <td><?= h($employee->birth_date) ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <?php if (!is_null($employee->picture)) { ?>
+                        <?= $this->Html->image('uploads/emp_pictures/' . $employee->picture, [
+                            'alt' => 'Employee picture ' . $employee->dept_name,
+                            'class' => 'manager-picture float-right'
+                        ]) ?>
+                    <?php } else { ?>
+                        <?= $this->Html->image('/img/noUserPic.jpg', [
+                            'class' => 'manager-picture float-right'
+                        ]) ?>
+                    <?php } ?>
+                </div>
+                <div class="col">
+                    <table>
+                        <tr>
+                            <th><?= __('Hire Date') ?></th>
+                            <td><?= h($employee->hire_date) ?></td>
+                        </tr>
 
-                <tr>
-                    <th><?= __('Function') ?></th>
-                    <td><?= h($employee->fonction) ?></td>
-                </tr>
-            </table>
+                        <tr>
+                            <th><?= __('Function') ?></th>
+                            <td><?= h($employee->fonction) ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
