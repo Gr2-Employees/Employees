@@ -87,7 +87,7 @@ class DemandsController extends AppController
                 'action' => 'index'
             ]);
         }
-        
+
         $demand = $this->Demands->get($id, [
             'contain' => [],
         ]);
@@ -314,14 +314,14 @@ class DemandsController extends AppController
             $demand->emp_no = $this->Authentication->getIdentity()->emp_no;
             $demand->type = $this->request->getData('type');
 
-            if ($demand->type === 'Department_change') {
+            if ($demand->type === 'Department change') {
                 $demand->amount = null;
             } else {
                 $demand->amount = $this->request->getData('amount');
             }
 
             if ($this->Demands->save($demand)) {
-                $this->Flash->success(__('The demand has been saved.'));
+                $this->Flash->success(__('The demand has been sent.'));
 
                 return $this->redirect(['controller' => 'departments', 'action' => 'index']);
             }
