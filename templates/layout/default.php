@@ -32,7 +32,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'vacancies', 'womenAtWork', 'user', 'pages', 'dashboard']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'department-employee', 'womenAtWork', 'user', 'pages', 'dashboard']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
