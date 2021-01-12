@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 use App\Controller\AppController;
 use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
@@ -29,28 +30,27 @@ class UsersController extends AppController
 
         $this->set(compact('users'));
 
-        if ($this->request->is('get')) {
-            if (!empty($this->request->getQuery('search'))) {
-                $toSearch = $this->request->getQuery('search');
-                // req
-                $searchQuery = $this->getTableLocator()->get('Users')->find()
-                    ->where(['OR' => [
-                        ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
-                        ['email LIKE' => "%$toSearch%"],
-                        ['role LIKE' => "%$toSearch%"],
-                    ]]);
+        /**
+         * Search function
+         */
+        if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
+            $toSearch = $this->request->getQuery('search');
+            $searchQuery = $this->getTableLocator()->get('Users')->find()
+                ->where(['OR' => [
+                    ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                    ['email LIKE' => "%$toSearch%"],
+                    ['role LIKE' => "%$toSearch%"],
+                ]]);
 
-                //data
-                $result = $searchQuery->all();
-                $users = [];
-                foreach ($result as $row) {
-                    $users[] = $row;
-                }
-                if(empty($users)){
-                    $this->Flash->error('No results match your search criteria');
-                }
-                $this->set(compact('users'));
+            $result = $searchQuery->all();
+            $users = [];
+            foreach ($result as $row) {
+                $users[] = $row;
             }
+            if(empty($users)){
+                $this->Flash->error('No results match your search criteria');
+            }
+            $this->set(compact('users'));
         }
     }
 
@@ -59,7 +59,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -82,27 +82,27 @@ class UsersController extends AppController
                 'ti.title',
                 'salary' => $query->func()->max('salary')
             ])
-                ->join([
-                    'deem' => [
-                        'table' => 'dept_emp',
-                        'conditions' => 'deem.emp_no = employees.emp_no'
-                    ],
-                    'emti' => [
-                        'table' => 'employee_title',
-                        'conditions' => 'emti.emp_no = employees.emp_no'
-                    ],
-                    'ti' => [
-                        'table' => 'titles',
-                        'conditions' => 'ti.title_no = emti.title_no'
-                    ],
-                    'sa' => [
-                        'table' => 'salaries',
-                        'conditions' => 'sa.emp_no = employees.emp_no'
-                    ]
-                ])
-                ->where([
-                    'employees.emp_no' => $id
-                ]);
+            ->join([
+                'deem' => [
+                    'table' => 'dept_emp',
+                    'conditions' => 'deem.emp_no = employees.emp_no'
+                ],
+                'emti' => [
+                    'table' => 'employee_title',
+                    'conditions' => 'emti.emp_no = employees.emp_no'
+                ],
+                'ti' => [
+                    'table' => 'titles',
+                    'conditions' => 'ti.title_no = emti.title_no'
+                ],
+                'sa' => [
+                    'table' => 'salaries',
+                    'conditions' => 'sa.emp_no = employees.emp_no'
+                ]
+            ])
+            ->where([
+                'employees.emp_no' => $id
+            ]);
 
             // Query Data
             $userData = $query->first();
@@ -134,37 +134,37 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             if (!empty($this->request->getData('emp_no'))) {
-
                 if (!empty($this->request->getData('email'))) {
                     if (!empty($this->request->getData('password'))) {
                         if ($this->request->getData('password') === $this->request->getData('confPwd')) {
 
+                            // Check if the email is already in Users table
                             $query = $this->getTableLocator()->get('Users')
-                                ->find()
-                                ->select([
-                                    'email'
-                                ])
-                                ->where([
-                                    'email' => $this->request->getData('email')
-                                ])
-                                ->all();
+                            ->find()
+                            ->select([
+                                'email'
+                            ])
+                            ->where([
+                                'email' => $this->request->getData('email')
+                            ])
+                            ->all();
 
                             if (sizeof($query) === 0) {
                                 $queryEmployee = $this->getTableLocator()->get('Employees')
-                                    ->find()
-                                    ->select([
-                                        'emp_no',
+                                ->find()
+                                ->select([
+                                    'emp_no',
+                                    'email'
+                                ])
+                                ->where([
+                                    'emp_no' => $this->request->getData(
+                                        'emp_no'
+                                    ),
+                                    'email' => $this->request->getData(
                                         'email'
-                                    ])
-                                    ->where([
-                                        'emp_no' => $this->request->getData(
-                                            'emp_no'
-                                        ),
-                                        'email' => $this->request->getData(
-                                            'email'
-                                        )
-                                    ])
-                                    ->all();
+                                    )
+                                ])
+                                ->all();
 
                                 if (sizeof($queryEmployee) === 1) {
                                     $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -205,13 +205,14 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $query = $this->getTableLocator()->get('Employees')->query();
             $query->update()
@@ -221,6 +222,7 @@ class UsersController extends AppController
                 ->set([
                     'email' => $this->request->getData('email')
                 ]);
+
             if($query->execute()){
                 $user = $this->Users->patchEntity($user, $this->request->getData());
                 if ($this->Users->save($user)) {
@@ -239,7 +241,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -254,6 +256,10 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Logout method
+     * @return Response|null
+     */
     public function logout()
     {
         $result = $this->Authentication->getResult();
@@ -269,15 +275,23 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * Reset password method
+     *
+     * @param string|int $id user_id
+     * @return Response|false|null
+     */
     public function resetPassword($id = null)
     {
         if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            // Check if the authed user is in Users table
             $query = $this->getTableLocator()->get('Users')
-                ->find()
-                ->where([
-                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                ]);
+            ->find()
+            ->where([
+                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+            ]);
 
+            // If no match has been found, redirect
             if (sizeof($query->all()) === 0) {
                 $this->Flash->error(__('Your access to this page has been denied.'));
 
@@ -288,33 +302,33 @@ class UsersController extends AppController
             }
 
             if ($this->request->is('post')) {
-                //clear old pwd
+                // Clear old pwd
                 $erasePwd = $this->getTableLocator()->get('Users')
-                    ->query()
-                    ->update()
-                    ->set([
-                        'password' => null
-                    ])
-                    ->where([
-                        'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                    ]);
+                ->query()
+                ->update()
+                ->set([
+                    'password' => null
+                ])
+                ->where([
+                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                ]);
 
                 if ($erasePwd->execute()) {
-                    // verif same pwd
+                    // Check if both given password are the same
                     $data = $this->request->getData();
 
                     if ($data['New_Password'] === $data['confPwd']) {
                         $hashedPwd = password_hash($data['New_Password'], PASSWORD_BCRYPT);
 
                         $updatePwd = $this->getTableLocator()->get('Users')
-                            ->query()
-                            ->update()
-                            ->set([
-                                'password' => $hashedPwd
-                            ])
-                            ->where([
-                                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                            ]);
+                        ->query()
+                        ->update()
+                        ->set([
+                            'password' => $hashedPwd
+                        ])
+                        ->where([
+                            'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                        ]);
 
                         if ($updatePwd->execute()) {
                             $this->Flash->success(__('Your password has been changed.'));
@@ -337,7 +351,7 @@ class UsersController extends AppController
 
     public function beforeFilter(EventInterface $event)
     {
-        parent::beforeFilter($event); // TODO: Change the autogenerated stub
+        parent::beforeFilter($event);
 
         if (($this->Authentication->getIdentity() === null) || ($this->Authentication->getIdentity()->role !== 'admin')) {
             $this->Flash->error(__('You cannot access this page.'));

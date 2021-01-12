@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Http\Response;
 use Laminas\Diactoros\UploadedFile;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -17,36 +19,39 @@ use Psr\Http\Message\UploadedFileFactoryInterface;
  */
 class VacanciesController extends AppController
 {
+    /**
+     * showOffers method
+     */
     public function showOffers()
     {
+        // Get desired dept_no
         $dept_no = $this->request->getQuery('dept_no');
 
         $vacancies = $this->getTableLocator()->get('Vacancies')->find();
-        $vacancies
-            ->select([
+        $vacancies->select([
                 'amount' => $vacancies->func()->sum('quantity'),
                 'name' => 'de.dept_name',
                 'title' => 'ti.title',
                 'title_no' => 'ti.title_no',
                 'dept_no' => 'de.dept_no'
-            ])
-            ->join([
-                'ti' => [
-                    'table' => 'titles',
-                    'conditions' => 'ti.title_no = vacancies.title_no'
-                ],
-                'de' => [
-                    'table' => 'departments',
-                    'conditions' => 'de.dept_no = vacancies.dept_no'
-                ]
-            ])
-            ->where([
-                'vacancies.dept_no' => $dept_no
-            ])
-            ->group([
-                'vacancies.title_no'
-            ])
-            ->all();
+        ])
+        ->join([
+            'ti' => [
+                'table' => 'titles',
+                'conditions' => 'ti.title_no = vacancies.title_no'
+            ],
+            'de' => [
+                'table' => 'departments',
+                'conditions' => 'de.dept_no = vacancies.dept_no'
+            ]
+        ])
+        ->where([
+            'vacancies.dept_no' => $dept_no
+        ])
+        ->group([
+            'vacancies.title_no'
+        ])
+        ->all();
 
         if (!is_null($vacancies->first())) {
             $nbVacancies = $vacancies->count();
@@ -63,6 +68,10 @@ class VacanciesController extends AppController
         }
     }
 
+    /**
+     * ApplyOffer method
+     * @throws Exception
+     */
     public function applyOffer() {
         // Init form value
         $showForm = true;
@@ -71,6 +80,7 @@ class VacanciesController extends AppController
         $title_no = $this->request->getQuery('title_no');
         $dept_no = $this->request->getQuery('dept_no');
 
+        // Makes sure every field has been sent
         if ($this->request->is('post')) {
             $formData = $this->request->getData();
             if (!empty($formData)
@@ -95,23 +105,23 @@ class VacanciesController extends AppController
                     // Get manager's mail + name
                     $dept_no = $formData['dept_no'];
                     $query = $this->getTableLocator()->get('dept_manager')
-                        ->find()
-                        ->select([
-                            'email',
-                            'em.first_name',
-                            'em.last_name'
-                        ])
-                        ->join([
-                            'em' => [
-                                'table' => 'employees',
-                                'conditions' => 'em.emp_no = dept_manager.emp_no'
-                            ]
-                        ])
-                        ->where([
-                            'dept_no' => $dept_no,
-                            'to_date' => '9999-01-01'
-                        ])
-                        ->first();
+                    ->find()
+                    ->select([
+                        'email',
+                        'em.first_name',
+                        'em.last_name'
+                    ])
+                    ->join([
+                        'em' => [
+                            'table' => 'employees',
+                            'conditions' => 'em.emp_no = dept_manager.emp_no'
+                        ]
+                    ])
+                    ->where([
+                        'dept_no' => $dept_no,
+                        'to_date' => '9999-01-01'
+                    ])
+                    ->first();
 
                     // Manager info
                     $managerMail = $query->email;
@@ -121,17 +131,17 @@ class VacanciesController extends AppController
                     $from = $formData['email'];
                     $eName = $formData['surname'] . ' ' . $formData['lastname'];
 
-                    // Get position's name
+                    // Get title's name
                     $query = $this->getTableLocator()->get('titles')
-                        ->find()
-                        ->select([
-                            'title'
-                        ])
-                        ->where([
-                            'title_no' => $formData['title_no']
+                    ->find()
+                    ->select([
+                        'title'
+                    ])
+                    ->where([
+                        'title_no' => $formData['title_no']
 
-                        ])
-                        ->first();
+                    ])
+                    ->first();
 
                     $titleName = $query->title;
 
@@ -206,7 +216,7 @@ class VacanciesController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -227,16 +237,18 @@ class VacanciesController extends AppController
      * Edit method
      *
      * @param string|null $id Vacancy id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
         $vacancy = $this->Vacancies->get($id, [
             'contain' => [],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $vacancy = $this->Vacancies->patchEntity($vacancy, $this->request->getData());
+
             if ($this->Vacancies->save($vacancy)) {
                 $this->Flash->success(__('The vacancy has been saved.'));
 
@@ -251,8 +263,8 @@ class VacanciesController extends AppController
      * Delete method
      *
      * @param string|null $id Vacancy id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {

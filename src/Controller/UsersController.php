@@ -36,10 +36,10 @@ class UsersController extends AppController
         if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
             //check if user is the same
             $query = $this->getTableLocator()->get('Users')
-                ->find()
-                ->where([
-                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                ]);
+            ->find()
+            ->where([
+                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+            ]);
 
             if (sizeof($query->all()) === 0) {
                 $this->Flash->error(__('Your access to this page has been denied.'));
@@ -87,7 +87,6 @@ class UsersController extends AppController
                 'employees.emp_no' => $id
             ]);
 
-            // Query Data
             $userData = $query->first();
 
             // Format dates
@@ -107,14 +106,19 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    /**
+     * ResetPassword method
+     * @param int|string $id user_id
+     * @return Response|false|null
+     */
     public function resetPassword($id = null)
     {
         if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
             $query = $this->getTableLocator()->get('Users')
-                ->find()
-                ->where([
-                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                ]);
+            ->find()
+            ->where([
+                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+            ]);
 
             if (sizeof($query->all()) === 0) {
                 $this->Flash->error(__('Your access to this page has been denied.'));
@@ -126,38 +130,41 @@ class UsersController extends AppController
             }
 
             if ($this->request->is('post')) {
-                //clear old pwd
+                // Clear old password
                 $erasePwd = $this->getTableLocator()->get('Users')
-                    ->query()
-                    ->update()
-                    ->set([
-                        'password' => null
-                    ])
-                    ->where([
-                        'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                    ]);
+                ->query()
+                ->update()
+                ->set([
+                    'password' => null
+                ])
+                ->where([
+                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                ]);
 
                 if ($erasePwd->execute()) {
-                    // verif same pwd
+                    // Check if both given password are the same
                     $data = $this->request->getData();
 
                     if ($data['New_Password'] === $data['confPwd']) {
                         $hashedPwd = password_hash($data['New_Password'], PASSWORD_BCRYPT);
 
                         $updatePwd = $this->getTableLocator()->get('Users')
-                            ->query()
-                            ->update()
-                            ->set([
-                                'password' => $hashedPwd
-                            ])
-                            ->where([
-                                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
-                            ]);
+                        ->query()
+                        ->update()
+                        ->set([
+                            'password' => $hashedPwd
+                        ])
+                        ->where([
+                            'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                        ]);
 
                         if ($updatePwd->execute()) {
                             $this->Flash->success(__('Your password has been changed.'));
 
-                            return $this->redirect(['action' => 'view', $id]);
+                            return $this->redirect([
+                                'action' => 'view',
+                                $id
+                            ]);
                         }
 
                         $this->Flash->error(__('An error occured, please try again.'));
@@ -176,7 +183,7 @@ class UsersController extends AppController
 
 
     /**
-     * Add method
+     * Signup method
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -185,41 +192,41 @@ class UsersController extends AppController
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
             if (!empty($this->request->getData('emp_no'))) {
-
                 if (!empty($this->request->getData('email'))) {
                     if (!empty($this->request->getData('password'))) {
                         if ($this->request->getData('password') === $this->request->getData('confPwd')) {
 
                             $query = $this->getTableLocator()->get('Users')
-                                ->find()
-                                ->select([
-                                    'email'
-                                ])
-                                ->where([
-                                    'email' => $this->request->getData('email')
-                                ])
-                                ->all();
+                            ->find()
+                            ->select([
+                                'email'
+                            ])
+                            ->where([
+                                'email' => $this->request->getData('email')
+                            ])
+                            ->all();
 
                             if (sizeof($query) === 0) {
                                 $queryEmployee = $this->getTableLocator()->get('Employees')
-                                    ->find()
-                                    ->select([
-                                        'emp_no',
+                                ->find()
+                                ->select([
+                                    'emp_no',
+                                    'email'
+                                ])
+                                ->where([
+                                    'emp_no' => $this->request->getData(
+                                        'emp_no'
+                                    ),
+                                    'email' => $this->request->getData(
                                         'email'
-                                    ])
-                                    ->where([
-                                        'emp_no' => $this->request->getData(
-                                            'emp_no'
-                                        ),
-                                        'email' => $this->request->getData(
-                                            'email'
-                                        )
-                                    ])
-                                    ->all();
+                                    )
+                                ])
+                                ->all();
 
                                 if (sizeof($queryEmployee) === 1) {
                                     $user = $this->Users->patchEntity($user, $this->request->getData());
                                     $user->emp_no = $this->request->getData('emp_no');
+
                                     if ($this->Users->save($user)) {
                                         $this->Flash->success(__('The user has been saved.'));
 
@@ -295,6 +302,10 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Login method
+     * @return Response|null
+     */
     public function login()
     {
         $this->request->allowMethod(['get', 'post']);
@@ -316,6 +327,10 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * Logout method
+     * @return Response|null
+     */
     public function logout()
     {
         $result = $this->Authentication->getResult();

@@ -3,14 +3,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Employee;
+use App\Model\Table\EmployeesTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
+use Cake\Http\Response;
 use Cake\View\CellTrait;
+use DateTime;
+use Exception;
 
 /**
  * Employees Controller
  *
- * @property \App\Model\Table\EmployeesTable $Employees
- * @method \App\Model\Entity\Employee[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property EmployeesTable $Employees
+ * @method Employee[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class EmployeesController extends AppController
 {
@@ -19,7 +26,7 @@ class EmployeesController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -29,18 +36,16 @@ class EmployeesController extends AppController
         //Préparer, modifier ces données
         $employees = $this->paginate($employees);
 
-
         //Envoyer vers la vue
         $this->set('employees', $employees);
-
     }
 
     /**
      * View method
      *
      * @param string|null $id Employee id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Renders view
+     * @throws RecordNotFoundException|Exception When record not found.
      */
     public function view($id = null)
     {
@@ -49,9 +54,11 @@ class EmployeesController extends AppController
         ]);
 
         $titles = $employee->employee_title;
-        $today = new \DateTime();
+
+        $today = new DateTime();
+
         foreach ($titles as $title) {
-            $date = new \DateTime($title->to_date->format('Y-m-d'));
+            $date = new DateTime($title->to_date->format('Y-m-d'));
 
             if ($date > $today) {
                 $employee->fonction = $title->title_no;
@@ -62,24 +69,22 @@ class EmployeesController extends AppController
         }
 
         $query = $this->getTableLocator()->get('titles')
-            ->find()
-            ->select([
-                'titles.title',
-            ])
-            ->join([
-                'e' => [
-                    'table' => 'employee_title',
-                    'conditions' => 'e.title_no = titles.title_no'
-                ]
-            ])
-            ->where([
-                'titles.title_no' => $employee->fonction,
-                'e.emp_no' => $id
-            ]);
+        ->find()
+        ->select([
+            'titles.title',
+        ])
+        ->join([
+            'e' => [
+                'table' => 'employee_title',
+                'conditions' => 'e.title_no = titles.title_no'
+            ]
+        ])
+        ->where([
+            'titles.title_no' => $employee->fonction,
+            'e.emp_no' => $id
+        ]);
 
-
-        $employee
-            ->set('fonction', $query->first()['title']);
+        $employee->set('fonction', $query->first()['title']);
 
         $this->set(compact('employee'));
     }
@@ -87,7 +92,7 @@ class EmployeesController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -95,6 +100,7 @@ class EmployeesController extends AppController
 
         if ($this->request->is('post')) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
+
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
@@ -111,16 +117,18 @@ class EmployeesController extends AppController
      * Edit method
      *
      * @param string|null $id Employee id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
         $employee = $this->Employees->get($id, [
             'contain' => [],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $employee = $this->Employees->patchEntity($employee, $this->request->getData());
+
             if ($this->Employees->save($employee)) {
                 $this->Flash->success(__('The employee has been saved.'));
 
@@ -135,8 +143,8 @@ class EmployeesController extends AppController
      * Delete method
      *
      * @param string|null $id Employee id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -159,10 +167,12 @@ class EmployeesController extends AppController
     public function beforeFilter($event)
     {
         parent::beforeFilter($event);
+
         if ($this->Authentication->getIdentity() === null){
             return $this->redirect([
-            'controller' => 'Pages',
-            'action' => 'display']);
+                'controller' => 'Pages',
+                'action' => 'display'
+            ]);
         }
     }
 }

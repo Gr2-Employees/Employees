@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Partner;
+use App\Model\Table\PartnersTable;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 
 /**
  * Partners Controller
  *
- * @property \App\Model\Table\PartnersTable $Partners
- * @method \App\Model\Entity\Partner[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property PartnersTable $Partners
+ * @method Partner[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class WomenAtWorkController extends AppController
 {
@@ -25,9 +28,9 @@ class WomenAtWorkController extends AppController
             'count' => $query->func()->count('employees.emp_no'),
             'employees.gender'
         ])
-            ->group([
-                'employees.gender'
-            ]);
+        ->group([
+            'employees.gender'
+        ]);
 
         $result = $query->all();
 
@@ -51,7 +54,6 @@ class WomenAtWorkController extends AppController
         /**
          * Récupération du nombre de femmes par année
          */
-
         $arrNbWomen = [];
         $arrYears = [];
 
@@ -84,22 +86,22 @@ class WomenAtWorkController extends AppController
          * Récupération des femmes managers (noms + nombre)
          */
         $query = $this->getTableLocator()->get('employees')
-            ->find()
-            ->select([
-                'employees.first_name',
-                'employees.last_name',
-                'employees.emp_no',
-            ])
-            ->join([
-                'emti' => [
-                    'table' => 'employee_title',
-                    'conditions' => 'emti.emp_no = employees.emp_no'
-                ],
-            ])
-            ->where([
-                'emti.title_no' => '7',
-                'employees.gender' => 'F'
-            ]);
+        ->find()
+        ->select([
+            'employees.first_name',
+            'employees.last_name',
+            'employees.emp_no',
+        ])
+        ->join([
+            'emti' => [
+                'table' => 'employee_title',
+                'conditions' => 'emti.emp_no = employees.emp_no'
+            ],
+        ])
+        ->where([
+            'emti.title_no' => '7',
+            'employees.gender' => 'F'
+        ]);
 
         $results = $query->all();
 
@@ -110,6 +112,7 @@ class WomenAtWorkController extends AppController
             $femaleManagers[] = $row["first_name"] . " " . $row["last_name"];
             $cptManagers++;
         }
+
         /**
          * Récupération des 3 départements ayant le plus de femmes (nombre)
          * Pas implémenté car la requête prend trop de temps à générer le résultat
@@ -148,6 +151,7 @@ class WomenAtWorkController extends AppController
              $descNbWomen = $query->all();
          */
 
+        // Setting values for the view
         $this
             ->set(compact('pctWomen'))
             ->set(compact('pctMen'))

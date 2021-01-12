@@ -26,7 +26,7 @@ class DashboardController extends AppController
      */
     public function index()
     {
-        // Récup nbEmp per year
+        // Récup nombre d'employés par année
         $query = $this->getTableLocator()->get('employees')->find();
         $query->select([
             'nbEmpl' => $query->func()->count('employees.emp_no'),
@@ -34,23 +34,23 @@ class DashboardController extends AppController
                 'employees.hire_date' => 'identifier'
             ])
         ])
-            ->join([
-                'deem' => [
-                    'table' => 'dept_emp',
-                    'conditions' => 'deem.emp_no = employees.emp_no'
-                ]
+        ->join([
+            'deem' => [
+                'table' => 'dept_emp',
+                'conditions' => 'deem.emp_no = employees.emp_no'
+            ]
+        ])
+        ->where(function ($exp) {
+            return $exp->gt('employees.hire_date', '1997-01-01');
+        })
+        ->group([
+            $query->func()->year([
+                'employees.hire_date' => 'identifier'
             ])
-            ->where(function ($exp) {
-                return $exp->gt('employees.hire_date', '1997-01-01');
-            })
-            ->group([
-                $query->func()->year([
-                    'employees.hire_date' => 'identifier'
-                ])
-            ])
-            ->orderAsc(
-                $query->func()->year(['employees.hire_date' => 'identifier']
-                ));
+        ])
+        ->orderAsc(
+            $query->func()->year(['employees.hire_date' => 'identifier'])
+        );
 
         $result = $query->all();
 
@@ -65,26 +65,26 @@ class DashboardController extends AppController
             }
         }
 
-        // Salary manager per dept
+        // Salaire des différents managers
         $query = $this->getTableLocator()->get('salaries')
-            ->find()
-            ->select([
-                'salary',
-                'de.dept_name'
-            ])
-            ->join([
-                'dema' => [
-                    'table' => 'dept_manager',
-                    'conditions' => 'dema.emp_no = salaries.emp_no'
-                ],
-                'de' => [
-                    'table' => 'departments',
-                    'conditions' => 'de.dept_no = dema.dept_no'
-                ]
-            ])
-            ->group([
-                'dema.dept_no'
-            ]);
+        ->find()
+        ->select([
+            'salary',
+            'de.dept_name'
+        ])
+        ->join([
+            'dema' => [
+                'table' => 'dept_manager',
+                'conditions' => 'dema.emp_no = salaries.emp_no'
+            ],
+            'de' => [
+                'table' => 'departments',
+                'conditions' => 'de.dept_no = dema.dept_no'
+            ]
+        ])
+        ->group([
+            'dema.dept_no'
+        ]);
 
         $result = $query->all();
 
@@ -96,14 +96,14 @@ class DashboardController extends AppController
             $arrDept[] = $row->de['dept_name'];
         }
 
-        // Amount of vacancies per dept
+        // Nombre de postes vacants par département
         $query = $this->getTableLocator()->get('vacancies')->find();
         $query->select([
             'amount' => $query->func()->sum('quantity')
         ])
-            ->group([
-                'dept_no'
-            ]);
+        ->group([
+            'dept_no'
+        ]);
 
         $result = $query->all();
 
@@ -113,7 +113,7 @@ class DashboardController extends AppController
             $arrVacancies[] = (int)$row->amount;
         }
 
-        //Pourcentages Man and Woman
+        //Pourcentages Men and Women
         $query = $this->getTableLocator()->get('employees')->find();
         $query->select([
             "nbTotal" => $query->func()->count('emp_no'),
@@ -127,6 +127,7 @@ class DashboardController extends AppController
 
         $nbMan = 0;
         $nbWoman = 0;
+
         foreach ($result as $row) {
             if ($row->gender === 'M') {
                 $nbMan = $row->nbTotal;
@@ -134,20 +135,23 @@ class DashboardController extends AppController
                 $nbWoman = $row->nbTotal;
             }
         }
+
+        // Calculs des pourcentages
         $nbTotal = $nbMan + $nbWoman;
         $pctMan = ($nbMan / $nbTotal) * 100;
         $pctWoman = ($nbWoman / $nbTotal) * 100;
 
-        //Nombre des Users
+        // Nombre total d'utilisateurs
         $query = $this->getTableLocator()->get('users')->find();
 
         $nbUsers = sizeof($query->all());
 
-        //AVG salary
+        // Salaire moyen
         $query = $this->getTableLocator()->get('salaries')->find();
         $query->select([
             "avgSalary" => $query->func()->avg('salary'),
         ]);
+
         $avgSalary = $query->first()->avgSalary;
 
         //Nombre total de postes vacants
@@ -155,8 +159,10 @@ class DashboardController extends AppController
         $query->select([
             "nbVacancies" => $query->func()->sum('quantity'),
         ]);
+
         $nbVacancies = $query->first()->nbVacancies;
 
+        // Settings values
         $this
             ->set(compact('arrNbEmpl'))
             ->set(compact('arrYears'))
@@ -174,7 +180,7 @@ class DashboardController extends AppController
 
     public function beforeFilter(EventInterface $event)
     {
-        parent::beforeFilter($event); // TODO: Change the autogenerated stub
+        parent::beforeFilter($event);
 
         if (($this->Authentication->getIdentity() === null) || ($this->Authentication->getIdentity()->role !== 'admin')) {
             $this->Flash->error(__('You cannot access this page.'));

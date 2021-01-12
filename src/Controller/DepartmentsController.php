@@ -3,18 +3,24 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Department;
+use App\Model\Table\DepartmentsTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Response;
+
 /**
  * Departments Controller
  *
- * @property \App\Model\Table\DepartmentsTable $Departments
- * @method \App\Model\Entity\Department[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property DepartmentsTable $Departments
+ * @method Department[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class DepartmentsController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -28,8 +34,8 @@ class DepartmentsController extends AppController
      * View method
      *
      * @param string|null $id Department id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Renders view
+     * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -38,29 +44,21 @@ class DepartmentsController extends AppController
         ]);
 
         /**
-         * Recherche du nombre total d'employés dans un département
+         * Recherche du nombre total d'employés du département
          */
-
-        // Selects the table
-        $query = $this->getTableLocator()->get('dept_emp')->find();
-
-        // Selected fields for the query
-        $query->select([
+        $query = $this->getTableLocator()->get('dept_emp')
+        ->find()
+        ->select([
             'count' => $query->func()->count('*')
-        ]);
-
-        // Where clause
-        $query->where([
+        ])
+        ->where([
             'dept_emp.dept_no' => $id
         ]);
 
-        // Fetches the result
         $nbEmpl = $query->first()->count;
 
         /**
-         * Nombres de postes vacants
-         *  -> Récupérer le dept_no
-         *  -> Fetch le résultat
+         * Nombres de postes vacants du department
          */
         $query = $this->getTableLocator()->get('vacancies')->find();
         $query->select([
@@ -83,13 +81,12 @@ class DepartmentsController extends AppController
         /**
          * Récupération de la photo du manager
          */
-        $query = $this->getTableLocator()->get('dept_manager')->find();
-
-        $query->select([
+        $query = $this->getTableLocator()->get('dept_manager')
+        ->find()
+        ->select([
             'dept_manager.picture'
-        ]);
-
-        $query->where([
+        ])
+        ->where([
             'dept_no' => $id,
             'to_date' => '9999-01-01'
         ]);
@@ -100,27 +97,27 @@ class DepartmentsController extends AppController
          * Récupération du nom du manager
          */
         $query = $this->getTableLocator()->get('employee_title')
-            ->find()
-            ->select([
-                'dema.dept_no',
-                'em.first_name',
-                'em.last_name',
-            ])
-            ->join([
-                'em' => [
-                    'table' => 'employees',
-                    'conditions' => 'em.emp_no = employee_title.emp_no'
-                ],
-                'dema' => [
-                    'table' => 'dept_manager',
-                    'conditions' => 'dema.emp_no = em.emp_no'
-                ]
-            ])
-            ->where([
-                'employee_title.to_date' => '9999-01-01',
-                'employee_title.title_no' => '7',
-                'dema.dept_no' => $id
-            ]);
+        ->find()
+        ->select([
+            'dema.dept_no',
+            'em.first_name',
+            'em.last_name',
+        ])
+        ->join([
+            'em' => [
+                'table' => 'employees',
+                'conditions' => 'em.emp_no = employee_title.emp_no'
+            ],
+            'dema' => [
+                'table' => 'dept_manager',
+                'conditions' => 'dema.emp_no = em.emp_no'
+            ]
+        ])
+        ->where([
+            'employee_title.to_date' => '9999-01-01',
+            'employee_title.title_no' => '7',
+            'dema.dept_no' => $id
+        ]);
 
         if (!is_null($query->first())) {
             $manager = $query->first()->em['first_name'] . ' ' . $query->first()->em['last_name'];

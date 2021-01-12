@@ -9,6 +9,7 @@ use App\Model\Table\EmployeesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
+use Exception;
 
 /**
  * Employees Controller
@@ -29,6 +30,10 @@ class EmployeesController extends AppController
 
         $this->set(compact('employees'));
 
+        /**
+         * Search function
+         * The given input has to be at least 3 characters long to begin searching
+         */
         if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
             $toSearch = $this->request->getQuery('search');
 
@@ -36,19 +41,18 @@ class EmployeesController extends AppController
                 $this->Flash->error('You must enter at least 2 characters to search.');
                 return null;
             }
-            // req
-            $searchQuery = $this->getTableLocator()->get('Employees')
-                ->find()
-                ->where(['OR' => [
-                    ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
-                    ['birth_date LIKE' => "%$toSearch%"],
-                    ['first_name LIKE' => "%$toSearch%"],
-                    ['last_name LIKE' => "%$toSearch%"],
-                    ['hire_date LIKE' => "%$toSearch%"],
-                    ['email LIKE' => "%$toSearch%"],
-                ]]);
 
-            //data
+            $searchQuery = $this->getTableLocator()->get('Employees')
+            ->find()
+            ->where(['OR' => [
+                ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                ['birth_date LIKE' => "%$toSearch%"],
+                ['first_name LIKE' => "%$toSearch%"],
+                ['last_name LIKE' => "%$toSearch%"],
+                ['hire_date LIKE' => "%$toSearch%"],
+                ['email LIKE' => "%$toSearch%"],
+            ]]);
+
             $result = $searchQuery->all();
 
             $employees = [];
@@ -57,6 +61,7 @@ class EmployeesController extends AppController
                 $employees[] = $row;
             }
 
+            // If no match has been found
             if (sizeof($employees) === 0) {
                 $this->Flash->error('No results match your search criteria');
             }
@@ -85,18 +90,21 @@ class EmployeesController extends AppController
      * Add method
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
+     * @throws Exception
      */
     public function add()
     {
-        //create new employee entity
         $employee = $this->Employees->newEmptyEntity();
 
+        /**
+         * Fetch departments list to populate department select in add form
+         */
         $query = $this->getTableLocator()->get('departments')
-            ->find()
-            ->select([
-                'dept_no'
-            ])
-            ->orderAsc('dept_no');
+        ->find()
+        ->select([
+            'dept_no'
+        ])
+        ->orderAsc('dept_no');
 
         $departments = [];
 
@@ -104,17 +112,20 @@ class EmployeesController extends AppController
             $departments[] = $row->dept_no;
         }
 
-        //create array titles from db
+        /**
+         * Fetch titles list to populate title select in add form
+         */
         $query = $this->getTableLocator()->get('titles')
-            ->find()
-            ->select([
-                'title',
-                'title_no'
-            ])
-            ->where([
-                'title !=' => 'Chômeur'
-            ])
-            ->toArray();
+        ->find()
+        ->select([
+            'title',
+            'title_no'
+        ])
+        ->where([
+            'title !=' => 'Chômeur'
+        ])
+        ->toArray();
+
         $titles = [];
 
         foreach($query as $row) {
@@ -122,16 +133,15 @@ class EmployeesController extends AppController
         }
 
         if ($this->request->is('post')) {
-
-            //Fetch last emp_no and add + 1
+            // Fetch last emp_no and add + 1
             $query = $this->getTableLocator()->get('Employees')
-                ->find()
-                ->select([
-                    'emp_no'
-                ])
-                ->orderDesc('emp_no')
-                ->limit(1)
-                ->first();
+            ->find()
+            ->select([
+                'emp_no'
+            ])
+            ->orderDesc('emp_no')
+            ->limit(1)
+            ->first();
 
             $newEmpNo = $query->emp_no + 1;
 
@@ -140,13 +150,13 @@ class EmployeesController extends AppController
             $picture = $this->request->getData()['picture'];
             $ext = strtolower(substr(strrchr($picture->getClientFilename(), '.'), 1));
 
-            //Change the name of the picture to avoid name conflicts
+            // Change the name of the picture to avoid name conflicts
             $newPicName = time() . "_" . random_int(000000, 999999) . '.' . $ext;
 
-            //Move the file to the correct path
+            // Move the file to the correct path
             $picture->moveTo(WWW_ROOT . 'img/uploads/emp_pictures/' . $newPicName);
 
-            //save data to send it to the DB
+            // Save data to send it to the DB
             $employee->set('emp_no', $newEmpNo)
                 ->set('first_name', $this->request->getData('first_name'))
                 ->set('last_name', $this->request->getData('last_name'))
@@ -156,10 +166,10 @@ class EmployeesController extends AppController
                 ->set('hire_date', $this->request->getData('hire_date'))
                 ->set('picture', $newPicName);
 
+            // Save dept_no and title_no values from form's select fields
             $deptValue = $departments[$this->request->getData('dept_no')];
             $titleValue = $this->request->getData('title');
 
-            //TODO: dept_no field -> to dept_emp ?
             if ($this->Employees->save($employee)) {
                 $insertDeem = $this->getTableLocator()->get('dept_emp')->query();
                 $insertDeem->insert(['emp_no', 'dept_no', 'from_date', 'to_date'])
@@ -169,7 +179,8 @@ class EmployeesController extends AppController
                         'from_date'=> $insertDeem->func()->now(),
                         'to_date' => '9999-01-01'
                     ]);
-                if($insertDeem->execute()){
+
+                if ($insertDeem->execute()) {
                     $insertEmpT = $this->getTableLocator()->get('employee_title')->query();
                     $insertEmpT->insert(['emp_no', 'title_no', 'from_date', 'to_date'])
                         ->values([
@@ -178,7 +189,8 @@ class EmployeesController extends AppController
                             'from_date'=> $insertEmpT->func()->now(),
                             'to_date' => '9999-01-01'
                         ]);
-                    if($insertEmpT->execute()){
+
+                    if ($insertEmpT->execute()) {
                         $this->Flash->success(__('The employee has been saved.'));
 
                         return $this->redirect([
@@ -204,7 +216,7 @@ class EmployeesController extends AppController
      *
      * @param string|null $id Employee id.
      * @return Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException|Exception When record not found.
      */
     public function edit($id = null)
     {
@@ -214,24 +226,25 @@ class EmployeesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             if (!empty($this->request->getData()['picture']->getClientFilename())) {
+
                 // Picture treatment
                 // Creating a variable to handle upload
                 $picture = $this->request->getData()['picture'];
                 $ext = strtolower(substr(strrchr($picture->getClientFilename(), '.'), 1));
 
-                //Change the name of the picture to avoid name conflicts
+                // Change the name of the picture to avoid name conflicts
                 $newPicName = time() . "_" . random_int(000000, 999999) . '.' . $ext;
 
-                //Move the file to the correct path
+                // Move the file to the correct path
                 $picture->moveTo(WWW_ROOT . 'img/uploads/emp_pictures/' . $newPicName);
 
                 if(!is_null($employee->picture)){
-                    //Suppresion de l'image ancienne
+                    // Suppresion de l'ancienne image
                     $oldPicDirectory = WWW_ROOT . 'img/uploads/emp_pictures/' . $employee->picture;
                     unlink($oldPicDirectory);
                 }
 
-                //save new picture to send it to the DB
+                // Save new picture to send it to the DB
                 $employee->picture = $newPicName;
             }
 
@@ -253,7 +266,10 @@ class EmployeesController extends AppController
             if($query->execute()){
                 if($this->Employees->save($employee)){
                     $this->Flash->success(__('The employee has been saved.'));
-                    return $this->redirect(['action' => 'index']);
+
+                    return $this->redirect([
+                        'action' => 'index'
+                    ]);
                 }
                 $this->Flash->error(__('The employee could not be saved. Please, try again.'));
             }

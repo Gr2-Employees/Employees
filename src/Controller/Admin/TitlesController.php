@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use App\Model\Table\TitlesTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Http\Response;
 
 /**
  * Titles Controller
  *
- * @property \App\Model\Table\TitlesTable $Titles
+ * @property TitlesTable $Titles
  * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class TitlesController extends AppController
@@ -16,7 +19,7 @@ class TitlesController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -27,6 +30,10 @@ class TitlesController extends AppController
         $titles = $this->paginate($this->Titles);
 
         $query = $this->Titles->find();
+
+        /**
+         * Fetch amount of employees per title
+         */
         $query->select([
             'nbEmpl' => $query->func()->count('emti.emp_no'),
             'Titles.title'
@@ -42,7 +49,6 @@ class TitlesController extends AppController
             'Titles.title_no'
         ]);
 
-
         foreach($titles as $title) {
             foreach($query->all() as $row) {
                 if ($row->title === $title->title) {
@@ -56,16 +62,18 @@ class TitlesController extends AppController
 
     /**
      * Delete method
-     *
+     * Title must be empty of any employee to be deleted
      * @param string|null $id Title id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null|void Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
-
         $this->request->allowMethod(['post', 'delete']);
 
+        /**
+         * Make sure the title has no employee affected to it
+         */
         $searchAmount = $this->getTableLocator()->get('Titles')->find();
         $searchAmount->select([
             'nbEmpl' => $searchAmount->func()->count('*')
@@ -82,12 +90,13 @@ class TitlesController extends AppController
             ]);
 
         if (sizeof($searchAmount->all()) === 1) {
+            // If there isn't any employee affected to the title
             if ($searchAmount->first()->nbEmpl === 0) {
                 $delete = $this->getTableLocator()->get('Titles')->query();
                 $delete->delete()
-                    ->where([
-                        'Titles.title_no' => $id
-                    ]);
+                ->where([
+                    'Titles.title_no' => $id
+                ]);
 
                 if ($delete->execute()) {
                     $this->Flash->success(__('The title has been deleted.'));

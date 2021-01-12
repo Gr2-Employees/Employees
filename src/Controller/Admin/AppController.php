@@ -20,6 +20,7 @@ namespace App\Controller\Admin;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Mailer\Mailer;
+use Exception;
 
 /**
  * Application Controller
@@ -39,6 +40,7 @@ class AppController extends Controller
      * e.g. `$this->loadComponent('FormProtection');`
      *
      * @return void
+     * @throws Exception
      */
     public function initialize(): void
     {

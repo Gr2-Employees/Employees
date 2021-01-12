@@ -42,25 +42,30 @@ class DemandsController extends AppController
             $demandsDepartment[] = $row;
         }
 
-
         //Table demands de type raise + salaire actuel
-        $querySD = $this->getTableLocator()->get('demands')
-            ->find()
-            ->select([
-                'demands.id', 'emp_no', 'type', 'about', 'status', 'amount',
-                's.salary'
-            ])
-            ->join([
-                's' => [
-                    'table' => 'salaries',
-                    'conditions' => 's.emp_no = demands.emp_no'
-                ]
-            ])
-            ->where([
-                's.to_date' => '9999-01-01',
-                'demands.type' => 'raise'
-            ]);
-        $result = $querySD->all();
+        $queryS = $this->getTableLocator()->get('demands')
+        ->find()
+        ->select([
+            'demands.id',
+            'emp_no',
+            'type',
+            'about',
+            'status',
+            'amount',
+            's.salary'
+        ])
+        ->join([
+            's' => [
+                'table' => 'salaries',
+                'conditions' => 's.emp_no = demands.emp_no'
+            ]
+        ])
+        ->where([
+            's.to_date' => '9999-01-01',
+            'demands.type' => 'raise'
+        ]);
+
+        $result = $queryS->all();
 
         $demandsRaise = [];
 
@@ -82,6 +87,7 @@ class DemandsController extends AppController
     {
         if ($this->Authentication->getIdentity()->role === 'member') {
             $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+
             return $this->redirect([
                 'controller' => 'departments',
                 'action' => 'index'
@@ -95,71 +101,90 @@ class DemandsController extends AppController
         $this->set(compact('demand'));
     }
 
+    /**
+     * Approve demand method
+     * @param null $id
+     * @return Response|null
+     */
     public function approve($id = null)
     {
         if ($this->Authentication->getIdentity()->role === 'member') {
             $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+
             return $this->redirect([
                 'controller' => 'departments',
                 'action' => 'index'
             ]);
         }
 
+        // Removes the need to have a dedicated template
         $this->disableAutoRender();
-        if ($id == null) {
-            return $this->redirect(['action' => 'index']);
+
+        if ($id === null) {
+            return $this->redirect([
+                'action' => 'index'
+            ]);
         }
 
         if (!empty($this->request->getQuery())) {
             if (!empty($this->request->getQuery()['type']) && $this->request->getQuery()['type'] === 'raise') {
                 $query = $this->getTableLocator()->get('demands')->find()
-                    ->select([
-                        'amount',
-                        'emp_no'
-                    ])
-                    ->where([
-                        'id' => $id
-                    ]);
+                ->select([
+                    'amount',
+                    'emp_no'
+                ])
+                ->where([
+                    'id' => $id
+                ]);
                 $result = $query->first();
 
                 $amount = $result->amount;
                 $emp_no = $result->emp_no;
-                //extraire le salaire d'employee
-                //SELECT salary FROM `salaries` WHERE emp_no = 10004 AND to_date = '9999-01-01'
+
+                //Extract employee's salary
                 $querySalary = $this->getTableLocator()->get('salaries')->find()
-                    ->select([
-                        'salary'
-                    ])
-                    ->where([
-                        'emp_no' => $emp_no,
-                        'to_date' => '9999-01-01'
-                    ]);
+                ->select([
+                    'salary'
+                ])
+                ->where([
+                    'emp_no' => $emp_no,
+                    'to_date' => '9999-01-01'
+                ]);
+
                 $salary = $querySalary->first()->salary;
 
+                // Calcul nouveau salaire
                 $newSalary = floor($salary + (($salary / 100) * $amount));
 
-                //udpade old dates salary
+                // Update old salary's data
                 $update = $this->getTableLocator()->get('Salaries')->query();
                 $update->update()
-                    ->set([
-                        'to_date' => $update->func()->now()
-                    ])
-                    ->where([
-                        'emp_no' => $emp_no,
-                        'to_date' => '9999-01-01'
-                    ]);
+                ->set([
+                    'to_date' => $update->func()->now()
+                ])
+                ->where([
+                    'emp_no' => $emp_no,
+                    'to_date' => '9999-01-01'
+                ]);
 
                 if ($update->execute()) {
                     $insert = $this->getTableLocator()->get('Salaries')->query();
-                    $insert->insert(['emp_no', 'salary', 'from_date', 'to_date'])
-                        ->values([
-                            'emp_no' => $emp_no,
-                            'salary' => $newSalary,
-                            'from_date' => $insert->func()->now(),
-                            'to_date' => '9999-01-01',
-                        ]);
+                    $insert->insert([
+                        'emp_no',
+                        'salary',
+                        'from_date',
+                        'to_date'
+                    ])
+                    ->values([
+                        'emp_no' => $emp_no,
+                        'salary' => $newSalary,
+                        'from_date' => $insert->func()->now(),
+                        'to_date' => '9999-01-01',
+                    ]);
+
                     if ($insert->execute()) {
-                        $updateType = $this->getTableLocator()->get('Demands')->query()
+                        $updateType = $this->getTableLocator()->get('Demands')
+                            ->query()
                             ->update()
                             ->set([
                                 'status' => 'validated'
@@ -167,6 +192,7 @@ class DemandsController extends AppController
                             ->where([
                                 'id' => $id
                             ]);
+
                         if ($updateType->execute()) {
                             $this->Flash->success('The salary has been updated');
                         } else {
@@ -182,99 +208,109 @@ class DemandsController extends AppController
                 $this->Flash->error('There was a problem.');
             }
             return $this->redirect(['action' => 'index']);
-        } else {
+        }
 
-            //Récuperation du role
-            $role = $this->Authentication->getIdentity()->role;
-            $query = $this->getTableLocator()->get('Demands')
-                ->find()
-                ->select([
-                    'approved_by'
+        // Authed user's role
+        $role = $this->Authentication->getIdentity()->role;
+
+        //Récuperation du role ayant approuvé la demande
+        $query = $this->getTableLocator()->get('Demands')
+        ->find()
+        ->select([
+            'approved_by'
+        ])
+        ->where([
+            'id' => $id,
+        ]);
+
+        $approvedRole = $query->first()->approved_by;
+
+        switch ($approvedRole) {
+            // Insérer le role dans le champ approved_by
+            case 'none' :
+                $query = $this->getTableLocator()->get('Demands')->query();
+                $query->update()
+                ->set([
+                    'approved_by' => $role
                 ])
                 ->where([
-                    'id' => $id,
+                    'id' => $id
+                ])
+                ->execute();
+
+                $this->redirect([
+                    'action' => 'index'
                 ]);
+            break;
 
-            $approvedRole = $query->first()->approved_by;
-
-            switch ($approvedRole) {
-                //Insérer le role dans le champ approved_by
-                case 'none' :
+            //Comparer le role (different)
+            case 'manager' :
+                if ($role !== $approvedRole) {
+                    // Set demand's status to validated if both needed role are present
                     $query = $this->getTableLocator()->get('Demands')->query();
                     $query->update()
-                        ->set([
-                            'approved_by' => $role
-                        ])
-                        ->where([
-                            'id' => $id
-                        ])
-                        ->execute();
+                    ->set([
+                        'approved_by' => 'both',
+                        'status' => 'validated'
+                    ])
+                    ->where([
+                        'id' => $id
+                    ])
+                    ->execute();
+                } else {
+                    $this->Flash->error('This demand is already approved by a manager');
+                }
+
+                $this->redirect([
+                    'action' => 'index'
+                ]);
+            break;
+
+            //Comparer le role (different)
+            case 'comptable' :
+                if ($role !== $approvedRole) {
+                    $query = $this->getTableLocator()->get('Demands')->query();
+                    $query->update()
+                    ->set([
+                        'approved_by' => 'both',
+                        'status' => 'validated'
+                    ])
+                    ->where([
+                        'id' => $id
+                    ])
+                    ->execute();
 
                     $this->redirect([
                         'action' => 'index'
                     ]);
-                    break;
-
-                //Comparer le role (different)
-                case 'manager' :
-                    if ($role !== $approvedRole) {
-                        $query = $this->getTableLocator()->get('Demands')->query();
-                        $query->update()
-                            ->set([
-                                'approved_by' => 'both',
-                                'status' => 'validated'
-                            ])
-                            ->where([
-                                'id' => $id
-                            ])
-                            ->execute();
-                    } else {
-                        $this->Flash->error('This demand is already approved by a manager');
-                    }
-                    $this->redirect([
-                        'action' => 'index'
-                    ]);
-                    break;
-                //Comparer le role (different)
-                case 'comptable' :
-                    if ($role !== $approvedRole) {
-                        $query = $this->getTableLocator()->get('Demands')->query();
-                        $query->update()
-                            ->set([
-                                'approved_by' => 'both',
-                                'status' => 'validated'
-                            ])
-                            ->where([
-                                'id' => $id
-                            ])
-                            ->execute();
-
-                        $this->redirect([
-                            'action' => 'index'
-                        ]);
-                    } else {
-                        $this->Flash->error('This demand is already approved by an accountant');
-                    }
-                    $this->redirect([
-                        'action' => 'index'
-                    ]);
-                default;
-            }
-
+                } else {
+                    $this->Flash->error('This demand is already approved by an accountant');
+                }
+                $this->redirect([
+                    'action' => 'index'
+                ]);
+            default;
         }
 
     }
 
+    /**
+     * Decline demand method
+     * @param int $id Demand id
+     * @return Response|null
+     */
     public function decline($id = null)
     {
         if ($this->Authentication->getIdentity()->role === 'member') {
             $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+
             return $this->redirect([
                 'controller' => 'departments',
                 'action' => 'index'
             ]);
         }
 
+        // Removes the need to have a dedicated template
         $this->disableAutoRender();
 
         if ($id === null) {
@@ -292,13 +328,13 @@ class DemandsController extends AppController
             return $this->redirect([
                 'action' => 'index'
             ]);
-        } else {
-            $this->Flash->error(__('There was a problem declining the demand, please try again.'));
-
-            return $this->redirect([
-                'action' => 'index'
-            ]);
         }
+
+        $this->Flash->error(__('There was a problem declining the demand, please try again.'));
+
+        return $this->redirect([
+            'action' => 'index'
+        ]);
     }
 
     /**
@@ -309,6 +345,7 @@ class DemandsController extends AppController
     public function add()
     {
         $demand = $this->Demands->newEmptyEntity();
+
         if ($this->request->is('post')) {
             $demand = $this->Demands->patchEntity($demand, $this->request->getData());
             $demand->emp_no = $this->Authentication->getIdentity()->emp_no;
@@ -323,7 +360,10 @@ class DemandsController extends AppController
             if ($this->Demands->save($demand)) {
                 $this->Flash->success(__('The demand has been sent.'));
 
-                return $this->redirect(['controller' => 'departments', 'action' => 'index']);
+                return $this->redirect([
+                    'controller' => 'departments',
+                    'action' => 'index'
+                ]);
             }
             $this->Flash->error(__('The demand could not be saved. Please, try again.'));
         }
@@ -350,13 +390,16 @@ class DemandsController extends AppController
         $demand = $this->Demands->get($id, [
             'contain' => [],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $demand = $this->Demands->patchEntity($demand, $this->request->getData());
+
             if ($this->Demands->save($demand)) {
                 $this->Flash->success(__('The demand has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
+
             $this->Flash->error(__('The demand could not be saved. Please, try again.'));
         }
         $this->set(compact('demand'));
@@ -373,13 +416,16 @@ class DemandsController extends AppController
     {
         if ($this->Authentication->getIdentity()->role !== 'admin') {
             $this->Flash->error('Vous ne pouvez pas accéder a cette page');
+
             return $this->redirect([
                 'controller' => 'departments',
                 'action' => 'index'
             ]);
         }
+
         $this->request->allowMethod(['post', 'delete']);
         $demand = $this->Demands->get($id);
+
         if ($this->Demands->delete($demand)) {
             $this->Flash->success(__('The demand has been deleted.'));
         } else {
@@ -394,11 +440,8 @@ class DemandsController extends AppController
         parent::beforeRender($event);
 
         if ($this->Authentication->getResult()->isValid()) {
-            if ($this->Authentication->getIdentity()->role !== 'member'
-                && $this->Authentication->getIdentity()->role !== 'admin'
-                && $this->Authentication->getIdentity()->role !== 'comptable'
-                && $this->Authentication->getIdentity()->role !== 'manager') {
-
+            $allowedRoles = ['member', 'admin', 'comptable', 'manager'];
+            if (!in_array($this->Authentication->getIdentity()->role, $allowedRoles, true)) {
                 return $this->redirect('/');
             }
         } else {

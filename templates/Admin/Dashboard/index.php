@@ -1,6 +1,6 @@
 <div id="container" class="row">
     <aside id="aside">
-        <!-- Lien vers admin/dept/index-->
+        <!-- Lien vers admin/dept/index -->
         <?= $this->Html->link('To Departments', [
             'prefix' => 'Admin',
             'controller' => 'Departments',
@@ -9,7 +9,7 @@
             'class' => 'aside-links'
         ]) ?>
 
-        <!-- Lien vers admin/Employees/index-->
+        <!-- Lien vers admin/Employees/index -->
         <?= $this->Html->link('To Employees', [
             'prefix' => 'Admin',
             'controller' => 'Employees',
@@ -18,7 +18,7 @@
             'class' => 'aside-links'
         ]) ?>
 
-        <!-- Lien vers admin/Users/index-->
+        <!-- Lien vers admin/Users/index -->
         <?= $this->Html->link('To Users', [
             'prefix' => 'Admin',
             'controller' => 'users',
@@ -27,7 +27,7 @@
             'class' => 'aside-links'
         ]) ?>
 
-        <!-- Lien vers Demands-->
+        <!-- Lien vers admin/Demands/index -->
         <?= $this->Html->link('To Demands', [
             'controller' => '../Demands',
             'action' => 'index'
@@ -35,8 +35,8 @@
             'class' => 'aside-links'
         ]) ?>
 
-        <!-- Lien vers Fonctions-->
-        <?= $this->Html->link('To Functions', [
+        <!-- Lien vers admin/Titles/index -->
+        <?= $this->Html->link('To Titles', [
             'prefix' => 'Admin',
             'controller' => 'Titles',
             'action' => 'index'
