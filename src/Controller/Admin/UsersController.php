@@ -63,12 +63,65 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            $user = $this->Users->get($id, [
+                'contain' => [],
+            ]);
+            // Fetch all info for User
+            $query = $this->getTableLocator()->get('Employees')->find();
+            $query->select([
+                'full_name' => $query->func()->concat([
+                    'first_name' => 'identifier',
+                    ' ',
+                    'last_name' => 'identifier'
+                ]),
+                'birth_date',
+                'hire_date',
+                'picture',
+                'deem.dept_no',
+                'ti.title',
+                'salary' => $query->func()->max('salary')
+            ])
+                ->join([
+                    'deem' => [
+                        'table' => 'dept_emp',
+                        'conditions' => 'deem.emp_no = employees.emp_no'
+                    ],
+                    'emti' => [
+                        'table' => 'employee_title',
+                        'conditions' => 'emti.emp_no = employees.emp_no'
+                    ],
+                    'ti' => [
+                        'table' => 'titles',
+                        'conditions' => 'ti.title_no = emti.title_no'
+                    ],
+                    'sa' => [
+                        'table' => 'salaries',
+                        'conditions' => 'sa.emp_no = employees.emp_no'
+                    ]
+                ])
+                ->where([
+                    'employees.emp_no' => $id
+                ]);
 
-        $user = $this->Users->get($id, [
-            'contain' => [],
-        ]);
+            // Query Data
+            $userData = $query->first();
 
-        $this->set(compact('user'));
+            // Format dates
+            $birth = $userData->birth_date->i18nFormat('dd MMMM yyyy');
+            $hire = $userData->hire_date->i18nFormat('dd MMMM yyyy');
+
+            $this->set(compact('user'));
+
+            // Setting data
+            $user->set('full_name', $userData->full_name);
+            $user->set('picture', $userData->picture);
+            $user->set('department', $userData->deem['dept_no']);
+            $user->set('title', $userData->ti['title']);
+            $user->set('birth_date', $birth);
+            $user->set('hire_date', $hire);
+            $user->set('salary', $userData->salary);
+        }
     }
 
     /**
@@ -80,13 +133,69 @@ class UsersController extends AppController
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+            if (!empty($this->request->getData('emp_no'))) {
 
-                return $this->redirect(['action' => 'index']);
+                if (!empty($this->request->getData('email'))) {
+                    if (!empty($this->request->getData('password'))) {
+                        if ($this->request->getData('password') === $this->request->getData('confPwd')) {
+
+                            $query = $this->getTableLocator()->get('Users')
+                                ->find()
+                                ->select([
+                                    'email'
+                                ])
+                                ->where([
+                                    'email' => $this->request->getData('email')
+                                ])
+                                ->all();
+
+                            if (sizeof($query) === 0) {
+                                $queryEmployee = $this->getTableLocator()->get('Employees')
+                                    ->find()
+                                    ->select([
+                                        'emp_no',
+                                        'email'
+                                    ])
+                                    ->where([
+                                        'emp_no' => $this->request->getData(
+                                            'emp_no'
+                                        ),
+                                        'email' => $this->request->getData(
+                                            'email'
+                                        )
+                                    ])
+                                    ->all();
+
+                                if (sizeof($queryEmployee) === 1) {
+                                    $user = $this->Users->patchEntity($user, $this->request->getData());
+                                    $user->emp_no = $this->request->getData('emp_no');
+                                    if ($this->Users->save($user)) {
+                                        $this->Flash->success(__('The user has been saved.'));
+
+                                        return $this->redirect([
+                                            'prefix' => 'Admin',
+                                            'action' => 'index'
+                                        ]);
+                                    }
+                                    $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                                } else {
+                                    $this->Flash->error(__('The informations are incorrect.'));
+                                }
+                            } else {
+                                $this->Flash->error(__('This email is already taken'));
+                            }
+                        } else {
+                            $this->Flash->error(__('Passwords have to be the same'));
+                        }
+                    } else {
+                        $this->Flash->error(__('Please enter a password'));
+                    }
+                } else {
+                    $this->Flash->error(__('Please enter an email'));
+                }
+            } else {
+                $this->Flash->error(__('Please enter an ID'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
@@ -104,13 +213,23 @@ class UsersController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+            $query = $this->getTableLocator()->get('Employees')->query();
+            $query->update()
+                ->where([
+                    'emp_no' => $id
+                ])
+                ->set([
+                    'email' => $this->request->getData('email')
+                ]);
+            if($query->execute()){
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('The user has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
@@ -147,6 +266,72 @@ class UsersController extends AppController
             ]);
 
             return $this->redirect('/');
+        }
+    }
+
+    public function resetPassword($id = null)
+    {
+        if (!empty($this->Authentication->getIdentity()->get('emp_no'))) {
+            $query = $this->getTableLocator()->get('Users')
+                ->find()
+                ->where([
+                    'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                ]);
+
+            if (sizeof($query->all()) === 0) {
+                $this->Flash->error(__('Your access to this page has been denied.'));
+
+                return $this->redirect([
+                    'controller' => 'Pages',
+                    'action' => 'display'
+                ]);
+            }
+
+            if ($this->request->is('post')) {
+                //clear old pwd
+                $erasePwd = $this->getTableLocator()->get('Users')
+                    ->query()
+                    ->update()
+                    ->set([
+                        'password' => null
+                    ])
+                    ->where([
+                        'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                    ]);
+
+                if ($erasePwd->execute()) {
+                    // verif same pwd
+                    $data = $this->request->getData();
+
+                    if ($data['New_Password'] === $data['confPwd']) {
+                        $hashedPwd = password_hash($data['New_Password'], PASSWORD_BCRYPT);
+
+                        $updatePwd = $this->getTableLocator()->get('Users')
+                            ->query()
+                            ->update()
+                            ->set([
+                                'password' => $hashedPwd
+                            ])
+                            ->where([
+                                'emp_no' => $this->Authentication->getIdentity()->get('emp_no')
+                            ]);
+
+                        if ($updatePwd->execute()) {
+                            $this->Flash->success(__('Your password has been changed.'));
+
+                            return $this->redirect(['action' => 'view', $id]);
+                        }
+
+                        $this->Flash->error(__('An error occured, please try again.'));
+                        return false;
+                    }
+
+                    $this->Flash->error(__('The passwords must match.'));
+                } else {
+                    $this->Flash->error(__('An error occured, please try again.'));
+                    return false;
+                }
+            }
         }
     }
 
