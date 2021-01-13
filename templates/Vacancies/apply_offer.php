@@ -6,9 +6,9 @@
 ?>
 <div class="row-styled-background pt-5">
     <div class="vacancies index content col-80 mx-auto">
-            <div id="TitlePage">
-                <h2> <?= __('Hire me') ?></h2>
-            </div>
+        <div id="TitlePage">
+            <h2> <?= __('Hire me') ?></h2>
+        </div>
         <?php if ($showForm) { ?>
             <!-- Hire-me Form -->
             <?= $this->Form->create(null, [
@@ -67,14 +67,13 @@
             ]) ?>
 
             <!-- Submit button -->
-            <?= $this->Form->button('Submit',["class"=>"btn-blue"]) ?>
+            <?= $this->Form->button('Submit', ["class" => "btn-blue"]) ?>
 
             <!-- End Form -->
             <?= $this->Form->end() ?>
 
         <?php } else { ?>
             <!-- Link back to homepage -->
-            <!-- TODO: Automatic Redirect after set time ?-->
             <div id="mailOutput">
                 <?= $this->Html->link(__('Back Home'), '/', [
                     'controller' => 'Pages',

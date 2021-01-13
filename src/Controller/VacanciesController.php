@@ -29,29 +29,29 @@ class VacanciesController extends AppController
 
         $vacancies = $this->getTableLocator()->get('Vacancies')->find();
         $vacancies->select([
-                'amount' => $vacancies->func()->sum('quantity'),
-                'name' => 'de.dept_name',
-                'title' => 'ti.title',
-                'title_no' => 'ti.title_no',
-                'dept_no' => 'de.dept_no'
+            'amount' => $vacancies->func()->sum('quantity'),
+            'name' => 'de.dept_name',
+            'title' => 'ti.title',
+            'title_no' => 'ti.title_no',
+            'dept_no' => 'de.dept_no'
         ])
-        ->join([
-            'ti' => [
-                'table' => 'titles',
-                'conditions' => 'ti.title_no = vacancies.title_no'
-            ],
-            'de' => [
-                'table' => 'departments',
-                'conditions' => 'de.dept_no = vacancies.dept_no'
-            ]
-        ])
-        ->where([
-            'vacancies.dept_no' => $dept_no
-        ])
-        ->group([
-            'vacancies.title_no'
-        ])
-        ->all();
+            ->join([
+                'ti' => [
+                    'table' => 'titles',
+                    'conditions' => 'ti.title_no = vacancies.title_no'
+                ],
+                'de' => [
+                    'table' => 'departments',
+                    'conditions' => 'de.dept_no = vacancies.dept_no'
+                ]
+            ])
+            ->where([
+                'vacancies.dept_no' => $dept_no
+            ])
+            ->group([
+                'vacancies.title_no'
+            ])
+            ->all();
 
         if (!is_null($vacancies->first())) {
             $nbVacancies = $vacancies->count();
@@ -72,7 +72,8 @@ class VacanciesController extends AppController
      * ApplyOffer method
      * @throws Exception
      */
-    public function applyOffer() {
+    public function applyOffer()
+    {
         // Init form value
         $showForm = true;
 
@@ -91,8 +92,7 @@ class VacanciesController extends AppController
                 && !empty($formData['email'])
                 && !empty($formData['birthdate'])
                 && !empty($formData['motivations'])
-                && !empty($_FILES['file']['size']))
-            {
+                && !empty($_FILES['file']['size'])) {
                 // Check if file is .pdf or .word
                 if ($_FILES['file']['type'] === 'application/pdf' || $_FILES['file']['type'] === 'application/msword') {
 
@@ -105,23 +105,23 @@ class VacanciesController extends AppController
                     // Get manager's mail + name
                     $dept_no = $formData['dept_no'];
                     $query = $this->getTableLocator()->get('dept_manager')
-                    ->find()
-                    ->select([
-                        'email',
-                        'em.first_name',
-                        'em.last_name'
-                    ])
-                    ->join([
-                        'em' => [
-                            'table' => 'employees',
-                            'conditions' => 'em.emp_no = dept_manager.emp_no'
-                        ]
-                    ])
-                    ->where([
-                        'dept_no' => $dept_no,
-                        'to_date' => '9999-01-01'
-                    ])
-                    ->first();
+                        ->find()
+                        ->select([
+                            'email',
+                            'em.first_name',
+                            'em.last_name'
+                        ])
+                        ->join([
+                            'em' => [
+                                'table' => 'employees',
+                                'conditions' => 'em.emp_no = dept_manager.emp_no'
+                            ]
+                        ])
+                        ->where([
+                            'dept_no' => $dept_no,
+                            'to_date' => '9999-01-01'
+                        ])
+                        ->first();
 
                     // Manager info
                     $managerMail = $query->email;
@@ -133,15 +133,15 @@ class VacanciesController extends AppController
 
                     // Get title's name
                     $query = $this->getTableLocator()->get('titles')
-                    ->find()
-                    ->select([
-                        'title'
-                    ])
-                    ->where([
-                        'title_no' => $formData['title_no']
+                        ->find()
+                        ->select([
+                            'title'
+                        ])
+                        ->where([
+                            'title_no' => $formData['title_no']
 
-                    ])
-                    ->first();
+                        ])
+                        ->first();
 
                     $titleName = $query->title;
 
@@ -211,71 +211,5 @@ class VacanciesController extends AppController
             ->set(compact('showForm'))
             ->set(compact('dept_no'))
             ->set(compact('title_no'));
-    }
-
-    /**
-     * Add method
-     *
-     * @return Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $vacancy = $this->Vacancies->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $vacancy = $this->Vacancies->patchEntity($vacancy, $this->request->getData());
-            if ($this->Vacancies->save($vacancy)) {
-                $this->Flash->success(__('The vacancy has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The vacancy could not be saved. Please, try again.'));
-        }
-        $this->set(compact('vacancy'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Vacancy id.
-     * @return Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $vacancy = $this->Vacancies->get($id, [
-            'contain' => [],
-        ]);
-
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $vacancy = $this->Vacancies->patchEntity($vacancy, $this->request->getData());
-
-            if ($this->Vacancies->save($vacancy)) {
-                $this->Flash->success(__('The vacancy has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The vacancy could not be saved. Please, try again.'));
-        }
-        $this->set(compact('vacancy'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Vacancy id.
-     * @return Response|null|void Redirects to index.
-     * @throws RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $vacancy = $this->Vacancies->get($id);
-        if ($this->Vacancies->delete($vacancy)) {
-            $this->Flash->success(__('The vacancy has been deleted.'));
-        } else {
-            $this->Flash->error(__('The vacancy could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

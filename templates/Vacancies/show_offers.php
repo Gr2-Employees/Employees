@@ -6,13 +6,13 @@
 ?>
 <div class="vacancies index content">
     <div id="TitlePage" class="position-relative">
-        <h2 >Page Hire</h2>
+        <h2>Page Hire</h2>
         <?= $this->Html->link(__('Back to Departments'), [
             'controller' => 'Departments',
             'action' => 'index'
         ], [
             "class" => "btn button btn-blue position-absolute",
-            "style"=>"top:0;right:0px"
+            "style" => "top:0;right:0px"
         ]) ?>
         <?php if (isset($vacancyName) && !is_null($vacancies)) { ?>
         <?php if ($nbVacancies === 1) { ?>
@@ -34,18 +34,15 @@
                     <td><?= $vacancy->amount ?></td>
                     <td>
                         <?php if ($vacancy->amount !== '0') {
-                            echo $this->Html->link(__('Hire me !'),
-                                [
-                                    'action' => 'applyOffer',
-                                    '?' => [
-                                        'title_no' => $vacancy->title_no,
-                                        'dept_no' => $vacancy->dept_no
-                                    ]
-                                ],
-                                [
-                                    'class' => 'btn btn-submit',
-
-                                ]);
+                            echo $this->Html->link(__('Hire me !'), [
+                                'action' => 'applyOffer',
+                                '?' => [
+                                    'title_no' => $vacancy->title_no,
+                                    'dept_no' => $vacancy->dept_no
+                                ]
+                            ], [
+                                'class' => 'btn btn-submit',
+                            ]);
                         } ?>
                     </td>
                 </tr>
