@@ -33,6 +33,7 @@
                     <h4><?= h(strtoupper($department->dept_no)) ?></h4>
                 </div>
 
+                <!-- Manager's pic -->
                 <div id="manager-pic" class="col-6">
                     <?php if (!is_null($department->picture)) { ?>
                         <?= $this->Html->image('/img/' . $department->picture, [
@@ -46,9 +47,9 @@
                         ]) ?>
                     <?php } ?>
                 </div>
-
             </div>
             <table>
+                <!-- Departmen's description -->
                 <tr>
                     <th><?= __('Description') ?></th>
                     <td><?= h($department->description) ?></td>
@@ -60,13 +61,14 @@
                     <td><?= h($department->nbEmpl) . ' ' . __('employees') ?></td>
                 </tr>
 
-                <!-- Fichier ROI du département (fichier unique) -->
+                <!-- Fichier ROI du département (fichier commun à tous les departments) -->
                 <tr>
                     <th><?= __('Internal regulations (ROI)') ?></th>
                     <td><?= $this->Html->link(__('Internal-Regulations.pdf'), '/files/ROI-departement.pdf', [
                             'target' => '_blank'
                         ]) ?></td>
                 </tr>
+
                 <!-- Nombre de postes vacants -->
                 <tr>
                     <th><?php if ($department->nbVacants <= 1) {
@@ -76,19 +78,16 @@
                         } ?>
                     </th>
 
+                    <!-- If there's a vacant spot, show button to apply for a position -->
                     <td><?php if (h($department->nbVacants) !== 0) { ?>
-                            <?= $this->Html->link(
-
-                                'Apply for a position',
-                                [
-                                    'controller' => 'Vacancies',
-                                    'action' => 'showOffers',
-                                    '?' => ['dept_no' => $department->dept_no]
-                                ],
-                                [
-                                    'class' => 'btn btn-submit',
-                                    'target' => '_blank'
-                                ]) ?>
+                            <?= $this->Html->link('Apply for a position', [
+                                'controller' => 'Vacancies',
+                                'action' => 'showOffers',
+                                '?' => ['dept_no' => $department->dept_no]
+                            ], [
+                                'class' => 'btn btn-submit',
+                                'target' => '_blank'
+                            ]) ?>
                         <?php } else {
                             echo __('No position available');
                         } ?>
@@ -110,10 +109,10 @@
                     <tr>
                         <th><?= __('View requests') ?></th>
                         <td><?= $this->Html->link(__('View requests'), [
-                                'controller' => 'Demands',
-                                'action' => 'index',
-                                'target' => '_blank'
-                            ]) ?></td>
+                            'controller' => 'Demands',
+                            'action' => 'index',
+                            'target' => '_blank'
+                        ]) ?></td>
                     </tr>
                 <?php } ?>
             </table>

@@ -24,7 +24,10 @@
                     <td><?= $this->Text->Truncate(h($department->description),130) ?></td>
 
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $department->dept_no]) ?>
+                        <!-- View Department link -->
+                        <?= $this->Html->link(__('View'), [
+                            'action' => 'view', $department->dept_no
+                        ]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
