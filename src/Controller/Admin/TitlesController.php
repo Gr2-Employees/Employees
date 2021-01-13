@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use App\Model\Entity\Title;
 use App\Model\Table\TitlesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
 
 /**
  * Titles Controller
  *
  * @property TitlesTable $Titles
- * @method \App\Model\Entity\Title[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method Title[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class TitlesController extends AppController
 {
