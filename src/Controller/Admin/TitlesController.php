@@ -8,6 +8,7 @@ use App\Model\Entity\Title;
 use App\Model\Table\TitlesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
@@ -51,8 +52,8 @@ class TitlesController extends AppController
             'Titles.title_no'
         ]);
 
-        foreach($titles as $title) {
-            foreach($query->all() as $row) {
+        foreach ($titles as $title) {
+            foreach ($query->all() as $row) {
                 if ($row->title === $title->title) {
                     $title->nbEmpl = $row->nbEmpl;
                 }
@@ -61,6 +62,25 @@ class TitlesController extends AppController
 
         $this->set(compact('titles'));
     }
+
+    public function add($id = null)
+    {
+        $title = $this->Titles->newEmptyEntity();
+        if ($this->request->is('post')) {
+
+            $title->title_no = $id;
+            $title->title = $this->request->getData('title');
+            $title->description = $this->request->getData('description');
+
+            if ($this->Titles->save($title)) {
+                $this->Flash->success(__('The title has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The title could not be saved. Please, try again.'));
+        }
+        $this->set(compact('title'));
+    }
+
 
     /**
      * Delete method
@@ -79,17 +99,17 @@ class TitlesController extends AppController
         $searchAmount = $this->getTableLocator()->get('Titles')->find();
         $searchAmount->select([
             'nbEmpl' => $searchAmount->func()->count('*')
-            ])
-            ->join([
-                'emti' => [
-                    'table' => 'employee_title',
-                    'type' => 'LEFT',
-                    'conditions' => 'emti.title_no = Titles.title_no'
-                ]
-            ])
-            ->where([
-                'emti.title_no' => $id
-            ]);
+        ])
+        ->join([
+            'emti' => [
+                'table' => 'employee_title',
+                'type' => 'LEFT',
+                'conditions' => 'emti.title_no = Titles.title_no'
+            ]
+        ])
+        ->where([
+            'emti.title_no' => $id
+        ]);
 
         if (sizeof($searchAmount->all()) === 1) {
             // If there isn't any employee affected to the title
@@ -111,5 +131,13 @@ class TitlesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        if(is_null($this->Authentication->getIdentity()) || $this->Authentication->getIdentity()->get('role') !== 'admin'){
+            $this->Flash->error('You are not allowed to access this page.');
+            return $this->redirect('/');
+        }
     }
 }
