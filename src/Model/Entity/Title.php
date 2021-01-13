@@ -9,10 +9,8 @@ use Cake\ORM\Entity;
 /**
  * Title Entity
  *
- * @property int $emp_no
  * @property string $title
- * @property FrozenDate $from_date
- * @property FrozenDate|null $to_date
+ * @property string $description
  */
 class Title extends Entity
 {
@@ -26,6 +24,5 @@ class Title extends Entity
      * @var array
      */
     protected $_accessible = [
-        'to_date' => true,
     ];
 }
