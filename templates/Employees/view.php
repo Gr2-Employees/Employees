@@ -8,13 +8,13 @@
     <div class="col-8 m-auto">
         <div class="employees view content position-relative p-5">
             <h3><?= h($employee->emp_no) ?></h3>
-            <?= $this->Html->link(__('<i></i>'), 'employees/',
-                [
-                    "class" => "far fa-2x fa-window-close position-absolute",
-                    "style" => "right:30px;top:25px;",
-                    "escape" => false
-                ]) ?>
+            <?= $this->Html->link(__('<i></i>'), 'employees/', [
+                "class" => "far fa-2x fa-window-close position-absolute",
+                "style" => "right:30px;top:25px;",
+                "escape" => false
+            ]) ?>
             <div class="row">
+                <!-- Employee's main info -->
                 <div class="col-6">
                     <table>
                         <tr>
@@ -39,6 +39,8 @@
                         </tr>
                     </table>
                 </div>
+
+                <!-- Employee's picture-->
                 <div class="col-6">
                     <?php if (!is_null($employee->picture)) { ?>
                         <?= $this->Html->image('uploads/emp_pictures/' . $employee->picture, [
@@ -51,12 +53,16 @@
                         ]) ?>
                     <?php } ?>
                 </div>
+
                 <div class="col">
                     <table>
+                        <!-- Employee's hire date -->
                         <tr>
                             <th><?= __('Hire Date') ?></th>
                             <td><?= h($employee->hire_date) ?></td>
                         </tr>
+
+                        <!-- Employee's function (role) -->
 
                         <tr>
                             <th><?= __('Function') ?></th>

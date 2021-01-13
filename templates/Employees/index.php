@@ -17,6 +17,7 @@
                 <th><?= $this->Paginator->sort('last_name') ?></th>
                 <th><?= $this->Paginator->sort('gender') ?></th>
                 <th><?= $this->Paginator->sort('hire_date') ?></th>
+
                 <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                     <th class="actions"><?= __('Actions') ?></th>
                 <?php endif; ?>
@@ -31,10 +32,13 @@
                     <td><?= h($employee->last_name) ?></td>
                     <td><?= h($employee->gender) ?></td>
                     <td><?= h($employee->hire_date) ?></td>
+
                     <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $employee->emp_no]) ?>
-                        <?php endif; ?>
+                        <?= $this->Html->link(__('View'), [
+                            'action' => 'view', $employee->emp_no
+                        ]) ?>
+                    <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
