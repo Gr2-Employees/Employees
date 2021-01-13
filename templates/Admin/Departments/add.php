@@ -17,6 +17,8 @@
                 ], [
                     'class' => 'button btn-blue position-absolute', 'style' => "top: 40px;right: 40px"
                 ]) ?>
+
+                <!-- Form fields -->
                 <?php
                 echo $this->Form->control('dept_name', ['required' => 'true']);
                 echo $this->Form->control('description', ['required' => 'true']);

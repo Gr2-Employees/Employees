@@ -20,6 +20,7 @@
 
                 ]) ?>
 
+                <!-- Form Fields -->
                 <div class="col-6">
                     <?php
                     echo $this->Form->control('dept_name');
@@ -30,14 +31,13 @@
                 </div>
                 <div class="col-6 pt-3 text-center">
                     <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
-                        'alt' => 'Photo du département ' . $department->dept_name . '.',
+                        'alt' => 'Photo du département ' . $department->dept_name,
                         'class' => 'manager-picture mb-4'
                     ]) ?>
 
-                    <?php
-                    echo $this->Form->control('picture', [
+                    <?= $this->Form->control('picture', [
                         'type' => 'file', 'required' => 'false'
-                    ]); ?>
+                    ]) ?>
                 </div>
             </fieldset>
             <?= $this->Form->button(__('Submit'), ["class" => "btn-blue ml-4"]) ?>

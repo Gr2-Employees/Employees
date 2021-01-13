@@ -7,9 +7,7 @@
         'class' => 'button btn-blue float-right'
     ]) ?>
     <h3><?= __('Related Employees') ?></h3>
-
     <div class="table-responsive">
-
         <table>
             <thead>
             <tr>
@@ -34,7 +32,6 @@
                     <td><?= h($employee->em['hire_date']) ?></td>
 
                     <td class="actions">
-
                         <!-- Button view /admin/employees/view/:emp_no -->
                         <?= $this->Html->link(__('View'), [
                             'prefix' => 'Admin',

@@ -9,7 +9,6 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
 
-            <!-- TODO: Bug: Les liens sont cliquabes sur toute la longueur de la page -->
             <!-- List Department -->
             <?= $this->Html->link(__('List Departments'), [
                 'action' => 'index'
@@ -75,8 +74,7 @@
                     <?= $this->Html->image('/img/uploads/dept_pictures/' . $department->picture, [
                         'alt' => 'Photo du département ' . $department->dept_name . '.',
                         'class' => 'manager-picture mb-4'
-                    ])
-                    ?>
+                    ]) ?>
                 </div>
             </div>
             <table>

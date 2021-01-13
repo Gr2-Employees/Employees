@@ -5,7 +5,12 @@
  */
 ?>
 <div class="departments index content col-95 mt-5 mx-auto">
-    <?= $this->Html->link(__('New Department'), ['action' => 'add'], ['class' => 'button float-right btn-blue']) ?>
+    <?= $this->Html->link(__('New Department'), [
+        'action' => 'add'
+    ], [
+        'class' => 'button float-right btn-blue'
+    ]) ?>
+
     <h3><?= __('Departments') ?></h3>
     <div class="table-responsive">
         <table>
