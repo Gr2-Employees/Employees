@@ -18,7 +18,7 @@
 $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <?= $this->Html->charset() ?>
@@ -43,6 +43,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
+        <!-- Logo UnitedSuite -->
         <?= $this->Html->image('/img/logo-unitedsuite1.png', [
             "id" => "logo-menu",
             "alt" => "Logo Unitedsuite",
@@ -50,6 +51,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         ]) ?>
 
         <ul class="navbar-nav ml-5 mt-8">
+            <!-- A propos dropdown menu -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
@@ -59,13 +61,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                     <ul id="dropdown-list" style="list-style: none">
                         <li><?= $this->Html->linkFromPath('Who are we ?', 'Pages::aboutUs', ['class' => 'dropdown-item']) ?></li>
                         <li><?= $this->Html->link('News', '/#news', [
-                                "controller" => "Pages",
-                                "action" => "display"
-                            ]) ?></li>
+                            "controller" => "Pages",
+                            "action" => "display"
+                        ]) ?></li>
                         <li><?= $this->Html->link('Partners', '/#partners', [
-                                "controller" => "Pages",
-                                "action" => "display"
-                            ]) ?></li>
+                            "controller" => "Pages",
+                            "action" => "display"
+                        ]) ?></li>
                     </ul>
                 </div>
             </li>
@@ -116,7 +118,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <!-- Auth buttons -->
         <?php
         if ($this->Identity->isLoggedIn()) { ?>
-            <!-- Profile link -->
+            <!-- Profile icon link -->
             <?php if ($this->Identity->get('role') === 'admin') { ?>
                 <?= $this->Html->link(__('<i></i>'), [
                     'prefix' => 'Admin',
@@ -148,9 +150,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 'class' => 'btn btn-outline-primary my-2 my-sm-0',
                 'id' => 'btn-logout'
             ]) ?>
-
         <?php } else { ?>
-
             <!-- Log In Button -->
             <?= $this->Html->link(__('Login'), [
                 'controller' => 'Users',
