@@ -5,7 +5,12 @@
  */
 ?>
 <div class="demands index content">
-    <?= $this->Html->link(__('New Demand'), ['action' => 'add'], ['class' => 'button btn-blue float-right']) ?>
+    <!-- Add Demand link-->
+    <?= $this->Html->link(__('New Demand'), [
+        'action' => 'add'
+    ], [
+        'class' => 'button btn-blue float-right'
+    ]) ?>
     <h3><?= __('Department change demands') ?></h3>
     <div class="table-responsive">
         <table>
@@ -35,11 +40,9 @@
                                     'controller' => 'Demands',
                                     'action' => 'approve', $demand->id
                                 ], [
-                                    'confirm' => __('Are you sure you want to approve # {0}?',
-                                        $demand->id),
+                                    'confirm' => __('Are you sure you want to approve # {0}?', $demand->id),
                                     'class' => 'button',
                                     'style' => 'color:white;background-color:green;border-color:green'
-
                                 ]) ?>
 
                                 <!-- Link to Decline demand -->
@@ -62,8 +65,7 @@
                                 'action' => 'delete',
                                 $demand->id
                             ], [
-                                'confirm' => __('Are you sure you want to delete # {0}?',
-                                    $demand->id),
+                                'confirm' => __('Are you sure you want to delete # {0}?', $demand->id),
                                 'class' => 'button',
                                 'style' => 'color:white'
                             ]);
@@ -77,8 +79,7 @@
 
     <div class="table-responsive mt-4">
         <h3><?= __('Raise salary demands') ?></h3>
-
-        <!-- Table raise pour le comptable-->
+        <!-- Table raise pour le comptable -->
         <?php if ($this->Identity->get('role') === 'comptable' || $this->Identity->get('role') === 'admin') { ?>
             <table>
                 <thead>
@@ -109,7 +110,6 @@
                         <?php } ?>
                         <td class="actions">
                             <?php if ($demand->status === 'in progress' && $this->Identity->get('role') !== 'admin') { ?>
-
                                 <!-- Link to Approve raise demand -->
                                 <?= $this->Form->postLink(__('Approve'), [
                                     'controller' => 'Demands',
