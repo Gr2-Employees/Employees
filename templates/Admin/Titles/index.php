@@ -9,7 +9,7 @@
     <?= $this->Html->link(__('New Title'), [
         'action' => 'add'
     ], [
-        'class' => 'button float-right'
+        'class' => 'button btn-blue float-right'
     ]) ?>
     <h3><?= __('Titles') ?></h3>
     <div class="table-responsive">
