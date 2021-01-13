@@ -7,25 +7,22 @@
 <div class="employees index content col-95 mt-5 mx-auto">
     <!-- Search form -->
     <?= $this->Form->create(null, [
-        'url' => [
-            'action' => 'index'
-        ],
+        'url' => ['action' => 'index'],
         'type' => 'get',
     ]) ?>
 
     <div class="md-form active-blue mb-3">
-    <!-- Search input -->
-    <?= $this->Form->control('search', [
-        'label' => '',
-        'type' => 'text',
-        'placeholder' => 'Search...',
-        'class' => 'frm-control'
-    ]) ?>
+        <!-- Search input -->
+        <?= $this->Form->control('search', [
+            'label' => '',
+            'type' => 'text',
+            'placeholder' => 'Search...',
+            'class' => 'frm-control'
+        ]) ?>
     </div>
-
     <?= $this->Form->end() ?>
 
-    <!-- Add Employee -->
+    <!-- Add Employee Button -->
     <?= $this->Html->link(__('New Employee'), [
         'action' => 'add'
     ], [
@@ -61,7 +58,11 @@
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $employee->emp_no]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $employee->emp_no]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $employee->emp_no], ['confirm' => __('Are you sure you want to delete # {0}?', $employee->emp_no)]) ?>
+                        <?= $this->Form->postLink(__('Delete'), [
+                            'action' => 'delete', $employee->emp_no
+                        ], [
+                            'confirm' => __('Are you sure you want to delete # {0}?', $employee->emp_no)
+                        ]) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
