@@ -16,7 +16,7 @@
     <div id="div1" class="row">
         <div class="col-6">
             <h2>Lorem ipsum dolor sit amet</h2>
-            <h1><?=strtoupper('Curabitur cursus')?></h1>
+            <h1><?= strtoupper('Curabitur cursus') ?></h1>
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.</p>
             <?= $this->Html->link(__('A propos'), '/pages/about-us', [
@@ -26,12 +26,13 @@
         </div>
     </div>
     <div id="div2" class="row">
+        <!-- Div department -->
         <div id="div2-1" class="col-5">
-
+            <!-- Div department pic -->
         </div>
         <div id="div2-2" class="col-7">
             <h2>Lorem ipsum dolor sit amet</h2>
-            <h1><?=strtoupper('Curabitur cursus')?></h1>
+            <h1><?= strtoupper('Curabitur cursus') ?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
@@ -45,10 +46,12 @@
             ]) ?>
         </div>
     </div>
+
+    <!-- Div Employees -->
     <div id="div3" class="row">
         <div id="div3-1" class="col-6">
             <h2>Lorem ipsum dolor sit amet</h2>
-            <h1><?=strtoupper('Curabitur cursus')?></h1>
+            <h1><?= strtoupper('Curabitur cursus') ?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
@@ -58,10 +61,12 @@
             ]) ?>
         </div>
     </div>
+
+    <!-- Div womentAtWork -->
     <div id="div4" class="row">
         <div id="div4-1" class="col-6">
             <h2>Lorem ipsum dolor sit amet</h2>
-            <h1><?=strtoupper('Curabitur cursus')?></h1>
+            <h1><?= strtoupper('Curabitur cursus') ?></h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br> Pellentesque vel volutpat felis,
                 eu condimentum. lorem ipsum dolor. lorem ipsum dolor sit amt.
@@ -75,6 +80,7 @@
             ]) ?>
         </div>
         <div id="div4-2" class="col-5">
+            <!-- womenAtWork pic -->
         </div>
     </div>
     <div id="news">
@@ -176,11 +182,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Div Partners -->
     <div id="partners" class="row">
         <div class="col-12">
             <h2>Partenaires</h2>
         </div>
-
         <?php foreach ($partners as $partner) { ?>
             <div class="col-2 partners-cadre">
                 <?= $this->Html->link(
@@ -194,12 +201,16 @@
             </div>
         <?php } ?>
     </div>
+
+    <!-- Div Maps + QR Code-->
     <div id="div7" class="row">
+        <!-- iFrame -->
         <div id="div-iframe" class="col-6">
             <h3>Visitez-nous</h3>
-            <iframe src="https://www.google.com.qa/maps/d/u/0/embed?mid=1RoH2nl4fnIkasD6Ta4o2WFJajUcRups9" width="640"
-                    height="480"></iframe>
+            <iframe src="https://www.google.com.qa/maps/d/u/0/embed?mid=1RoH2nl4fnIkasD6Ta4o2WFJajUcRups9" width="640" height="480"></iframe>
         </div>
+
+        <!-- QR Code-->
         <div class="col-6">
             <div>
                 <h3>Rejoignez-nous via notre Appli Unitedsuite</h3>
@@ -213,10 +224,12 @@
 </div>
 </body>
 
+<!-- Footer -->
 <footer>
     <div id="div-footer" class="row">
         <div class="col-4 footer-lign">
             <div class="row">
+                <!-- Left side footer links -->
                 <div class="col-6">
                     <h6>À propos</h6>
                     <p class="footer-links"><?= $this->Html->link(__('Qui sommes-nous?'), '/pages/about-us', ['target' => '_blank']) ?></p>
@@ -232,6 +245,7 @@
                 </div>
             </div>
         </div>
+        <!-- Middle social networking links -->
         <div class="col-4 footer-lign">
             <h6>Visitez nos réseaux sociaux</h6>
             <div class="row" id="row-social">
@@ -262,6 +276,8 @@
                 ]) ?>
             </div>
         </div>
+
+        <!-- Links to AppStores -->
         <div class="col-4">
             <h6>Rejoignez-nous sur l'appli Unitedsuite</h6>
             <div class="row">
@@ -291,9 +307,10 @@
                 </div>
             </div>
         </div>
+        <!-- Credentials -->
         <div class="row">
             <div style="color:white;" class="col text-center">
-                &copy Nathan, Thomas et Radad
+                &copy Nathan, Radad, Thomas et Kwasi
             </div>
         </div>
     </div>
