@@ -46,9 +46,8 @@ class DepartmentsController extends AppController
         /**
          * Recherche du nombre total d'employés du département
          */
-        $query = $this->getTableLocator()->get('dept_emp')
-        ->find()
-        ->select([
+        $query = $this->getTableLocator()->get('dept_emp')->find();
+        $query->select([
             'count' => $query->func()->count('*')
         ])
         ->where([
