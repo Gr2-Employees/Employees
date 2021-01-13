@@ -7,7 +7,7 @@
 <div class="users index content col-95 mt-5 mx-auto">
     <!-- Search form -->
     <?= $this->Form->create(null, [
-        'type'=>'get',
+        'type' => 'get',
         'url' => [
             'action' => 'index'
         ]
@@ -22,20 +22,27 @@
         ]) ?>
     </div>
     <?= $this->Form->end() ?>
-    <!-- Ass btn -->
-    <?= $this->Html->link(__('New User'), ['action' => 'add'], ['class' => 'button float-right','style' => "background-color: #2A6496;border-color: #2A6496"]) ?>
+
+    <!-- Add User Button-->
+    <?= $this->Html->link(__('New User'), [
+        'action' => 'add'
+    ], [
+        'class' => 'button float-right',
+        'style' => "background-color: #2A6496;border-color: #2A6496"
+    ]) ?>
+
     <h3><?= __('Users') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('emp_no') ?></th>
-                    <th><?= $this->Paginator->sort('email') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr>
+                <th><?= $this->Paginator->sort('emp_no') ?></th>
+                <th><?= $this->Paginator->sort('email') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
+            <?php foreach ($users as $user): ?>
                 <tr>
                     <td><?= $this->Number->format($user->emp_no) ?></td>
                     <td><?= h($user->email) ?></td>
@@ -57,11 +64,11 @@
                             'action' => 'delete', $user->emp_no
                         ], [
                             'confirm' => __('Are you sure you want to delete # {0}?',
-                            $user->emp_no)
+                                $user->emp_no)
                         ]) ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>

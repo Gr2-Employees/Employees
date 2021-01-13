@@ -8,8 +8,7 @@
     <div class="column-responsive column-50 m-auto">
         <div class="users view content profile">
             <div class="row">
-                <div class="col-8"
-                ">
+                <div class="col-8">
                 <!-- User Info -->
                 <h3><?= h($user->full_name) ?></h3>
                 <table>
@@ -41,6 +40,7 @@
 
             <div class="col-4">
                 <?php
+                // Populate the picture div
                 if (!is_null($user->picture)) {
                     echo $this->Html->image('/img/uploads/emp_pictures/' . $user->picture, [
                         "class" => "float-right mt-4",
@@ -59,7 +59,7 @@
         </div>
         <div class="row">
             <table>
-                <!-- Employee Rôle -->
+                <!-- Employee Role -->
                 <tr>
                     <th><?= __('Rôle') ?></th>
                     <td><?= ucFirst(h($user->role)) ?></td>
@@ -86,7 +86,7 @@
                 <!-- Reset Password -->
                 <tr>
                     <th><?= __('Reset My Password') ?></th>
-                    <td> <?= $this->Html->link( __('Reset My Password'), [
+                    <td> <?= $this->Html->link(__('Reset My Password'), [
                             'action' => 'resetPassword',
                             $user->emp_no
                         ], [

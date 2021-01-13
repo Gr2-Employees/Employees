@@ -4,7 +4,7 @@
         <h3>Login</h3>
         <?= $this->Form->create() ?>
         <fieldset>
-            <legend><?= __('Please enter your username and password') ?></legend>
+            <legend><?= __('Please enter your email and password') ?></legend>
             <!-- Email field -->
             <?= $this->Form->control('email', [
                 'required' => true
@@ -15,7 +15,7 @@
                 'required' => true
             ]) ?>
         </fieldset>
-        <?= $this->Form->submit(__('Login'), ['id' => 'btn-form-login']); ?>
+        <?= $this->Form->submit(__('Login'), ['id' => 'btn-form-login']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>
