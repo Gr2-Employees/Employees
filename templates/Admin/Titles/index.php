@@ -15,16 +15,16 @@
     <div class="table-responsive">
         <table>
             <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('title_no') ?></th>
-                    <th><?= $this->Paginator->sort('title') ?></th>
-                    <th><?= $this->Paginator->sort('description') ?></th>
-                    <th><?= $this->Paginator->sort('Amount of Employees') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
+            <tr>
+                <th><?= $this->Paginator->sort('title_no') ?></th>
+                <th><?= $this->Paginator->sort('title') ?></th>
+                <th><?= $this->Paginator->sort('description') ?></th>
+                <th><?= $this->Paginator->sort('Amount of Employees') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
             </thead>
             <tbody>
-                <?php foreach ($titles as $title): ?>
+            <?php foreach ($titles as $title): ?>
                 <tr>
                     <td><?= $this->Number->format($title->title_no) ?></td>
                     <td><?= h($title->title) ?></td>
@@ -32,21 +32,21 @@
                     <td><?= $this->Number->format($title->nbEmpl) ?></td>
                     <td class="actions">
                         <!-- Button Delete Title -->
-                        <?php if ($title->nbEmpl === 0) {?>
-                        <?= $this->Form->postLink(__('Delete'), [
-                            'action' => 'delete',
-                            $title->title_no
-                        ], [
-                            'confirm' => __('Are you sure you want to delete # {0}?', $title->emp_no),
-                            'class' => 'button btn-danger',
-                            'style' => 'color: white'
-                        ]) ?>
+                        <?php if ($title->nbEmpl === 0) { ?>
+                            <?= $this->Form->postLink(__('Delete'), [
+                                'action' => 'delete',
+                                $title->title_no
+                            ], [
+                                'confirm' => __('Are you sure you want to delete # {0}?', $title->emp_no),
+                                'class' => 'button btn-danger',
+                                'style' => 'color: white'
+                            ]) ?>
                         <?php } else {
                             echo __('No action available');
                         } ?>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
