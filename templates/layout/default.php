@@ -87,7 +87,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <a class="nav-link" href="<?= $this->Url->build('/womenAtWork') ?>">Women At Work</a>
             </li>
 
-            <?php if (($this->Identity->get('role') === 'admin') || ($this->Identity->get('role') === 'manager' || 'comptable')) { ?>
+            <?php if (($this->Identity->get('role') === 'admin') || ($this->Identity->get('role') === 'manager') || ($this->Identity->get('role') === 'comptable')) { ?>
                 <!-- Lien vers la page Demands -->
                 <li class="nav-item">
                     <?= $this->Html->link('Demands', [
