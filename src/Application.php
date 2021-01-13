@@ -90,6 +90,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // using it's second constructor argument:
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
+            // Auth
             ->add(new AuthenticationMiddleware($this))
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
@@ -155,11 +156,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         try {
             $this->addPlugin('Bake');
         } catch (MissingPluginException $e) {
-            // Do not halt if the plugin is missing
+
         }
 
         $this->addPlugin('Migrations');
-
-        // Load more plugins here
     }
 }
