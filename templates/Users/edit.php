@@ -9,7 +9,7 @@
         <div class="side-nav">
             <h4 class="heading"><?= __('Actions') ?></h4>
 
-            <!-- Link to index -->
+            <!-- Link to Users/index -->
             <?= $this->Html->link(__('List Users'), [
                 'action' => 'index'
             ], [
@@ -17,7 +17,7 @@
             ]) ?>
 
             <!-- Link to delete user -->
-            <?= $this->Form->postLink( __('Delete'), [
+            <?= $this->Form->postLink(__('Delete'), [
                 'action' => 'delete',
                 $user->emp_no
             ], [
@@ -32,8 +32,8 @@
             <fieldset>
                 <legend><?= __('Edit User') ?></legend>
 
-                    <?= $this->Form->control('Email') ?>
-                    <?= $this->Form->control('password') ?>
+                <?= $this->Form->control('Email') ?>
+                <?= $this->Form->control('password') ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>

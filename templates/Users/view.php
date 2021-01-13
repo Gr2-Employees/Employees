@@ -41,11 +41,12 @@
 
             <div class="col-4">
                 <?php
+                // User picture
                 if (!is_null($user->picture)) {
-                echo $this->Html->image('/img/uploads/emp_pictures/' . $user->picture, [
-                    "class" => "float-right mt-4",
-                    "style" => "height:250px;width:250px"
-                ]);
+                    echo $this->Html->image('/img/uploads/emp_pictures/' . $user->picture, [
+                        "class" => "float-right mt-4",
+                        "style" => "height:250px;width:250px"
+                    ]);
                 } else {
                     echo $this->Html->image('/img/noUserPic.jpg', [
                         'alt' => 'Manager du département ' . $user->emp_no,
@@ -86,7 +87,7 @@
                 <!-- Reset Password -->
                 <tr>
                     <th><?= __('Reset My Password') ?></th>
-                    <td> <?= $this->Html->link( __('Reset My Password'), [
+                    <td> <?= $this->Html->link(__('Reset My Password'), [
                             'action' => 'resetPassword',
                             $user->emp_no
                         ], [
