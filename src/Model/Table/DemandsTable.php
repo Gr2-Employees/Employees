@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Demand;
+use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -11,19 +14,19 @@ use Cake\Validation\Validator;
 /**
  * Demands Model
  *
- * @method \App\Model\Entity\Demand newEmptyEntity()
- * @method \App\Model\Entity\Demand newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Demand[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Demand get($primaryKey, $options = [])
- * @method \App\Model\Entity\Demand findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Demand patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Demand[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Demand|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Demand saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Demand[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Demand[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Demand[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Demand[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method Demand newEmptyEntity()
+ * @method Demand newEntity(array $data, array $options = [])
+ * @method Demand[] newEntities(array $data, array $options = [])
+ * @method Demand get($primaryKey, $options = [])
+ * @method Demand findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Demand patchEntity(EntityInterface $entity, array $data, array $options = [])
+ * @method Demand[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Demand|false save(EntityInterface $entity, $options = [])
+ * @method Demand saveOrFail(EntityInterface $entity, $options = [])
+ * @method Demand[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Demand[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Demand[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Demand[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class DemandsTable extends Table
 {
@@ -45,8 +48,8 @@ class DemandsTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator): Validator
     {

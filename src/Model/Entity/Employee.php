@@ -3,17 +3,18 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Entity;
 
 /**
  * Employee Entity
  *
  * @property int $emp_no
- * @property \Cake\I18n\FrozenDate $birth_date
+ * @property FrozenDate $birth_date
  * @property string $first_name
  * @property string $last_name
  * @property string $gender
- * @property \Cake\I18n\FrozenDate $hire_date
+ * @property FrozenDate $hire_date
  */
 class Employee extends Entity
 {
@@ -33,6 +34,6 @@ class Employee extends Entity
         'gender' => true,
         'hire_date' => true,
     ];
-    
+
     //Virtual field
 }

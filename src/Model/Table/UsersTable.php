@@ -73,11 +73,17 @@ class UsersTable extends Table
         return $validator;
     }
 
-    public function beforeSave(Event $event, EntityInterface $entity) {
+    public function beforeSave(Event $event, EntityInterface $entity)
+    {
+        /**
+         * unset the confPwd field before saving at it will cause a bug
+         * that'll prevent the user from being saved
+         */
         if (isset($entity['confPwd'])) {
             unset($entity['confPwd']);
         }
 
+        // Default role for a new user
         $entity->set('role', 'member');
     }
 }

@@ -55,7 +55,7 @@ class EmployeesTable extends Table
             'foreignKey' => 'emp_no',
         ]);
 
-        $this->belongsToMany('Departments',[
+        $this->belongsToMany('Departments', [
             'joinTable' => 'dept_emp',
             'targetForeignKey' => 'dept_no',
             'foreignKey' => 'emp_no',
@@ -96,8 +96,8 @@ class EmployeesTable extends Table
             ->scalar('gender')
             ->requirePresence('gender', 'create')
             ->notEmptyString('gender')
-            ->add('gender', 'validValue',[
-                'rule' => ['inlist',['F','M', 'Others']],
+            ->add('gender', 'validValue', [
+                'rule' => ['inlist', ['F', 'M', 'Others']],
                 'message' => 'This value must be either F or M or Others.',
             ]);
 
@@ -134,14 +134,4 @@ class EmployeesTable extends Table
             ]);
         return $validator;
     }
-
-    function findSpecialSearch(Query $query, array $options) {
-        $query->where([]);
-
-        return $query;
-    }
-
-    //Récupérer tous les employés d'un département donné
-
-    //Recupérer les département de plus de 100 employes qui ne travaillent plus dans ce département
 }

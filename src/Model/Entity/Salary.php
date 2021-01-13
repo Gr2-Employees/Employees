@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\I18n\FrozenDate;
 use Cake\ORM\Entity;
 
 /**
@@ -10,8 +11,8 @@ use Cake\ORM\Entity;
  *
  * @property int $emp_no
  * @property int $salary
- * @property \Cake\I18n\FrozenDate $from_date
- * @property \Cake\I18n\FrozenDate $to_date
+ * @property FrozenDate $from_date
+ * @property FrozenDate $to_date
  */
 class Salary extends Entity
 {
