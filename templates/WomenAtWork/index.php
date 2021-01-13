@@ -19,14 +19,14 @@
             <?= $this->Text->autoParagraph(
                 __('De nos jours, les femmes représentent 40% de l’effectif total au sein de notre banque UnitedSuite (31/12/2019).
             Cela représente ' . $nbFemaleManagers . ' femmes managers dans la banque.
-            Elles exercent tous les métiers de la banque. Notre groupe s’attache à faire évoluer l’égalité professionnelle dans toutes ses sphères professionnelles.
-            Depuis 2011, il a ainsi développé un programme d’accompagnement des femmes vers les postes de cadres de direction.
+            Elles exercent toutes des roles important dans notre banque. Notre groupe s’attache à faire évoluer l’égalité professionnelle dans toutes ses sphères professionnelles.
+            Depuis 2011, Nous avons ainsi développé un programme d’accompagnement des femmes vers les postes de cadres de direction.
             C’est dans ce contexte que l’objectif de 30% de femmes senior managers a été atteint en 2014.
-            Pour 2021, l’objectif serais d’augmenter le nombre de femmes travaillant pour UnitedSuite à 50% et ainsi obtenir une paritée égale entre les hommes et les femmes dans notre banque.')
+            Pour 2021, l’objectif serait d’augmenter le nombre de femmes travaillant pour UnitedSuite à 50% et ainsi obtenir une paritée égale entre les hommes et les femmes dans notre banque.')
             ) ?>
         </div>
         <div class="col-6">
-            <?= $this->Html->image('/img/womenAtWork-page.jpg',["id"=>"women-pic"]) ?>
+            <?= $this->Html->image('/img/womenAtWork-page.jpg', ["id" => "women-pic"]) ?>
         </div>
     </div>
 
@@ -81,8 +81,6 @@
     const lineChart = document.getElementById('womenLineChart').getContext('2d');
     const chartLine = new Chart(lineChart, {
         type: 'line',
-
-        // The data for our dataset
         data: {
             labels: [ <?php if (isset($arrYears)) {
                 foreach ($arrYears as $year) {
@@ -114,4 +112,3 @@
 </script>
 </body>
 </html>
-
