@@ -49,16 +49,19 @@
         <div class="row" id="dataStat">
             <div class="column-25 stat1 text-center">
                 <div class="row" style="height: 55%">
+                    <!-- Amount of employees -->
                     <div class="col" style="line-height: 40px;">
                         <h4 class="h4-stat"><?= __('Total employees') ?></h4>
                         <p class="dash-p"><?= $this->Number->format($nbTotal) ?></p>
                     </div>
                 </div>
                 <div class="row" id="ratio">
+                    <!-- Percentage of men -->
                     <div class="col-6">
                         <h5 class="h5-stat"><?= __('% Men') ?></h5>
                         <p lass="dash-p"><?= $this->Number->toPercentage($pctMan) ?></p>
                     </div>
+                    <!-- Percentage of women -->
                     <div class="col-6">
                         <h5 class="h5-stat"><?= __('% Women') ?></h5>
                         <p lass="dash-p"><?= $this->Number->toPercentage($pctWoman) ?></p>
@@ -67,6 +70,7 @@
             </div>
             <div class="column-25 stat1">
                 <div class="row" style="transform: translate(0%, 40%);">
+                    <!-- Amount of users -->
                     <div class="col text-center" style="line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Total users') ?></h4>
                         <p lass="dash-p"><?= $nbUsers . ' user(s) ' ?></p>
@@ -75,6 +79,7 @@
             </div>
             <div class="column-25 stat1">
                 <div class="row" style="transform: translate(0%, 40%);">
+                    <!-- Average Salary -->
                     <div class="col text-center" style="line-height: 70px;">
                         <h4 class="h5-stat"><?= __('Average salary') ?></h4>
                         <p lass="dash-p"><?= $this->Number->format($avgSalary, [
@@ -95,13 +100,14 @@
             </div>
         </div>
 
-
-        <!-- Div lineChart & horizontalBar -->
+        <!-- Div first two charts -->
         <div class="row" id="chart">
+            <!-- Line Chart -->
             <div class="col-6 text-center">
                 <h3><?= __('Number of employees per year') ?></h3>
                 <canvas id="lineChart" width="100px" height="50"></canvas>
             </div>
+            <!-- Horizontal bars Chart -->
             <div class="col-6 text-center">
                 <h3><?= __('Manager salary per department') ?></h3>
                 <canvas id="horizontalBarChart" width="100px" height="50"></canvas>
