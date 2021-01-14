@@ -2,8 +2,8 @@
 
 Projet réalisé par :
 - Radad El Jaidi Akaarir - https://github.com/Radad-J
-- Kwasi EZOR - https://github.com/KwasiEzor
 - Thomas Hendrickx - https://github.com/hendrthomas
+- Kwasi EZOR - https://github.com/KwasiEzor
 - Nathan Deltour - https://github.com/mvker
 
 Lien du board Trello du projet : 
