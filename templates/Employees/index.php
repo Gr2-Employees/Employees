@@ -7,6 +7,23 @@
 ?>
 <div class="employees index content col-95 mt-5 mx-auto">
     <h3><?= __('Employees') ?></h3>
+    <!-- Search form -->
+    <?= $this->Form->create(null, [
+        'url' => ['action' => 'index'],
+        'type' => 'get',
+    ]) ?>
+
+    <div class="md-form active-blue mb-3">
+        <!-- Search input -->
+        <?= $this->Form->control('search', [
+            'label' => '',
+            'type' => 'text',
+            'placeholder' => 'Search...',
+            'class' => 'frm-control'
+        ]) ?>
+    </div>
+    <?= $this->Form->end() ?>
+
     <div class="table-responsive">
         <table>
             <thead>
@@ -27,11 +44,11 @@
             <?php foreach ($employees as $employee): ?>
                 <tr class="tr-td-employee">
                     <td><?= $this->Number->format($employee->emp_no) ?></td>
-                    <td><?= h($employee->birth_date) ?></td>
+                    <td><?= h($employee->birth_date->i18nFormat('dd/MM/yyyy')) ?></td>
                     <td><?= h($employee->first_name) ?></td>
                     <td><?= h($employee->last_name) ?></td>
                     <td><?= h($employee->gender) ?></td>
-                    <td><?= h($employee->hire_date) ?></td>
+                    <td><?= h($employee->hire_date->i18nFormat('dd/MM/yyyy')) ?></td>
 
                     <?php if ($this->Identity->isLoggedIn() && ($this->Identity->get('role') === 'admin')) : ?>
                     <td class="actions">
