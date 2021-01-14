@@ -26,10 +26,6 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
-
         /**
          * Search function
          */
@@ -42,14 +38,15 @@ class UsersController extends AppController
                     ['role LIKE' => "%$toSearch%"],
                 ]]);
 
-            $result = $searchQuery->all();
-            $users = [];
-            foreach ($result as $row) {
-                $users[] = $row;
-            }
-            if(empty($users)){
+            // If no match has been found
+            if (sizeof($searchQuery->all()) === 0) {
                 $this->Flash->error('No results match your search criteria');
             }
+            //Paginate the results
+            $this->set('users', $this->paginate($searchQuery));
+
+        } else {
+            $users = $this->paginate($this->Users);
             $this->set(compact('users'));
         }
     }
