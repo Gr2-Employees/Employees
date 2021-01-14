@@ -30,14 +30,39 @@ class EmployeesController extends AppController
      */
     public function index()
     {
-        //Récupérer les données de la base de données
-        $employees = $this->Employees;
+        /**
+         * Search function
+         */
+        if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
+            $toSearch = $this->request->getQuery('search');
 
-        //Préparer, modifier ces données
-        $employees = $this->paginate($employees);
+            if(strlen($toSearch) < 2) {
+                $this->Flash->error('You must enter at least 2 characters to search.');
+                return null;
+            }
 
-        //Envoyer vers la vue
-        $this->set('employees', $employees);
+            $searchQuery = $this->getTableLocator()->get('Employees')
+                ->find()
+                ->where(['OR' => [
+                    ['CAST(emp_no AS CHAR) LIKE' => "%$toSearch%"],
+                    ['birth_date LIKE' => "%$toSearch%"],
+                    ['first_name LIKE' => "%$toSearch%"],
+                    ['last_name LIKE' => "%$toSearch%"],
+                    ['hire_date LIKE' => "%$toSearch%"],
+                    ['email LIKE' => "%$toSearch%"],
+                ]]);
+
+            // If no match has been found
+            if (sizeof($searchQuery->all()) === 0) {
+                $this->Flash->error('No results match your search criteria');
+            }
+            //Paginate the results
+            $this->set('employees', $this->paginate($searchQuery));
+
+        } else {
+            $employees = $this->paginate($this->Employees);
+            $this->set(compact('employees'));
+        }
     }
 
     /**
