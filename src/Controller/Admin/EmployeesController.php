@@ -26,10 +26,6 @@ class EmployeesController extends AppController
      */
     public function index()
     {
-        $employees = $this->paginate($this->Employees);
-
-        $this->set(compact('employees'));
-
         /**
          * Search function
          * The given input has to be at least 3 characters long to begin searching
@@ -37,7 +33,7 @@ class EmployeesController extends AppController
         if ($this->request->is('get') && !empty($this->request->getQuery('search'))) {
             $toSearch = $this->request->getQuery('search');
 
-            if(strlen($toSearch) < 2) {
+            if (strlen($toSearch) < 2) {
                 $this->Flash->error('You must enter at least 2 characters to search.');
                 return null;
             }
@@ -53,19 +49,15 @@ class EmployeesController extends AppController
                 ['email LIKE' => "%$toSearch%"],
             ]]);
 
-            $result = $searchQuery->all();
-
-            $employees = [];
-
-            foreach ($result as $row) {
-                $employees[] = $row;
-            }
-
             // If no match has been found
-            if (sizeof($employees) === 0) {
+            if (sizeof($searchQuery->all()) === 0) {
                 $this->Flash->error('No results match your search criteria');
             }
+            //Paginate the results
+            $this->set('employees', $this->paginate($searchQuery));
 
+        } else {
+            $employees = $this->paginate($this->Employees);
             $this->set(compact('employees'));
         }
     }
@@ -108,7 +100,7 @@ class EmployeesController extends AppController
 
         $departments = [];
 
-        foreach($query as $row) {
+        foreach ($query as $row) {
             $departments[] = $row->dept_no;
         }
 
@@ -128,7 +120,7 @@ class EmployeesController extends AppController
 
         $titles = [];
 
-        foreach($query as $row) {
+        foreach ($query as $row) {
             $titles[$row->title_no] = $row->title;
         }
 
@@ -158,13 +150,13 @@ class EmployeesController extends AppController
 
             // Save data to send it to the DB
             $employee->set('emp_no', $newEmpNo)
-                ->set('first_name', $this->request->getData('first_name'))
-                ->set('last_name', $this->request->getData('last_name'))
-                ->set('gender', $this->request->getData('gender'))
-                ->set('birth_date', $this->request->getData('birth_date'))
-                ->set('email', $this->request->getData('email'))
-                ->set('hire_date', $this->request->getData('hire_date'))
-                ->set('picture', $newPicName);
+            ->set('first_name', $this->request->getData('first_name'))
+            ->set('last_name', $this->request->getData('last_name'))
+            ->set('gender', $this->request->getData('gender'))
+            ->set('birth_date', $this->request->getData('birth_date'))
+            ->set('email', $this->request->getData('email'))
+            ->set('hire_date', $this->request->getData('hire_date'))
+            ->set('picture', $newPicName);
 
             // Save dept_no and title_no values from form's select fields
             $deptValue = $departments[$this->request->getData('dept_no')];
@@ -173,22 +165,22 @@ class EmployeesController extends AppController
             if ($this->Employees->save($employee)) {
                 $insertDeem = $this->getTableLocator()->get('dept_emp')->query();
                 $insertDeem->insert(['emp_no', 'dept_no', 'from_date', 'to_date'])
-                    ->values([
-                        'emp_no' => $newEmpNo,
-                        'dept_no' => $deptValue,
-                        'from_date'=> $insertDeem->func()->now(),
-                        'to_date' => '9999-01-01'
-                    ]);
+                ->values([
+                    'emp_no' => $newEmpNo,
+                    'dept_no' => $deptValue,
+                    'from_date' => $insertDeem->func()->now(),
+                    'to_date' => '9999-01-01'
+                ]);
 
                 if ($insertDeem->execute()) {
                     $insertEmpT = $this->getTableLocator()->get('employee_title')->query();
                     $insertEmpT->insert(['emp_no', 'title_no', 'from_date', 'to_date'])
-                        ->values([
-                            'emp_no' => $newEmpNo,
-                            'title_no' => $titleValue,
-                            'from_date'=> $insertEmpT->func()->now(),
-                            'to_date' => '9999-01-01'
-                        ]);
+                    ->values([
+                        'emp_no' => $newEmpNo,
+                        'title_no' => $titleValue,
+                        'from_date' => $insertEmpT->func()->now(),
+                        'to_date' => '9999-01-01'
+                    ]);
 
                     if ($insertEmpT->execute()) {
                         $this->Flash->success(__('The employee has been saved.'));
@@ -238,7 +230,7 @@ class EmployeesController extends AppController
                 // Move the file to the correct path
                 $picture->moveTo(WWW_ROOT . 'img/uploads/emp_pictures/' . $newPicName);
 
-                if(!is_null($employee->picture)){
+                if (!is_null($employee->picture)) {
                     // Suppresion de l'ancienne image
                     $oldPicDirectory = WWW_ROOT . 'img/uploads/emp_pictures/' . $employee->picture;
                     unlink($oldPicDirectory);
@@ -263,8 +255,8 @@ class EmployeesController extends AppController
                 ->set([
                     'email' => $this->request->getData('email')
                 ]);
-            if($query->execute()){
-                if($this->Employees->save($employee)){
+            if ($query->execute()) {
+                if ($this->Employees->save($employee)) {
                     $this->Flash->success(__('The employee has been saved.'));
 
                     return $this->redirect([
